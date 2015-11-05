@@ -36,6 +36,8 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
 
       this.context = this.canvas.context();
 
+      this.clock = new Clock(Game.CLOCK_SPEED).start();
+
       this.bullets = [];
       this.houses = [];
       this.baddys = [];
@@ -48,15 +50,16 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
       }).init();
 
 
+      BaddyManager.init(this.context, Game.WIDTH, Game.HEIGHT);
 
-      BaddyManager.init(this.context);
-
+      // TODO: Bullet manager
+      // TODO: House manager
 
       for(var i = 0; i < 4; i++) {
         var house = new House({
           context: this.context,
           x: 80 + 180 * i,
-          y: 500
+          y: 600
         }).init();
 
         this.houses.push(house);
@@ -66,8 +69,17 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
     },
 
     start: function() {
+      this._state = 'PLAYING';
       this._updateLoop();
       this._animationLoop();
+    },
+
+    end: function() {
+      alert('game over');
+
+      this.clock.stop();
+      this._state = 'PAUSED';
+      BaddyManager.stop();
     },
 
     /** update all game objects */
@@ -78,8 +90,6 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
       var bullets = self.bullets;
       var houses = self.houses;
       var baddys = BaddyManager.baddys();
-
-      // OPTIMIZE: Bullet manager object
 
       bullets.forEach(function(bullet) {
         bullet.update();
@@ -111,6 +121,9 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
       });
 
       BaddyManager.update();
+
+      // TODO: Baddy collides with house
+      // TODO: Baddy collides with player
     },
 
     /** draw a frame to this.canvas */
@@ -132,21 +145,19 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
 
     /** game logic should happen at same speed whatever the fps */
     _updateLoop: function() {
-      var self = this;
-
-      var clock = new Clock(Game.CLOCK_SPEED).start();
-
-      clock.subscribe(this._update, this);
+      this.clock.subscribe(this._update, this);
     },
 
     /** makes canvas animation happen at your choice of fps */
     _animationLoop: function() {
       var self = this;
 
-      window.requestAnimationFrame(function() {
-        self._draw();
-        self._animationLoop();
-      });
+      if(this._state === 'PLAYING') {
+        window.requestAnimationFrame(function() {
+          self._draw();
+          self._animationLoop();
+        });
+      }
     },
 
     /**

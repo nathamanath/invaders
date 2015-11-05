@@ -3,10 +3,11 @@ define(['canvas', 'keyboard', 'bullet', 'mixins/drawable'],
 
   'use strict';
 
-  var PLAYER_WIDTH = 100;
-  var PLAYER_HEIGHT = 100;
+  var PLAYER_WIDTH = 60;
+  var PLAYER_HEIGHT = 60;
   var PLAYER_SPEED = 5;
-  var PLAYER_COOL_DOWN = 1000;
+  var PLAYER_COOL_DOWN = 750;
+  var LIVES = 3;
 
   /**
    * @class Player
@@ -22,6 +23,7 @@ define(['canvas', 'keyboard', 'bullet', 'mixins/drawable'],
 
     this._context = args.context;
 
+    this._lives = LIVES;
     this._ready = true;
     this._bullets = args.bullets;
   };

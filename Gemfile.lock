@@ -18,6 +18,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
+    colored (1.2)
     compass (1.0.3)
       chunky_png (~> 1.2)
       compass-core (~> 1.0.2)
@@ -107,6 +108,9 @@ GEM
     rack-test (0.6.3)
       rack (>= 1.0)
     rake (10.4.2)
+    rake-notes (0.2.0)
+      colored
+      rake
     rb-fsevent (0.9.6)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
@@ -144,6 +148,7 @@ DEPENDENCIES
   jasmine
   middleman (~> 3.4.0)
   middleman-livereload (~> 3.1.0)
+  rake-notes
   sass
   slim
   tzinfo-data

@@ -19,7 +19,7 @@ define(['canvas', 'rectangle', 'mixins/drawable'],
     return canvas;
   })();
 
-  var BULLET_SPEED = 5;
+  var BULLET_SPEED = 10;
   var BULLET_WIDTH = 12;
   var BULLET_HEIGHT = 30;
 

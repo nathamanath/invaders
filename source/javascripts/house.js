@@ -42,7 +42,7 @@ define(['bitmap', 'mixins/drawable'],
     },
 
     shot: function(x, y) {
-      var diameter = 8;
+      var diameter = 6;
       var context = this.canvas().context();
 
       context.globalCompositeOperation = "destination-out";
