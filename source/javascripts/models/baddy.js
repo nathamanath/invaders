@@ -1,12 +1,15 @@
-define(['mixins/drawable', 'canvas'],
-  function(Drawable, Canvas) {
+define(['mixins/drawable', 'mixins/shooter', 'canvas', 'bullet-manager'],
+  function(Drawable, Shooter, Canvas, BulletManager) {
 
   'use strict';
+
+  // TODO: Baddys should shoot
 
   var BADDY_WIDTH = 50;
   var BADDY_HEIGHT = 50;
   var BADDY_SPEED = 5;
   var BADDY_COOL_DOWN = 1000;
+  var BADDY_TEAM = 3;
 
   var top = (function() {
     var canvas = new Canvas({
@@ -65,11 +68,12 @@ define(['mixins/drawable', 'canvas'],
     this._type = args.type;
 
     this._initDrawable(args);
+    this._initShooter(args);
 
     this._width = BADDY_WIDTH;
     this._height = BADDY_HEIGHT;
 
-    this._bullets = args.bullets;
+    this._lives = 1;
 
     this._preRendered = prerenders[args.type];
   };
@@ -77,6 +81,7 @@ define(['mixins/drawable', 'canvas'],
   Baddy.WIDTH = BADDY_WIDTH;
   Baddy.HEIGHT = BADDY_HEIGHT;
   Baddy.SPEED = BADDY_SPEED;
+  Baddy.TEAM = BADDY_TEAM;
 
   /** @lends Baddy */
   Baddy.prototype = {
@@ -84,7 +89,6 @@ define(['mixins/drawable', 'canvas'],
 
     init: function() {
       this._active = true;
-      this._ready = true;
 
       this._render(this.canvas().context());
 
@@ -100,8 +104,6 @@ define(['mixins/drawable', 'canvas'],
       this._render(this.canvas().context());
     },
 
-    shoot: function() {},
-
     shot: function() {
       this._active = false;
     },
@@ -112,6 +114,7 @@ define(['mixins/drawable', 'canvas'],
   };
 
   Drawable.call(Baddy.prototype);
+  Shooter.call(Baddy.prototype, BADDY_TEAM, BADDY_COOL_DOWN, 'DOWN');
 
   return Baddy;
 

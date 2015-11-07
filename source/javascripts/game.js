@@ -1,7 +1,9 @@
-define(['canvas', 'models/player', 'clock', 'models/house', 'rectangle', 'baddyManager', 'models/explosion'],
-  function(Canvas, Player, Clock, House, Rectangle, BaddyManager, Explosion) {
+define(['canvas', 'models/player', 'clock', 'models/house', 'rectangle', 'baddy-manager', 'models/explosion', 'bullet-manager'],
+  function(Canvas, Player, Clock, House, Rectangle, BaddyManager, Explosion, BulletManager) {
 
   'use strict';
+
+  // TODO: Game should mediate between game objects... reduce coupling
 
   var MAX_FPS = 60;
 
@@ -54,7 +56,8 @@ define(['canvas', 'models/player', 'clock', 'models/house', 'rectangle', 'baddyM
         bullets: this.bullets
       }).init();
 
-      BaddyManager.init(this.context, Game.WIDTH, Game.HEIGHT, this.end);
+      BulletManager.init(this.context);
+      BaddyManager.init(this.context, Game.WIDTH, Game.HEIGHT, this.end, this.bullets);
 
       // TODO: Bullet manager
       // TODO: House manager
@@ -92,26 +95,22 @@ define(['canvas', 'models/player', 'clock', 'models/house', 'rectangle', 'baddyM
 
       var self = this;
 
-      var bullets = self.bullets;
+      var bullets = BulletManager.bullets();
       var houses = self.houses;
       var baddys = BaddyManager.baddys();
       var explosions = self.explosions;
+      var player = self.player;
 
-      bullets.forEach(function(bullet) {
+      var playerBullets = bullets.filter(function(bullet) {
+        return bullet.team() === player.team();
+      });
 
+      var baddyBullets = bullets.filter(function(bullet) {
+        return bullet.team() === BaddyManager.TEAM;
+      });
 
-        houses.forEach(function(house) {
-          if(self._colliding(bullet, house)){
-            var rect = new Rectangle(bullet.x(), bullet.y(), bullet.width(), bullet.height()).init();
-            var hit = house.bitmap.hitTest(rect, 'RGBA(255,0,0,255)');
-
-            if(hit) {
-              house.shot(bullet.x() + (bullet.width() / 2), bullet.y());
-              bullet.explode();
-            }
-          }
-
-        });
+      playerBullets.forEach(function(bullet) {
+        //check collision with baddys
 
         baddys.forEach(function(baddy) {
           if(self._colliding(bullet, baddy)) {
@@ -133,6 +132,38 @@ define(['canvas', 'models/player', 'clock', 'models/house', 'rectangle', 'baddyM
 
           }
         });
+      });
+
+      baddyBullets.forEach(function(bullet) {
+        if(self._colliding(bullet, player)) {
+          player.shot();
+          bullet.explode();
+
+          self.explosions.push(new Explosion({
+            x: player.x(),
+            y: player.y(),
+            context: self.context
+          }).init());
+        }
+      });
+
+      bullets.forEach(function(bullet) {
+
+        // check all bullets against houses
+        houses.forEach(function(house) {
+          if(self._colliding(bullet, house)){
+            var rect = new Rectangle(bullet.x(), bullet.y(), bullet.width(), bullet.height()).init();
+            var hit = house.bitmap.hitTest(rect, 'RGBA(255,0,0,255)');
+
+            if(hit) {
+              house.shot(bullet.x() + (bullet.width() / 2), bullet.y());
+              bullet.explode();
+            }
+          }
+
+        });
+
+
 
         if(!bullet.active()) {
           var index = bullets.indexOf(bullet);
@@ -158,9 +189,7 @@ define(['canvas', 'models/player', 'clock', 'models/house', 'rectangle', 'baddyM
     _draw: function() {
       this.canvas.clear();
 
-      this.bullets.forEach(function(bullet) {
-        bullet.draw();
-      });
+      BulletManager.draw();
 
       this.explosions.forEach(function(explosion) {
         explosion.draw();

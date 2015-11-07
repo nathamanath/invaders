@@ -1,5 +1,5 @@
-define(['canvas', 'keyboard', 'models/bullet', 'mixins/drawable'],
-  function(Canvas, Keyboard, Bullet, Drawable) {
+define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'bullet-manager'],
+  function(Canvas, Keyboard, Drawable, Shooter, BulletManager) {
 
   'use strict';
 
@@ -16,12 +16,12 @@ define(['canvas', 'keyboard', 'models/bullet', 'mixins/drawable'],
     args = args || {};
 
     this._initDrawable(args);
+    this._initShooter(args);
 
     this._width = PLAYER_WIDTH;
     this._height = PLAYER_HEIGHT;
 
     this._lives = LIVES;
-    this._ready = true;
     this._bullets = args.bullets;
   };
 
@@ -34,6 +34,8 @@ define(['canvas', 'keyboard', 'models/bullet', 'mixins/drawable'],
 
     init: function() {
 
+      this._active = true;
+
       this._preRender();
       this._render(this.canvas().context());
 
@@ -41,11 +43,21 @@ define(['canvas', 'keyboard', 'models/bullet', 'mixins/drawable'],
       Keyboard.subscribe('RIGHT', this.goRight, this);
       Keyboard.subscribe('SPACE', this.shoot, this);
 
+      console.log('Player has ' + this._lives + ' lives');
+
       return this;
     },
 
     speed: function() {
       return PLAYER_SPEED;
+    },
+
+    shot: function() {
+      if(--this._lives) {
+        this._active = false;
+      }
+
+      console.log('Player has ' + this._lives + ' lives');
     },
 
     inBounds: function() {
@@ -73,27 +85,6 @@ define(['canvas', 'keyboard', 'models/bullet', 'mixins/drawable'],
       }
     },
 
-    shoot: function() {
-      if(this._ready){
-        var bullet = new Bullet({
-          x: this.x() + this.width() / 2 - 2,
-          y: this.y(),
-          context: this.context(),
-          direction: Bullet.UP
-        }).init();
-
-        this._bullets.push(bullet);
-
-        this._ready = false;
-
-        var self = this;
-
-        window.setTimeout(function() {
-          self._ready = true;
-        }, PLAYER_COOL_DOWN);
-      }
-    },
-
     update: function() {
       this._clearCanvas();
       this._render(this.canvas().context());
@@ -116,6 +107,7 @@ define(['canvas', 'keyboard', 'models/bullet', 'mixins/drawable'],
   };
 
   Drawable.call(Player.prototype);
+  Shooter.call(Player.prototype, 1, PLAYER_COOL_DOWN, 'UP');
 
   return Player;
 

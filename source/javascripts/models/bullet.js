@@ -28,11 +28,14 @@ define(['canvas', 'rectangle', 'mixins/drawable'],
 
     this._initDrawable(args);
 
+
+    this._team = args.team;
     this._direction = args.direction;
   }
 
   Bullet.UP = -1;
   Bullet.DOWN = 1;
+  Bullet.WIDTH = BULLET_WIDTH;
 
   Bullet.prototype = {
     constructor: 'Bullet',
@@ -46,6 +49,10 @@ define(['canvas', 'rectangle', 'mixins/drawable'],
       this.render();
 
       return this;
+    },
+
+    team: function() {
+      return this._team;
     },
 
     // Bullet can only go up / down so cache x

@@ -13,22 +13,25 @@ define(['models/baddy', 'clock'],
   var ACCELERATION = 1.2;
   var PADDING = 10;
   var RATE = 500;
+  var SHOOT_ODDS = 0.01
 
-  var baddyFactory = function(x, y, context, type) {
+  var baddyFactory = function(x, y, context, type, bullets) {
     return new Baddy({
       x: x,
       y: y,
       context: context,
-      type: type
+      type: type,
+      bullets: bullets
     }).init();
   };
 
   return {
-    init: function(context, gameWidth, gameHeight, onOutOfBounds) {
+    init: function(context, gameWidth, gameHeight, onOutOfBounds, bullets) {
       this.gameWidth = gameWidth;
       this.gameHeight = gameHeight;
       this.context = context;
       this.onOutOfBounds = onOutOfBounds;
+      this.bullets = bullets;
 
       var j = 1;
       var self = this;
@@ -50,12 +53,14 @@ define(['models/baddy', 'clock'],
       });
     },
 
+    TEAM: Baddy.TEAM,
+
     stop: function() {
       this.clock.stop();
     },
 
     add: function(x, y, type) {
-      baddys.push(baddyFactory(x, y, this.context, type));
+      baddys.push(baddyFactory(x, y, this.context, type, this.bullets));
     },
 
     draw: function() {
@@ -95,6 +100,10 @@ define(['models/baddy', 'clock'],
     update: function(playerBullets) {
 
       baddys.forEach(function(baddy) {
+        if(Math.random() < SHOOT_ODDS) {
+          baddy.shoot();
+        }
+
         baddy.x(baddy.x() + 5 * direction);
         baddy.y(baddy.y());
       });
