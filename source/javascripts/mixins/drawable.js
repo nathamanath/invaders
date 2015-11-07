@@ -11,7 +11,7 @@ define(['canvas'], function(Canvas) {
     // render, update?
 
     this.x = function(value) {
-      if(value) {
+      if(arguments.length > 0) {
         var rounded = Math.round(value);
 
         this._oldX = this._x || rounded;
@@ -22,7 +22,7 @@ define(['canvas'], function(Canvas) {
     };
 
     this.y = function(value) {
-      if(value) {
+      if(arguments.length > 0) {
         var rounded = Math.round(value);
 
         this._oldY = this._y || rounded;

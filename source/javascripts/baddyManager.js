@@ -46,11 +46,8 @@ define(['baddy', 'clock'],
       var self = this;
 
       this.clock.subscribe(function() {
+        self.update();
 
-        baddys.forEach(function(baddy) {
-          baddy.x(baddy.x() + 5 * direction);
-          baddy.y(baddy.y());
-        });
       });
     },
 
@@ -75,9 +72,11 @@ define(['baddy', 'clock'],
     canMoveXDirection: function() {
       if(direction === 1) {
         var maxX = Math.max.apply(null, this.baddysXs()) + Baddy.WIDTH;
+
         return maxX + Baddy.SPEED < this.gameWidth;
       } else {
         var minX = Math.min.apply(null, this.baddysXs());
+
         return minX - Baddy.SPEED > 0;
       }
     },
@@ -96,6 +95,11 @@ define(['baddy', 'clock'],
 
     update: function(playerBullets) {
 
+      baddys.forEach(function(baddy) {
+        baddy.x(baddy.x() + 5 * direction);
+        baddy.y(baddy.y());
+      });
+
       if(!this.inBounds()) {
         this.onOutOfBounds();
       }
@@ -111,13 +115,15 @@ define(['baddy', 'clock'],
       }
 
       baddys.forEach(function(baddy) {
-        baddy.update();
+
 
         // Remove inactive
         if(!baddy.active()) {
           var index = baddys.indexOf(baddy);
           baddys.splice(index, 1);
         }
+
+        baddy.update();
       });
     }
 

@@ -1,6 +1,9 @@
 define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
   function(Canvas, Player, Clock, House, Rectangle, BaddyManager) {
 
+
+  var MAX_FPS = 60;
+
   /**
    * Represents a game
    *
@@ -13,12 +16,12 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
     this.fps = args.fps || Game.MAX_FPS;
   };
 
-  Game.MAX_FPS = 60;
-  Game.WIDTH = 800
-  Game.HEIGHT = 800
+
+  Game.WIDTH = 800;
+  Game.HEIGHT = 800;
 
   // As game will never run at over MAX_FPSfps
-  Game.CLOCK_SPEED = 1000 / Game.MAX_FPS;
+  Game.CLOCK_SPEED = 1000 / MAX_FPS;
 
   /** @lends Game */
   Game.prototype = {
@@ -92,7 +95,7 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
       var baddys = BaddyManager.baddys();
 
       bullets.forEach(function(bullet) {
-        bullet.update();
+
 
         houses.forEach(function(house) {
           if(self._colliding(bullet, house)){
@@ -112,15 +115,25 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
             baddy.shot();
             bullet.explode();
           }
+
+          if(!baddy.active()) {
+            var index = baddys.indexOf(baddy);
+            baddy.update();
+            baddys.splice(index, 1);
+
+          }
         });
 
         if(!bullet.active()) {
+          console.log(bullet)
           var index = bullets.indexOf(bullet);
           bullets.splice(index, 1);
         }
+
+        bullet.update();
       });
 
-      BaddyManager.update();
+      //BaddyManager.update();
 
       // TODO: Baddy collides with house
       // TODO: Baddy collides with player

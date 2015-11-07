@@ -61,7 +61,7 @@ define(['canvas', 'rectangle', 'mixins/drawable'],
     },
 
     inBounds: function() {
-      return this.y() > - this.height() && this.y() < this._parentCanvas().height + this.height();
+      return this.y() > - this.height() && this.y() < this._parentCanvas().height;
     },
 
     explode: function() {
