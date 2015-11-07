@@ -3,18 +3,19 @@ define(['bitmap', 'mixins/drawable'],
 
   'use strict';
 
+  var HOUSE_WIDTH = 100;
+  var HOUSE_HEIGHT = 100;
+
   /**
    * @class House
    */
   var House = function(args) {
     args = args || {};
 
-    this.x(args.x);
-    this.y(args.y);
+    this._initDrawable(args);
 
-    this._context = args.context;
-    this._width = 100;
-    this._height = 100;
+    this._width = HOUSE_WIDTH;
+    this._height = HOUSE_HEIGHT;
   };
 
   /** @lends House */
@@ -45,14 +46,17 @@ define(['bitmap', 'mixins/drawable'],
       var diameter = 6;
       var context = this.canvas().context();
 
+      var _x = this.x();
+      var _y = this.y();
+
       context.globalCompositeOperation = "destination-out";
       context.beginPath();
       context.arc(x - diameter / 2, y, diameter, 0, Math.PI*2, true);
       context.fill();
 
-      var newCanvasData = context.getImageData(this.x(), this.y(), this.width(), this.height());
+      var newCanvasData = context.getImageData(_x, _y, this.width(), this.height());
       this.bitmap.imageData = newCanvasData;
-      context.putImageData(newCanvasData, this.x(), this.y());
+      context.putImageData(newCanvasData, _x, _y);
 
       this.update();
     }

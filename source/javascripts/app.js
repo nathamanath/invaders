@@ -1,4 +1,6 @@
 define(['game'], function(Game) {
+  'use strict';
+
   return {
     init: function() {
       var el = document.getElementById('game');
@@ -9,5 +11,5 @@ define(['game'], function(Game) {
 
       game.start();
     }
-  }
+  };
 });

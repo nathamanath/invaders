@@ -1,4 +1,4 @@
-define(['canvas', 'keyboard', 'bullet', 'mixins/drawable'],
+define(['canvas', 'keyboard', 'models/bullet', 'mixins/drawable'],
   function(Canvas, Keyboard, Bullet, Drawable) {
 
   'use strict';
@@ -15,13 +15,10 @@ define(['canvas', 'keyboard', 'bullet', 'mixins/drawable'],
   var Player = function(args) {
     args = args || {};
 
-    this.x(args.x);
-    this.y(args.y);
+    this._initDrawable(args);
 
     this._width = PLAYER_WIDTH;
     this._height = PLAYER_HEIGHT;
-
-    this._context = args.context;
 
     this._lives = LIVES;
     this._ready = true;

@@ -26,10 +26,8 @@ define(['canvas', 'rectangle', 'mixins/drawable'],
   var Bullet = function(args) {
     args = args || {};
 
-    this.x(args.x);
-    this.y(args.y);
+    this._initDrawable(args);
 
-    this._context = args.context;
     this._direction = args.direction;
   }
 
@@ -50,8 +48,16 @@ define(['canvas', 'rectangle', 'mixins/drawable'],
       return this;
     },
 
+    // Bullet can only go up / down so cache x
     render: function() {
-      this.canvas().context().drawImage(preRendered.el, this.x(), this.y());
+      var x = this.x();
+
+      var method = function() {
+        this.canvas().context().drawImage(preRendered.el, x, this.y());
+      };
+
+      method.call(this);
+      this.render = method;
     },
 
     update: function() {
@@ -66,8 +72,6 @@ define(['canvas', 'rectangle', 'mixins/drawable'],
 
     explode: function() {
       this._active = false;
-
-      // TODO: spawn explosion centered at center of bullet
     },
 
     active: function() {

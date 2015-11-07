@@ -18,3 +18,4 @@ gem 'sass'
 
 gem 'jasmine'
 gem 'rake-notes'
+gem 'jshintrb'

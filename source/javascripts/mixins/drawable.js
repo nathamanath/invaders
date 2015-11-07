@@ -10,6 +10,14 @@ define(['canvas'], function(Canvas) {
 
     // render, update?
 
+    // To be called in constructor
+    this._initDrawable = function(args) {
+      this.x(args.x);
+      this.y(args.y);
+
+      this._context = args.context;
+    };
+
     this.x = function(value) {
       if(arguments.length > 0) {
         var rounded = Math.round(value);

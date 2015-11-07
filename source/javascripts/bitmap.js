@@ -11,7 +11,7 @@ define([], function() {
 
   Bitmap.prototype = {
     hitTest: function(rect, color) {
-      color = color || "RGBA(0,0,255,255)";
+      color = color || 'RGBA(0,0,255,255)';
       for (var i = 0; i < rect.grid.length; i++) {
         var x = rect.grid[i][0];
         var y = rect.grid[i][1];
@@ -52,7 +52,7 @@ define([], function() {
       var b = (y * canvasData.width + x) * 4 + 2;
       var a = (y * canvasData.width + x) * 4 + 3;
 
-      return "RGBA(" + canvasData.data[r] + "," + canvasData.data[g] + "," + canvasData.data[b] + "," + canvasData.data[a] + ")";
+      return 'RGBA(' + canvasData.data[r] + ',' + canvasData.data[g] + ',' + canvasData.data[b] + ',' + canvasData.data[a] + ')';
     }
   };
 

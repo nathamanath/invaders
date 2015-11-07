@@ -1,6 +1,7 @@
-define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
-  function(Canvas, Player, Clock, House, Rectangle, BaddyManager) {
+define(['canvas', 'models/player', 'clock', 'models/house', 'rectangle', 'baddyManager', 'models/explosion'],
+  function(Canvas, Player, Clock, House, Rectangle, BaddyManager, Explosion) {
 
+  'use strict';
 
   var MAX_FPS = 60;
 
@@ -44,6 +45,7 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
       this.bullets = [];
       this.houses = [];
       this.baddys = [];
+      this.explosions = [];
 
       this.player = new Player({
         context: this.context,
@@ -52,11 +54,11 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
         bullets: this.bullets
       }).init();
 
-
-      BaddyManager.init(this.context, Game.WIDTH, Game.HEIGHT);
+      BaddyManager.init(this.context, Game.WIDTH, Game.HEIGHT, this.end);
 
       // TODO: Bullet manager
       // TODO: House manager
+      // TODO: Explosion manager
 
       for(var i = 0; i < 4; i++) {
         var house = new House({
@@ -93,6 +95,7 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
       var bullets = self.bullets;
       var houses = self.houses;
       var baddys = BaddyManager.baddys();
+      var explosions = self.explosions;
 
       bullets.forEach(function(bullet) {
 
@@ -114,6 +117,13 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
           if(self._colliding(bullet, baddy)) {
             baddy.shot();
             bullet.explode();
+
+            self.explosions.push(new Explosion({
+              x: baddy.x(),
+              y: baddy.y(),
+              context: self.context
+            }).init());
+
           }
 
           if(!baddy.active()) {
@@ -125,7 +135,6 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
         });
 
         if(!bullet.active()) {
-          console.log(bullet)
           var index = bullets.indexOf(bullet);
           bullets.splice(index, 1);
         }
@@ -133,7 +142,13 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
         bullet.update();
       });
 
-      //BaddyManager.update();
+      explosions.forEach(function(explosion) {
+        if(!explosion.active()) {
+          var index = explosions.indexOf(explosion);
+          explosion.update();
+          explosions.splice(index, 1);
+        }
+      });
 
       // TODO: Baddy collides with house
       // TODO: Baddy collides with player
@@ -145,6 +160,10 @@ define(['canvas', 'player', 'clock', 'house', 'rectangle', 'baddyManager'],
 
       this.bullets.forEach(function(bullet) {
         bullet.draw();
+      });
+
+      this.explosions.forEach(function(explosion) {
+        explosion.draw();
       });
 
       this.houses.forEach(function(house) {

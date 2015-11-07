@@ -12,6 +12,8 @@ define(['drawable', 'canvas'], function(Drawable, Canvas) {
    *
    * @example Prerenderable.call(Class);
    */
+
+  // TODO: Prerenderable mixin
   var Prerenderable = function() {
 
     /** cache rendering */

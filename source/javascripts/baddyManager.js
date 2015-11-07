@@ -1,8 +1,9 @@
-define(['baddy', 'clock'],
+define(['models/baddy', 'clock'],
   function(Baddy, Clock) {
 
   // TODO: Tidy baddy manager
   // TODO: Baddy manager call update per tick of clock.
+  // TODO: Learn flyweight pattern
 
   'use strict';
 
@@ -42,8 +43,6 @@ define(['baddy', 'clock'],
       });
 
       this.clock = new Clock(RATE).start();
-
-      var self = this;
 
       this.clock.subscribe(function() {
         self.update();
@@ -115,7 +114,6 @@ define(['baddy', 'clock'],
       }
 
       baddys.forEach(function(baddy) {
-
 
         // Remove inactive
         if(!baddy.active()) {

@@ -30,7 +30,7 @@ define(['mixins/drawable', 'canvas'],
 
     var context = canvas.context();
 
-    context.fillStyle = 'brown';
+    context.fillStyle = 'cyan';
     context.fillRect(0, 0, BADDY_WIDTH, BADDY_HEIGHT);
 
     return canvas;
@@ -64,13 +64,10 @@ define(['mixins/drawable', 'canvas'],
 
     this._type = args.type;
 
-    this.x(args.x);
-    this.y(args.y);
+    this._initDrawable(args);
 
     this._width = BADDY_WIDTH;
     this._height = BADDY_HEIGHT;
-
-    this._context = args.context;
 
     this._bullets = args.bullets;
 
