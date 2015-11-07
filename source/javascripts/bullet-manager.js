@@ -36,6 +36,12 @@ define(['models/bullet'],
       }).init());
     },
 
+    teamBullets: function(team) {
+      return bullets.filter(function(bullet) {
+        return bullet.team() === team;
+      });
+    },
+
     /** draw all bullets */
     draw: function() {
       bullets.forEach(function(bullet) {

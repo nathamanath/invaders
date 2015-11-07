@@ -101,13 +101,8 @@ define(['canvas', 'models/player', 'clock', 'models/house', 'rectangle', 'baddy-
       var explosions = self.explosions;
       var player = self.player;
 
-      var playerBullets = bullets.filter(function(bullet) {
-        return bullet.team() === player.team();
-      });
-
-      var baddyBullets = bullets.filter(function(bullet) {
-        return bullet.team() === BaddyManager.TEAM;
-      });
+      var playerBullets = BulletManager.teamBullets(player.team());
+      var baddyBullets = BulletManager.teamBullets(BaddyManager.TEAM);
 
       playerBullets.forEach(function(bullet) {
         //check collision with baddys
