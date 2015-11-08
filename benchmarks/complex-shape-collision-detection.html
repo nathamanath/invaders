@@ -1,0 +1,222 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Benchmark shape collision with rectangle</title>
+</head>
+<body>
+
+  <script src="./vendor/benchmark.js"></script>
+  <script src="./benchmark-test.js"></script>
+
+  <script>
+    // I have a known rectangle, and a shape on a canvas.
+    // Test is to see fastest way to detect a collision between the two
+
+    // Have set up so they are not colliding... this would be the most expensive
+    // outcome to test.
+    // Aim is to bring this as close to rectangle on ectangle time as posssible
+
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+
+    canvas.width = 800;
+    canvas.height = 800;
+
+    context.fillStyle = 'red';
+    context.fillRect(0, 0, 100, 100);
+
+    var rectangle = {
+      width: function() { return 5; },
+      height: function() { return 15; },
+      x: function() { return 200; },
+      y: function() { return 200; },
+      direction: function() { return 1; }
+    }
+
+    var rectangle2 = {
+      width: function() { return 5; },
+      height: function() { return 15; },
+      x: function() { return 100; },
+      y: function() { return 100; },
+      direction: function() { return 1; }
+    }
+
+    var rectangle3 = {
+      width: function() { return 5; },
+      height: function() { return 15; },
+      x: function() { return 0; },
+      y: function() { return 0; },
+      direction: function() { return 1; }
+    }
+
+    var Rectangle = function(x, y, w, h){
+      this.x = x;
+      this.y = y;
+      this.w = w;
+      this.h = h;
+      this.grid = [];
+    };
+
+    Rectangle.prototype = {
+      // TODO: only need outer coords in matrix
+      init: function() {
+        for (var x_ = 0; x_ < this.w; x_++) {
+          for (var y_ = 0; y_ < this.h; y_++) {
+            this.grid.push([this.x + x_, this.y + y_]);
+          }
+        }
+
+        return this;
+      }
+    };
+
+
+    var Bitmap = function(imageData){
+      this.imageData = imageData;
+      this.height = this.imageData.height;
+      this.width = this.imageData.width;
+      this.x = 0;
+      this.y = 0;
+    };
+
+    Bitmap.prototype = {
+      hitTest: function(rect, color) {
+        color = color || 'RGBA(0,0,255,255)';
+        for (var i = 0; i < rect.grid.length; i++) {
+          var x = rect.grid[i][0];
+          var y = rect.grid[i][1];
+          var pixel = this.getPixel(x, y);
+
+          // or if pixel if you dont mind what colour
+          return pixel === color
+        }
+        return false;
+      },
+
+      hitTest2: function(rect) {
+
+        for (var i = 0; i < rect.grid.length; i++) {
+          var x = rect.grid[i][0];
+          var y = rect.grid[i][1];
+          var pixel = this.getPixel2(x, y);
+
+          // or if pixel if you dont mind what colour
+          return pixel;
+        }
+        return false;
+      },
+
+      fillColor: function(r, g, b, a){
+        for (var x = 0; x < this.imageData.width; x++)  {
+          for (var y = 0; y < this.imageData.height; y++)  {
+
+            // Index of the pixel in the array
+            var idx = (x + y * this.width) * 4;
+
+            this.imageData.data[idx + 0] = r;
+            this.imageData.data[idx + 1] = g;
+            this.imageData.data[idx + 2] = b;
+            this.imageData.data[idx + 3] = a;
+
+          }
+        }
+      },
+
+      getPixel: function(x, y) {
+        var x = x + -this.x;
+        var y = y + -this.y;
+
+        var canvasData = this.imageData;
+
+        if(x < 0 || y < 0 || x > canvasData.width || y > canvasData.height) return;
+
+        var r = (y * canvasData.width + x) * 4;
+        var g = (y * canvasData.width + x) * 4 + 1;
+        var b = (y * canvasData.width + x) * 4 + 2;
+        var a = (y * canvasData.width + x) * 4 + 3;
+
+        return 'RGBA(' + canvasData.data[r] + ',' + canvasData.data[g] + ',' + canvasData.data[b] + ',' + canvasData.data[a] + ')';
+      },
+
+      getPixel2: function(x, y) {
+        var x = x + -this.x;
+        var y = y + -this.y;
+
+        var canvasData = this.imageData;
+
+        if(x < 0 || y < 0 || x > canvasData.width || y > canvasData.height) return false;
+
+        var r = (y * canvasData.width + x) * 4;
+        var g = (y * canvasData.width + x) * 4 + 1;
+        var b = (y * canvasData.width + x) * 4 + 2;
+        var a = (y * canvasData.width + x) * 4 + 3;
+
+        return (r+g+b+a > 0);
+      }
+    };
+
+
+    var bitmap = new Bitmap(context.createImageData(100, 100));
+
+    var imageData = context.getImageData(0, 0, 100, 100);
+
+
+    var suite = new BenchmarkTest('Collision detection between a complec shape and a rectangle').init();
+
+
+    // Not right but could be on to something with this
+    // suite.add('Only leading edge of rectangle', function() {
+    //   var rect = new Rectangle(rectangle.x(), rectangle.y(), rectangle.width(), 1).init();
+    //   bitmap.hitTest(rect, 'RGBA(255,0,0,255)');
+    // });
+
+    suite.add('just check alpha of pixil (miss)', function() {
+      'use strict';
+
+      var hit = false;
+
+      var rectangleY = rectangle.y() * 100;
+      var data = imageData.data;
+
+      for(var x = rectangle.x(), l = x + rectangle.width(); x < l; x++) {
+        if(data[((rectangleY + x) * 4) + 3]) {
+          hit = true;
+          break;
+        }
+      }
+
+    });
+
+
+    suite.add('just check alpha of pixil (hit)', function() {
+      'use strict';
+
+      var hit = false;
+
+      var rectangleY = rectangle3.y() * 100;
+      var data = imageData.data;
+
+      for(var x = rectangle3.x(), l = x + rectangle3.width(); x < l; x++) {
+        if(data[((rectangleY + x) * 4) + 3]) {
+          hit = true;
+          break;
+        }
+      }
+
+    });
+
+    suite.add('First attempt (miss)', function() {
+      var rect = new Rectangle(rectangle.x(), rectangle.y(), rectangle.width(), rectangle.height()).init();
+      bitmap.hitTest(rect, 'RGBA(255,0,0,255)');
+    });
+
+    suite.add('First attempt (hit)', function() {
+      var rect = new Rectangle(rectangle3.x(), rectangle3.y(), rectangle3.width(), rectangle3.height()).init();
+      bitmap.hitTest(rect, 'RGBA(255,0,0,255)');
+    });
+
+    suite.run();
+
+  </script>
+</body>
+</html>

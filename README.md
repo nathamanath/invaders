@@ -1,5 +1,8 @@
 # Space invaders
 
+
+Managers -> flyweight pattern
+
 ## Development
 
 Require js. (Almond for build.)

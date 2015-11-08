@@ -1,0 +1,105 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Benchmark shape collision with rectangle</title>
+</head>
+<body>
+
+  <script src="./vendor/benchmark.js"></script>
+  <script src="./benchmark-test.js"></script>
+
+  <script>
+    // So i think i know this one... but got to test the benchmark js
+
+    var rectangle = {
+      width: function() { return 20; },
+      height: function() { return 30; },
+      x: function() { return 200; },
+      y: function() { return 200; },
+      direction: function() { return 1; },
+      colliding: function(object) {
+        var x = this.x();
+
+        var method = function(b) {
+          var bx = b.x();
+          var by = b.y();
+
+          return x < bx + b.width() &&
+            x + this.width() > bx &&
+            ay < by + b.height() &&
+            ay + this.height() > by
+        }
+
+        this.colliding = method;
+        method(object);
+      }
+    }
+
+    var rectangle2 = {
+      width: function() { return 20; },
+      height: function() { return 30; },
+      x: function() { return 100; },
+      y: function() { return 100; },
+      direction: function() { return 1; }
+    }
+
+
+    var colliding1 = function(a, b) {
+      return a.x() < b.x() + b.width() &&
+        a.x() + a.width() > b.x() &&
+        a.y() < b.y() + b.height() &&
+        a.y() + a.height() > b.y();
+    }
+
+    var colliding2 = function(a, b) {
+      var ax = a.x();
+      var bx = b.x();
+      var ay = a.y();
+      var by = b.y();
+      var awidth = a.width();
+      var bwidth = b.width();
+      var aheight = a.height();
+      var bheight = b.height();
+
+      return ax < bx + bwidth &&
+        ax + awidth > bx &&
+        ay < by + bheight &&
+        ay + aheight > by;
+    }
+
+    var colliding3 = function(a, b) {
+      var ax = a.x();
+      var bx = b.x();
+      var ay = a.y();
+      var by = b.y();
+
+      return ax < bx + b.width() &&
+        ax + a.width() > bx &&
+        ay < by + b.height() &&
+        ay + a.height() > by;
+    }
+
+    var suite = new BenchmarkTest('Collision detection between 2 rectangles').init();
+
+    suite.add('All cached values', function() {
+      colliding2(rectangle, rectangle2);
+    });
+
+    suite.add('What if object knows it cant move on x', function() {
+      rectangle.colliding(rectangle2);
+    });
+
+    suite.add('Some cached values', function() {
+      colliding2(rectangle, rectangle2);
+    });
+
+    suite.add('Origional unoptomized', function() {
+      colliding1(rectangle, rectangle2);
+    });
+
+
+    suite.run();
+
+  </script>
+</body>
+</html>

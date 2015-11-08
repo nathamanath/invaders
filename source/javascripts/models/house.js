@@ -1,5 +1,5 @@
-define(['bitmap', 'mixins/drawable'],
-  function(Bitmap, Drawable) {
+define(['mixins/drawable'],
+  function(Drawable) {
 
   'use strict';
 
@@ -23,39 +23,50 @@ define(['bitmap', 'mixins/drawable'],
     constructor: 'House',
 
     init: function() {
-      this.bitmap = new Bitmap(this.context().createImageData(this.width(), this.height()));
-      this.bitmap.fillColor(255, 0, 0, 255);
-      this.bitmap.x = this.x();
-      this.bitmap.y = this.y();
+
+      this.canvas().context().fillStyle = 'red';
+      this.canvas().context().fillRect(this.x(), this.y(), HOUSE_WIDTH, HOUSE_HEIGHT);
+
+      this._imageData = this.canvas().context().getImageData(this.x(), this.y(), this.width(), this.height());
 
       this.render();
 
       return this;
     },
 
+    imageData: function() {
+      return this._imageData;
+    },
+
     render: function() {
       this._clearCanvas();
-      this.canvas().context().putImageData(this.bitmap.imageData, this.x(), this.y());
+      this.canvas().context().putImageData(this._imageData, this.x(), this.y());
     },
 
     update: function() {
       this.render();
+
+      this.context().drawImage(this.canvas().el, this.x(), this.y());
     },
 
     shot: function(x, y) {
-      var diameter = 6;
+      var diameter = 7;
       var context = this.canvas().context();
 
       var _x = this.x();
       var _y = this.y();
 
+      // Clear a circle on canvas
       context.globalCompositeOperation = "destination-out";
       context.beginPath();
       context.arc(x - diameter / 2, y, diameter, 0, Math.PI*2, true);
       context.fill();
+      context.restore();
 
       var newCanvasData = context.getImageData(_x, _y, this.width(), this.height());
-      this.bitmap.imageData = newCanvasData;
+
+      this._imageData = newCanvasData;
+
       context.putImageData(newCanvasData, _x, _y);
 
       this.update();

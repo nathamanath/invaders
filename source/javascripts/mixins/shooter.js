@@ -1,5 +1,5 @@
-define(['bullet-manager'],
-  function(BulletManager) {
+define(['managers/bullets-manager'],
+  function(BulletsManager) {
 
   'use strict';
 
@@ -18,26 +18,26 @@ define(['bullet-manager'],
       this._team = team;
     };
 
-    /** for collision detection */
+    /** for collision detection... no friendly fire */
     this.team = function() {
       return this._team;
     };
 
     /** bullets move in this direction */
     this.gunDirection = function() {
-      return BulletManager[direction];
+      return BulletsManager[direction];
     };
 
     /** x coordinate for new bullets */
     this.gunX = function() {
-      return this.x() + (this.width() / 2) - (BulletManager.BULLET_WIDTH / 2);
+      return this.x() + (this.width() / 2) - (BulletsManager.BULLET_WIDTH / 2);
     };
 
     /** y coordinate for new bullets */
     this.gunY = function() {
       var y = this.y();
 
-      if(this.gunDirection() === BulletManager.DOWN) {
+      if(this.gunDirection() === BulletsManager.DOWN) {
         y += this.height();
       }
 
@@ -51,7 +51,7 @@ define(['bullet-manager'],
       if(self._ready) {
         self._ready = false;
 
-        BulletManager.fire(self);
+        BulletsManager.fire(self);
 
         window.setTimeout(function() {
           self._ready = true;

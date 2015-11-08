@@ -36,6 +36,10 @@ define(['models/bullet'],
       }).init());
     },
 
+    /**
+     * @param team - team id
+     * @returns bullets for team
+     */
     teamBullets: function(team) {
       return bullets.filter(function(bullet) {
         return bullet.team() === team;

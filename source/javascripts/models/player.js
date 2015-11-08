@@ -1,7 +1,9 @@
-define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'bullet-manager'],
-  function(Canvas, Keyboard, Drawable, Shooter, BulletManager) {
+define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter'],
+  function(Canvas, Keyboard, Drawable, Shooter) {
 
   'use strict';
+
+  // TODO: Player should implimanr manager interface
 
   var PLAYER_WIDTH = 60;
   var PLAYER_HEIGHT = 60;

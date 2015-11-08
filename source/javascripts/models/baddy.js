@@ -1,9 +1,7 @@
-define(['mixins/drawable', 'mixins/shooter', 'canvas', 'bullet-manager'],
-  function(Drawable, Shooter, Canvas, BulletManager) {
+define(['mixins/drawable', 'mixins/shooter', 'canvas'],
+  function(Drawable, Shooter, Canvas) {
 
   'use strict';
-
-  // TODO: Baddys should shoot
 
   var BADDY_WIDTH = 50;
   var BADDY_HEIGHT = 50;

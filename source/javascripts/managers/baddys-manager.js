@@ -15,23 +15,21 @@ define(['models/baddy', 'clock'],
   var RATE = 500;
   var SHOOT_ODDS = 0.01
 
-  var baddyFactory = function(x, y, context, type, bullets) {
+  var baddyFactory = function(x, y, context, type) {
     return new Baddy({
       x: x,
       y: y,
       context: context,
-      type: type,
-      bullets: bullets
+      type: type
     }).init();
   };
 
   return {
-    init: function(context, gameWidth, gameHeight, onOutOfBounds, bullets) {
+    init: function(context, gameWidth, gameHeight, onOutOfBounds) {
       this.gameWidth = gameWidth;
       this.gameHeight = gameHeight;
       this.context = context;
       this.onOutOfBounds = onOutOfBounds;
-      this.bullets = bullets;
 
       var j = 1;
       var self = this;
@@ -60,7 +58,7 @@ define(['models/baddy', 'clock'],
     },
 
     add: function(x, y, type) {
-      baddys.push(baddyFactory(x, y, this.context, type, this.bullets));
+      baddys.push(baddyFactory(x, y, this.context, type));
     },
 
     draw: function() {
@@ -97,7 +95,7 @@ define(['models/baddy', 'clock'],
       });
     },
 
-    update: function(playerBullets) {
+    update: function() {
 
       baddys.forEach(function(baddy) {
         if(Math.random() < SHOOT_ODDS) {

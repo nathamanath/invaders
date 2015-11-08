@@ -23,7 +23,7 @@ define(['canvas'], function(Canvas) {
         var rounded = Math.round(value);
 
         this._oldX = this._x || rounded;
-        this._x = value;
+        this._x = rounded;
       }
 
       return this._x;

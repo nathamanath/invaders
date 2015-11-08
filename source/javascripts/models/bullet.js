@@ -3,31 +3,32 @@ define(['canvas', 'rectangle', 'mixins/drawable'],
 
   'use strict';
 
+
+
+  var BULLET_SPEED = 10;
+  var BULLET_WIDTH = 5;
+  var BULLET_HEIGHT = 15;
+
   // We render each type of bullet once,
   // and re use that canvas everywhere
   var preRendered = (function() {
     var canvas = new Canvas({
-      width: 5,
-      height: 15
+      width: BULLET_WIDTH,
+      height: BULLET_HEIGHT
     }).init();
 
     var context = canvas.context();
 
     context.fillStyle = 'red';
-    context.fillRect(0, 0, 5, 15);
+    context.fillRect(0, 0, BULLET_WIDTH, BULLET_HEIGHT);
 
     return canvas;
   })();
-
-  var BULLET_SPEED = 10;
-  var BULLET_WIDTH = 12;
-  var BULLET_HEIGHT = 30;
 
   var Bullet = function(args) {
     args = args || {};
 
     this._initDrawable(args);
-
 
     this._team = args.team;
     this._direction = args.direction;
@@ -83,6 +84,18 @@ define(['canvas', 'rectangle', 'mixins/drawable'],
 
     active: function() {
       return this.inBounds() && this._active;
+    },
+
+    pointyEndY: function() {
+      var y;
+
+      if(this._direction === Bullet.UP) {
+        y = this.y();
+      } else {
+        y = this.y() + this.height();
+      }
+
+      return y;
     }
   }
 
