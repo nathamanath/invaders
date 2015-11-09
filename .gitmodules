@@ -1,0 +1,12 @@
+[submodule "lib/requirejs"]
+	path = lib/requirejs
+	url = git@github.com:jrburke/requirejs.git
+[submodule "lib/benchmark-js"]
+	path = lib/benchmark-js
+	url = git@github.com:alexbeletsky/benchmark-js.git
+[submodule "lib/almond"]
+	path = lib/almond
+	url = git@github.com:jrburke/almond.git
+[submodule "lib/ajax.js"]
+	path = lib/ajax.js
+	url = git@github.com:nathamanath/ajax.js.git

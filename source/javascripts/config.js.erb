@@ -1,5 +1,5 @@
 require.config({
-  <%= "urlArgs: 'bust=' + (new Date()).getTime(), // Cache busting for dev only" unless build? %>
+  <%= "urlArgs: 'bust=' + (new Date()).getTime()," unless build? %>
   paths: {
     ajax: 'vendor/ajax'
   }
