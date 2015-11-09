@@ -106,3 +106,10 @@ define(['mixin'], function(Mixin) {
 
 })
 ```
+
+
+### Setup
+
+* Clone
+* Clone submodules
+* `middleman`
