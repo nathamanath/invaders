@@ -1,5 +1,5 @@
-define(['canvas', 'models/player', 'clock', 'rectangle', 'managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager'],
-  function(Canvas, Player, Clock, Rectangle, BaddysManager, BulletsManager, ExplosionsManager, HousesManager) {
+define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager', 'collisions'],
+  function(Canvas, Player, Clock, BaddysManager, BulletsManager, ExplosionsManager, HousesManager, Collisions) {
 
   'use strict';
 
@@ -52,7 +52,7 @@ define(['canvas', 'models/player', 'clock', 'rectangle', 'managers/baddys-manage
 
       ExplosionsManager.init(this.context);
       BulletsManager.init(this.context);
-      BaddysManager.init(this.context, Game.WIDTH, Game.HEIGHT, this.end, this.bullets);
+      BaddysManager.init(this.context, Game.WIDTH, Game.HEIGHT, this.end);
       HousesManager.init(this.context);
 
       return this;
@@ -77,96 +77,10 @@ define(['canvas', 'models/player', 'clock', 'rectangle', 'managers/baddys-manage
 
       var self = this;
 
-      var bullets = BulletsManager.bullets();
-      var houses = HousesManager.houses();
-      var baddys = BaddysManager.baddys();
       var explosions = ExplosionsManager.explosions();
       var player = self.player;
 
-      var playerBullets = BulletsManager.teamBullets(player.team());
-      var baddyBullets = BulletsManager.teamBullets(BaddysManager.TEAM);
-
-      // OPTIMIZE: So many things can be cached for collision detection.
-
-      playerBullets.forEach(function(bullet) {
-        //check collision with baddys
-        baddys.forEach(function(baddy) {
-          if(self._colliding(bullet, baddy)) {
-            baddy.shot();
-            bullet.explode();
-
-            ExplosionsManager.new(baddy);
-          }
-
-          if(!baddy.active()) {
-            var index = baddys.indexOf(baddy);
-            baddy.update();
-            baddys.splice(index, 1);
-          }
-        });
-
-        baddyBullets.forEach(function(baddyBullet) {
-          if(self._colliding(bullet, baddyBullet)) {
-            baddyBullet.explode();
-            bullet.explode();
-
-            ExplosionsManager.new(bullet);
-          }
-        });
-      });
-
-      baddyBullets.forEach(function(bullet) {
-        if(self._colliding(bullet, player)) {
-          player.shot();
-          bullet.explode();
-
-          ExplosionsManager.new(player);
-        }
-      });
-
-      bullets.forEach(function(bullet) {
-
-
-
-        // check all bullets against houses
-        houses.forEach(function(house) {
-          // Only use complex shape collision check if rectangles chack passes
-          if(self._colliding(bullet, house)){
-
-            var hit = false;
-            var data = house.imageData().data
-
-            var bulletPointyEndY = bullet.pointyEndY();
-
-            var y = (bulletPointyEndY - house.y()) * house.width();
-            var houseX = house.x()
-
-            var bulletX = bullet.x();
-            var bulletWidth = bullet.width();
-
-            for(var x = bulletX, maxX = x + bulletWidth; x < maxX; x++) {
-              if(data[((y + (x - houseX)) * 4) + 3]) {
-                hit = true;
-                break;
-              }
-            }
-
-            if(hit) {
-              house.shot(bulletX + (bulletWidth / 2), bulletPointyEndY);
-              bullet.explode();
-            }
-          }
-
-        });
-
-
-        if(!bullet.active()) {
-          var index = bullets.indexOf(bullet);
-          bullets.splice(index, 1);
-        }
-
-        bullet.update();
-      });
+      Collisions.check(self.player);
 
       explosions.forEach(function(explosion) {
         if(!explosion.active()) {
@@ -176,21 +90,6 @@ define(['canvas', 'models/player', 'clock', 'rectangle', 'managers/baddys-manage
         }
       });
 
-      // TODO: Baddy collides with house. After complex collision optimization
-
-      //Baddy collides with player
-      var lowBaddys = baddys.filter(function(baddy) {
-        return baddy.y() + baddy.height() >= player.y();
-      });
-
-      lowBaddys.forEach(function(baddy) {
-        if(self._colliding(baddy, player)) {
-          baddy.shot();
-          player.shot();
-
-          ExplosionsManager.new(player);
-        }
-      });
     },
 
     /** draw a frame to this.canvas */
@@ -219,21 +118,6 @@ define(['canvas', 'models/player', 'clock', 'rectangle', 'managers/baddys-manage
           self._animationLoop();
         });
       }
-    },
-
-    /**
-     * are 2 drawables colliding
-     */
-    _colliding: function(a, b) {
-      var ax = a.x();
-      var bx = b.x();
-      var ay = a.y();
-      var by = b.y();
-
-      return ax < bx + b.width() &&
-        ax + a.width() > bx &&
-        ay < by + b.height() &&
-        ay + a.height() > by;
     }
   };
 

@@ -1,41 +1,10 @@
 # Space invaders
 
-git submodules
+* Managers -> flyweight pattern
+* collisions logic out of game class
+* baddy collides with house
+* baddy collides with player
 
-
-Managers -> flyweight pattern
-
-
-Factory
-
-one of each type of baddy, complete with animation
-
-
-Manager
-
-baddyData = {
-  1: {
-    x: 0,
-    y: 0,
-    baddy: Object, // reference to baddy instance
-    shotAt: Date
-  }
-};
-
-draw function() {
-  var baddy;
-
-  for(var key in baddyData) {
-    baddy = baddyData[key];
-
-    // draw baddy.baddyInstance to canvas at x, y
-  }
-},
-
-update function() {
-  // adjust positions
-  // spawn bullet, update baddy.shotAt
-}
 
 ## Development
 
@@ -111,5 +80,5 @@ define(['mixin'], function(Mixin) {
 ### Setup
 
 * Clone
-* Clone submodules
+* Clone submodules `git submodule init; git submodule update`
 * `middleman`

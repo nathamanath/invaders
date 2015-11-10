@@ -3,6 +3,8 @@ define(['models/house'],
 
   'use strict';
 
+  var HOUSE_Y = 600;
+
   var houses = [];
 
   var HousesManager = {
@@ -19,6 +21,9 @@ define(['models/house'],
         houses.push(house);
       }
     },
+
+    HOUSE_Y: HOUSE_Y,
+    HOUSE_HEIGHT: House.HOUSE_HEIGHT,
 
     houses: function() {
       return houses;

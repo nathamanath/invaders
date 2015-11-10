@@ -18,6 +18,8 @@ define(['mixins/drawable'],
     this._height = HOUSE_HEIGHT;
   };
 
+  House.HOUSE_HEIGHT = HOUSE_HEIGHT;
+
   /** @lends House */
   House.prototype = {
     constructor: 'House',
