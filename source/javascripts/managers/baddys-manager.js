@@ -2,6 +2,7 @@ define(['factories/baddy-factory', 'clock', 'models/baddy'],
   function(BaddyFactory, Clock, Baddy) {
 
   // TODO: Tidy baddy manager
+  // TODO: both factory and manager depend on baddy... make it only one
 
   'use strict';
 

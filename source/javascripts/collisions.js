@@ -110,7 +110,7 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
       });
 
 
-      //Baddy collides with player
+      // Baddy collides with player
       var lowBaddys = baddys.filter(function(baddy) {
         return baddy.y() + baddy.height() >= player.y();
       });

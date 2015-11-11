@@ -1,9 +1,17 @@
 # Space invaders
 
-* Managers -> flyweight pattern
-* collisions logic out of game class
+## TODO
+
 * baddy collides with house
-* baddy collides with player
+* hud - lives and score
+* game over if 0 lives
+* animated baddys
+* animated bullets
+* asset bank
+* sounds
+* scoreboard
+* levels
+
 
 
 ## Development
@@ -81,4 +89,5 @@ define(['mixin'], function(Mixin) {
 
 * Clone
 * Clone submodules `git submodule init; git submodule update`
-* `middleman`
+* `bundle`
+* `bundle exec middleman`

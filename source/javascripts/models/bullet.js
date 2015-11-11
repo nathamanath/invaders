@@ -1,5 +1,5 @@
-define(['canvas', 'rectangle', 'mixins/drawable'],
-  function(Canvas, Rectangle, Drawable) {
+define(['canvas', 'mixins/drawable'],
+  function(Canvas, Drawable) {
 
   'use strict';
 

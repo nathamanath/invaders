@@ -19,6 +19,9 @@ define(['models/bullet', 'canvas'],
     return canvas;
   })();
 
+  prerenders.cross = (function() {})();
+  prerenders.zigzag = (function() {})();
+
   return {
     new: function(shooter, context) {
 
