@@ -1,26 +1,63 @@
-define(['models/baddy'],
-  function(Baddy) {
+define(['models/baddy', 'canvas'],
+  function(Baddy, Canvas) {
 
   'use strict';
 
-  var baddys = {};
+  var prerenders = {};
+
+  prerenders.top = (function() {
+    var canvas = new Canvas({
+      width: Baddy.WIDTH,
+      height: Baddy.HEIGHT
+    }).init();
+
+    var context = canvas.context();
+
+    context.fillStyle = 'green';
+    context.fillRect(0, 0, Baddy.WIDTH, Baddy.HEIGHT);
+
+    return canvas;
+  })();
+
+  prerenders.middle = (function() {
+    var canvas = new Canvas({
+      width: Baddy.WIDTH,
+      height: Baddy.HEIGHT
+    }).init();
+
+    var context = canvas.context();
+
+    context.fillStyle = 'cyan';
+    context.fillRect(0, 0, Baddy.WIDTH, Baddy.HEIGHT);
+
+    return canvas;
+  })();
+
+  prerenders.bottom = (function() {
+    var canvas = new Canvas({
+      width: Baddy.WIDTH,
+      height: Baddy.HEIGHT
+    }).init();
+
+    var context = canvas.context();
+
+    context.fillStyle = 'purple';
+    context.fillRect(0, 0, Baddy.WIDTH, Baddy.HEIGHT);
+
+    return canvas;
+  })();
 
   return {
-    get: function(type, context) {
+    new: function(type, x, y, context) {
 
-      var baddy = baddys[type];
-
-      if(!baddy) {
-        baddy = baddys[type] = new Baddy({
-          type: type,
-          // placeholders for now
-          x: 0,
-          y: 0,
-          context: context
-        }).init();
+      var args = {
+        x: x,
+        y: y,
+        context: context,
+        canvas: prerenders[type]
       }
 
-      return baddy;
+      return new Baddy(args).init();
     }
   };
 
