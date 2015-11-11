@@ -44,6 +44,11 @@ define(['managers/bullets-manager'],
       return y;
     },
 
+    this.bulletType = function() {
+      // TODO: Set type
+      return 'square';
+    };
+
     this.shoot = function() {
 
       var self = this;

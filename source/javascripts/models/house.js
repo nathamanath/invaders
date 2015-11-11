@@ -27,9 +27,9 @@ define(['mixins/drawable'],
     init: function() {
 
       this.canvas().context().fillStyle = 'red';
-      this.canvas().context().fillRect(this.x(), this.y(), HOUSE_WIDTH, HOUSE_HEIGHT);
+      this.canvas().context().fillRect(0, 0, HOUSE_WIDTH, HOUSE_HEIGHT);
 
-      this._imageData = this.canvas().context().getImageData(this.x(), this.y(), this.width(), this.height());
+      this._imageData = this.canvas().context().getImageData(0, 0, this.width(), this.height());
 
       this.render();
 
@@ -41,8 +41,8 @@ define(['mixins/drawable'],
     },
 
     render: function() {
-      this._clearCanvas();
-      this.canvas().context().putImageData(this._imageData, this.x(), this.y());
+      //this._clearCanvas();
+      this.context().putImageData(this._imageData, this.x(), this.y());
     },
 
     update: function() {
@@ -61,15 +61,15 @@ define(['mixins/drawable'],
       // Clear a circle on canvas
       context.globalCompositeOperation = "destination-out";
       context.beginPath();
-      context.arc(x - diameter / 2, y, diameter, 0, Math.PI*2, true);
+      context.arc((x - _x) - diameter / 2, y - _y, diameter, 0, Math.PI*2, true);
       context.fill();
       context.restore();
 
-      var newCanvasData = context.getImageData(_x, _y, this.width(), this.height());
+      var newCanvasData = context.getImageData(0, 0, this.width(), this.height());
 
       this._imageData = newCanvasData;
 
-      context.putImageData(newCanvasData, _x, _y);
+      context.putImageData(newCanvasData, 0, 0);
 
       this.update();
     }

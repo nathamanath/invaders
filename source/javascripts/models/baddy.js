@@ -9,61 +9,11 @@ define(['mixins/drawable', 'mixins/shooter', 'canvas'],
   var BADDY_COOL_DOWN = 1000;
   var BADDY_TEAM = 3;
 
-  var top = (function() {
-    var canvas = new Canvas({
-      width: BADDY_WIDTH,
-      height: BADDY_HEIGHT
-    }).init();
-
-    var context = canvas.context();
-
-    context.fillStyle = 'green';
-    context.fillRect(0, 0, BADDY_WIDTH, BADDY_HEIGHT);
-
-    return canvas;
-  })();
-
-  var middle = (function() {
-    var canvas = new Canvas({
-      width: BADDY_WIDTH,
-      height: BADDY_HEIGHT
-    }).init();
-
-    var context = canvas.context();
-
-    context.fillStyle = 'cyan';
-    context.fillRect(0, 0, BADDY_WIDTH, BADDY_HEIGHT);
-
-    return canvas;
-  })();
-
-  var bottom = (function() {
-    var canvas = new Canvas({
-      width: BADDY_WIDTH,
-      height: BADDY_HEIGHT
-    }).init();
-
-    var context = canvas.context();
-
-    context.fillStyle = 'purple';
-    context.fillRect(0, 0, BADDY_WIDTH, BADDY_HEIGHT);
-
-    return canvas;
-  })();
-
-  var prerenders = {
-    top: top,
-    middle: middle,
-    bottom: bottom
-  }
-
   /**
    * @class Baddy
    */
   var Baddy = function(args) {
     args = args || {};
-
-    this._type = args.type;
 
     this._initDrawable(args);
     this._initShooter(args);
@@ -71,9 +21,9 @@ define(['mixins/drawable', 'mixins/shooter', 'canvas'],
     this._width = BADDY_WIDTH;
     this._height = BADDY_HEIGHT;
 
-    this._lives = 1;
+    this._canvas = args.canvas;
 
-    this._preRendered = prerenders[args.type];
+    this._lives = 1;
   };
 
   Baddy.WIDTH = BADDY_WIDTH;
@@ -88,18 +38,10 @@ define(['mixins/drawable', 'mixins/shooter', 'canvas'],
     init: function() {
       this._active = true;
 
-      this._render(this.canvas().context());
-
       return this;
     },
 
-    _render: function(context) {
-      context.drawImage(this._preRendered.el, this.x(), this.y());
-    },
-
     update: function() {
-      this._clearCanvas();
-      this._render(this.canvas().context());
     },
 
     shot: function() {

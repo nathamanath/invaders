@@ -1,9 +1,7 @@
-define(['models/baddy', 'clock'],
-  function(Baddy, Clock) {
+define(['factories/baddy-factory', 'clock', 'models/baddy'],
+  function(BaddyFactory, Clock, Baddy) {
 
   // TODO: Tidy baddy manager
-  // TODO: Baddy manager call update per tick of clock.
-  // TODO: Learn flyweight pattern
 
   'use strict';
 
@@ -13,16 +11,7 @@ define(['models/baddy', 'clock'],
   var ACCELERATION = 1.2;
   var PADDING = 10;
   var RATE = 500;
-  var SHOOT_ODDS = 0.01
-
-  var baddyFactory = function(x, y, context, type) {
-    return new Baddy({
-      x: x,
-      y: y,
-      context: context,
-      type: type
-    }).init();
-  };
+  var SHOOT_ODDS = 0.02
 
   return {
     init: function(context, gameWidth, gameHeight, onOutOfBounds) {
@@ -47,7 +36,6 @@ define(['models/baddy', 'clock'],
 
       this.clock.subscribe(function() {
         self.update();
-
       });
     },
 
@@ -58,7 +46,7 @@ define(['models/baddy', 'clock'],
     },
 
     add: function(x, y, type) {
-      baddys.push(baddyFactory(x, y, this.context, type));
+      baddys.push(BaddyFactory.new(type, x, y, this.context));
     },
 
     draw: function() {

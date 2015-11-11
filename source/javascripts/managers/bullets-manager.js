@@ -1,5 +1,5 @@
-define(['models/bullet'],
-  function(Bullet) {
+define(['models/bullet', 'factories/bullet-factory'],
+  function(Bullet, BulletFactory) {
 
   'use strict';
 
@@ -27,13 +27,7 @@ define(['models/bullet'],
      * @param shooter - Object implimenting shooter and drawable
      */
     fire: function(shooter) {
-      bullets.push(new Bullet({
-        x: shooter.gunX(),
-        y: shooter.gunY(),
-        context: this._context,
-        direction: shooter.gunDirection(),
-        team: shooter.team()
-      }).init());
+      bullets.push(BulletFactory.new(shooter, this._context));
     },
 
     /**
