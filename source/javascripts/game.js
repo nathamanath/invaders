@@ -1,5 +1,5 @@
-define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager', 'collisions'],
-  function(Canvas, Player, Clock, BaddysManager, BulletsManager, ExplosionsManager, HousesManager, Collisions) {
+define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager', 'collisions', 'factories/baddy-factory'],
+  function(Canvas, Player, Clock, BaddysManager, BulletsManager, ExplosionsManager, HousesManager, Collisions, BaddyFactory) {
 
   'use strict';
 
@@ -54,6 +54,9 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
       BulletsManager.init(this.context);
       BaddysManager.init(this.context, Game.WIDTH, Game.HEIGHT, this.end);
       HousesManager.init(this.context);
+
+      this.test = BaddyFactory.get('top', this.context);
+      debugger
 
       return this;
     },

@@ -37,7 +37,7 @@
 
       after: function() {},
       beforeEach: function() {},
-      afterEach: function() {},
+      afterEach: function(fn) {},
 
       /**
        * Adds a variant to banchmark suite

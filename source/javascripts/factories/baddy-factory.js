@@ -6,12 +6,18 @@ define(['models/baddy'],
   var baddys = {};
 
   return {
-    get: function(type) {
+    get: function(type, context) {
 
       var baddy = baddys[type];
 
       if(!baddy) {
-        baddy = baddys[type] = new Baddy({ type: type }).init();
+        baddy = baddys[type] = new Baddy({
+          type: type,
+          // placeholders for now
+          x: 0,
+          y: 0,
+          context: context
+        }).init();
       }
 
       return baddy;

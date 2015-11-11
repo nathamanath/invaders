@@ -1,0 +1,72 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Benchmark shape collision with rectangle</title>
+</head>
+<body>
+
+  <script src="../lib/benchmark.js/benchmark.js"></script>
+  <script src="./benchmark-test.js"></script>
+
+  <script>
+
+    var mainCanvas = document.createElement('canvas');
+    var mainContext = mainCanvas.getContext('2d');
+
+    mainCanvas.width = 800;
+    mainCanvas.height = 800;
+
+
+    var bigCanvas = document.createElement('canvas');
+    var context = bigCanvas.getContext('2d');
+
+    bigCanvas.width = 800;
+    bigCanvas.height = 800;
+
+    context.fillStyle = 'red';
+    context.fillRect(100, 100, 100, 100);
+
+
+    var littleCanvas = document.createElement('canvas');
+    var context = littleCanvas.getContext('2d');
+
+    littleCanvas.width = 100;
+    littleCanvas.height = 100;
+
+    context.fillStyle = 'red';
+    context.fillRect(0, 0, 100, 100);
+
+
+    var tinyCanvas = document.createElement('canvas');
+    var context = tinyCanvas.getContext('2d');
+
+    tinyCanvas.width = 10;
+    tinyCanvas.height = 10;
+
+    context.fillStyle = 'red';
+    context.fillRect(0, 0, 100, 100);
+
+
+
+
+    var suite = new BenchmarkTest('Drawing canvases to canvases').init();
+
+    suite.add('Draw little canvas at offset', function() {
+      mainContext.drawImage(littleCanvas, 100, 100);
+    });
+
+    suite.add('Draw tiny canvas at offset', function() {
+      mainContext.drawImage(tinyCanvas, 100, 100);
+    });
+
+    suite.add('Draw big canvas', function() {
+      mainContext.drawImage(bigCanvas, 0, 0);
+    });
+
+
+
+    suite.run();
+
+  </script>
+</body>
+</html>
