@@ -55,9 +55,6 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
       BaddysManager.init(this.context, Game.WIDTH, Game.HEIGHT, this.end);
       HousesManager.init(this.context);
 
-      this.test = BaddyFactory.get('top', this.context);
-      debugger
-
       return this;
     },
 

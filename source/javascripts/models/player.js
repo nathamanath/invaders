@@ -39,7 +39,6 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter'],
       this._active = true;
 
       this._preRender();
-      this._render(this.canvas().context());
 
       Keyboard.subscribe('LEFT', this.goLeft, this);
       Keyboard.subscribe('RIGHT', this.goRight, this);
@@ -88,23 +87,13 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter'],
     },
 
     update: function() {
-      this._clearCanvas();
-      this._render(this.canvas().context());
     },
 
     _preRender: function() {
-      this.preRenderCanvas = new Canvas({
-        width: this.width(),
-        height: this.height()
-      }).init();
 
-      var context = this.preRenderCanvas.context();
+      var context = this.canvas().context();
       context.fillStyle = 'blue';
       context.fillRect(0, 0, this.width(), this.height());
-    },
-
-    _render: function(context) {
-      context.drawImage(this.preRenderCanvas.el, this.x(), this.y());
     }
   };
 

@@ -1,0 +1,49 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Benchmark shape collision with rectangle</title>
+</head>
+<body>
+
+  <script src="../lib/benchmark.js/benchmark.js"></script>
+  <script src="./benchmark-test.js"></script>
+
+  <script>
+
+    // very little difference
+
+    var bigCanvas = document.createElement('canvas');
+    var bigContext = bigCanvas.getContext('2d');
+
+    bigCanvas.width = 800;
+    bigCanvas.height = 800;
+
+    bigContext.fillStyle = 'red';
+    bigContext.fillRect(0, 0, 100, 100);
+
+
+    var littleCanvas = document.createElement('canvas');
+    var littleContext = littleCanvas.getContext('2d');
+
+    littleContext.width = 100;
+    littleContext.height = 100;
+
+
+
+    var suite = new BenchmarkTest('Drawing same shape on different sized canvases').init();
+
+    suite.add('Draw on little canvas', function() {
+      littleContext.fillStyle = 'red';
+      littleContext.fillRect(0, 0, 100, 100);
+    });
+
+    suite.add('Draw on big canvas', function() {
+      bigContext.fillStyle = 'red';
+      bigContext.fillRect(0, 0, 100, 100);
+    });
+
+    suite.run();
+
+  </script>
+</body>
+</html>

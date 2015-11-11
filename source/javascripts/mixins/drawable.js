@@ -10,7 +10,10 @@ define(['canvas'], function(Canvas) {
 
     // render, update?
 
-    // To be called in constructor
+    /**
+     * To be called in constructor
+     * @param args - args object passed to constructor
+     */
     this._initDrawable = function(args) {
       this.x(args.x);
       this.y(args.y);
@@ -18,6 +21,11 @@ define(['canvas'], function(Canvas) {
       this._context = args.context;
     };
 
+    /**
+     * get / set x coordinate
+     * @param value - new x coordinate
+     * @returns x coordinate
+     */
     this.x = function(value) {
       if(arguments.length > 0) {
         var rounded = Math.round(value);
@@ -29,6 +37,11 @@ define(['canvas'], function(Canvas) {
       return this._x;
     };
 
+    /**
+     * get / set y coordinate
+     * @param value - new y coordinate
+     * @returns y coordinate
+     */
     this.y = function(value) {
       if(arguments.length > 0) {
         var rounded = Math.round(value);
@@ -56,6 +69,7 @@ define(['canvas'], function(Canvas) {
       return this._height;
     };
 
+    /** @returns context on which to render drawable */
     this.context = function() {
       return this._context;
     };
@@ -64,24 +78,26 @@ define(['canvas'], function(Canvas) {
       return this.context().canvas;
     };
 
+    /** @returns pre-render canvas */
     this.canvas = function() {
       return this._canvas || this._setCanvas();
     };
 
-    // TODO: can this be in Drawable scope?
     this._setCanvas = function() {
       return this._canvas = new Canvas({
-        width: this._parentCanvas().width,
-        height: this._parentCanvas().height
+        width: this.width(),
+        height: this.height()
       }).init();
     };
 
+    /** render drawable onto parent canvas */
     this.draw = function() {
-      this.context().drawImage(this.canvas().el, 0, 0);
+      this.context().drawImage(this.canvas().el, this.x(), this.y());
     };
 
+    /** clear pre-render canvas */
     this._clearCanvas = function() {
-      this.canvas().clear(this.oldX(), this.oldY(), this.width(), this.height());
+      this.canvas().clear(0, 0, this.width(), this.height());
     }
   };
 

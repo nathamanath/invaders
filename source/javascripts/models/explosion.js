@@ -42,22 +42,16 @@ define(['mixins/drawable', 'canvas'],
 
       self._active = true;
 
+      this._canvas = preRendered;
+
       window.setTimeout(function() {
         self._active = false;
       }, EXPLOSION_DURATION);
 
-      self.render();
-
       return self;
     },
 
-    render: function() {
-      this.canvas().context().drawImage(preRendered.el, this.x(), this.y());
-    },
-
     update: function() {
-      this._clearCanvas();
-      this.render();
     },
 
     active: function() {

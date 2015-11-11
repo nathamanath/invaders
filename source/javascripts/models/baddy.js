@@ -73,7 +73,8 @@ define(['mixins/drawable', 'mixins/shooter', 'canvas'],
 
     this._lives = 1;
 
-    this._preRendered = prerenders[args.type];
+    this._canvas = prerenders[args.type];
+
   };
 
   Baddy.WIDTH = BADDY_WIDTH;
@@ -88,18 +89,10 @@ define(['mixins/drawable', 'mixins/shooter', 'canvas'],
     init: function() {
       this._active = true;
 
-      this._render(this.canvas().context());
-
       return this;
     },
 
-    _render: function(context) {
-      context.drawImage(this._preRendered.el, this.x(), this.y());
-    },
-
     update: function() {
-      this._clearCanvas();
-      this._render(this.canvas().context());
     },
 
     shot: function() {

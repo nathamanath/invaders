@@ -49,6 +49,8 @@ define(['canvas', 'rectangle', 'mixins/drawable'],
 
       this.render();
 
+      this._canvas = preRendered;
+
       return this;
     },
 
@@ -69,7 +71,6 @@ define(['canvas', 'rectangle', 'mixins/drawable'],
     },
 
     update: function() {
-      this._clearCanvas();
       this.y(this.y() + (5 * this._direction));
       this.render();
     },
