@@ -46,9 +46,10 @@ define(['mixins/drawable'],
     },
 
     update: function() {
-      this.render();
+
 
       this.context().drawImage(this.canvas().el, this.x(), this.y());
+      this.render();
     },
 
     shot: function(x, y) {
@@ -72,6 +73,27 @@ define(['mixins/drawable'],
       context.putImageData(newCanvasData, 0, 0);
 
       this.update();
+    },
+
+    overlapped: function(x, y, w, h) {
+      var context = this.canvas().context();
+      var _x = this.x();
+      var _y = this.y();
+
+      // Clear a rectangle
+      context.globalCompositeOperation = "destination-out";
+      context.fillStyle = 'blue';
+      context.fillRect(x - _x, y - _y, w, h);
+      context.restore();
+
+      var newCanvasData = context.getImageData(0, 0, this.width(), this.height());
+
+      this._imageData = newCanvasData;
+
+      context.putImageData(newCanvasData, 0, 0);
+
+      this.update();
+      //this.render();
     }
   };
 

@@ -43,9 +43,12 @@ define(['clock'], function(Clock) {
       _check: function() {
         if(Object.keys(this.pressing).length) {
 
+          var subscribers = this.subscribers;
+          var filtered;
+
           for(var key in this.pressing) {
 
-            var filtered = this.subscribers.filter(function(subscriber) {
+            filtered = subscribers.filter(function(subscriber) {
               return subscriber.key === parseInt(key);
             });
 

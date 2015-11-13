@@ -7,22 +7,6 @@ define(['canvas', 'mixins/drawable'],
   var BULLET_WIDTH = 5;
   var BULLET_HEIGHT = 15;
 
-  // We render each type of bullet once,
-  // and re use that canvas everywhere
-  // var preRendered = (function() {
-  //   var canvas = new Canvas({
-  //     width: BULLET_WIDTH,
-  //     height: BULLET_HEIGHT
-  //   }).init();
-
-  //   var context = canvas.context();
-
-  //   context.fillStyle = 'red';
-  //   context.fillRect(0, 0, BULLET_WIDTH, BULLET_HEIGHT);
-
-  //   return canvas;
-  // })();
-
   var Bullet = function(args) {
     args = args || {};
 

@@ -15,6 +15,7 @@ define(['factories/baddy-factory', 'clock', 'models/baddy'],
   var SHOOT_ODDS = 0.02
 
   return {
+    BADDY_HEIGHT: Baddy.HEIGHT,
     init: function(context, gameWidth, gameHeight, onOutOfBounds) {
       this.gameWidth = gameWidth;
       this.gameHeight = gameHeight;
@@ -27,7 +28,7 @@ define(['factories/baddy-factory', 'clock', 'models/baddy'],
       ['top', 'middle', 'middle', 'bottom', 'bottom'].forEach(function(type) {
 
         for(var i = 0; i < 11; i++) {
-          self.add(PADDING + ((Baddy.WIDTH + PADDING) * i), PADDING + ((PADDING + Baddy.HEIGHT) * j), type);
+          self.add(PADDING + ((Baddy.WIDTH + PADDING) * i), 250 + PADDING + ((PADDING + Baddy.HEIGHT) * j), type);
         }
 
         j++;

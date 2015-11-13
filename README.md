@@ -12,6 +12,7 @@
 * scoreboard
 * levels
 * build process
+* only bottom baddys shoot
 
 
 ## Development

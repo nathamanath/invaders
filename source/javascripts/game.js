@@ -55,6 +55,8 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
       BaddysManager.init(this.context, Game.WIDTH, Game.HEIGHT, this.end);
       HousesManager.init(this.context);
 
+      BaddysManager.clock.subscribe(Collisions.baddysHouses, Collisions);
+
       return this;
     },
 
@@ -74,7 +76,6 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
 
     /** update all game objects */
     _update: function() {
-
       var self = this;
 
       var explosions = ExplosionsManager.explosions();
@@ -82,9 +83,11 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
 
       Collisions.check(self.player);
 
+      var index;
       explosions.forEach(function(explosion) {
         if(!explosion.active()) {
-          var index = explosions.indexOf(explosion);
+          index = explosions.indexOf(explosion);
+
           explosion.update();
           explosions.splice(index, 1);
         }
@@ -120,8 +123,6 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
       }
     }
   };
-
-
 
   return Game;
 
