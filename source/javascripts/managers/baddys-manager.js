@@ -28,7 +28,7 @@ define(['factories/baddy-factory', 'clock', 'models/baddy'],
       ['top', 'middle', 'middle', 'bottom', 'bottom'].forEach(function(type) {
 
         for(var i = 0; i < 11; i++) {
-          self.add(PADDING + ((Baddy.WIDTH + PADDING) * i), 250 + PADDING + ((PADDING + Baddy.HEIGHT) * j), type);
+          self.add(PADDING + ((Baddy.WIDTH + PADDING) * i), PADDING + ((PADDING + Baddy.HEIGHT) * j), type);
         }
 
         j++;

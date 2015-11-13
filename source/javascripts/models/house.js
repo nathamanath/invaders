@@ -82,7 +82,6 @@ define(['mixins/drawable'],
 
       // Clear a rectangle
       context.globalCompositeOperation = "destination-out";
-      context.fillStyle = 'blue';
       context.fillRect(x - _x, y - _y, w, h);
       context.restore();
 
