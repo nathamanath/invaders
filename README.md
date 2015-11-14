@@ -2,7 +2,6 @@
 
 ## TODO
 
-* baddy collides with house
 * hud - lives and score
 * game over if 0 lives
 * animated baddys

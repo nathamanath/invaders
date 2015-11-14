@@ -38,11 +38,6 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
             var w = Math.max(0, Math.min(baddy.x() + baddy.width() - x, house.x() + house.width() - x));
             var h = Math.max(0, Math.min(baddy.y() + baddy.height() - y, house.y() + house.height() - y));
 
-
-            console.log(x)
-            console.log(y)
-            console.log(w)
-            console.log(h)
             // cut it out of house image data
             house.overlapped(x, y, w, h);
           };
