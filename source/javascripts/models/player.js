@@ -24,7 +24,6 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter'],
     this._height = PLAYER_HEIGHT;
 
     this._lives = LIVES;
-    this._bullets = args.bullets;
   };
 
   Player.WIDTH = PLAYER_WIDTH;
@@ -94,6 +93,10 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter'],
       var context = this.canvas().context();
       context.fillStyle = 'blue';
       context.fillRect(0, 0, this.width(), this.height());
+    },
+
+    lives: function() {
+      return this._lives;
     }
   };
 

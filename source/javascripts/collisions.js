@@ -1,5 +1,5 @@
-define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager', 'models/rectangle'],
-  function(BaddysManager, BulletsManager, ExplosionsManager, HousesManager, Rectangle) {
+define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager'],
+  function(BaddysManager, BulletsManager, ExplosionsManager, HousesManager) {
 
   'use strict';
 

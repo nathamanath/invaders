@@ -1,11 +1,12 @@
-define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager', 'collisions', 'factories/baddy-factory'],
-  function(Canvas, Player, Clock, BaddysManager, BulletsManager, ExplosionsManager, HousesManager, Collisions, BaddyFactory) {
+define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager', 'collisions', 'hud'],
+  function(Canvas, Player, Clock, BaddysManager, BulletsManager, ExplosionsManager, HousesManager, Collisions, HUD) {
 
   'use strict';
 
   // TODO: Game should mediate between game objects... reduce coupling
 
   var MAX_FPS = 60;
+  var score = 0;
 
   /**
    * Represents a game
@@ -46,8 +47,16 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
       this.player = new Player({
         context: this.context,
         x: this.canvas.width / 2 + Player.WIDTH / 2,
-        y: this.canvas.height - Player.HEIGHT,
-        bullets: this.bullets
+        y: this.canvas.height - Player.HEIGHT
+      }).init();
+
+      this.hud = new HUD({
+        context: this.context,
+        x: 0,
+        y: 0,
+        lives: this.player.lives(),
+        score: score,
+        gameWidth: this.canvas.width
       }).init();
 
       ExplosionsManager.init(this.context);
@@ -83,6 +92,8 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
 
       Collisions.check(self.player);
 
+      this.hud.update(this.player.lives(), score);
+
       var index;
       explosions.forEach(function(explosion) {
         if(!explosion.active()) {
@@ -99,10 +110,13 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
     _draw: function() {
       this.canvas.clear();
 
+      // this.drawables.draw();
+
       BulletsManager.draw();
       BaddysManager.draw();
       HousesManager.draw();
       this.player.draw();
+      this.hud.draw();
       ExplosionsManager.draw();
     },
 

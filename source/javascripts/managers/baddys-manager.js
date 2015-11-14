@@ -87,6 +87,8 @@ define(['factories/baddy-factory', 'clock', 'models/baddy'],
 
     update: function() {
 
+      // TODO: Filter out bottom of each column. Only these baddys can shoot.
+
       baddys.forEach(function(baddy) {
         if(Math.random() < SHOOT_ODDS) {
           baddy.shoot();
