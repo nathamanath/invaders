@@ -11,6 +11,8 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter'],
   var PLAYER_COOL_DOWN = 750;
   var LIVES = 3;
 
+  var score = 0;
+
   /**
    * @class Player
    */
@@ -52,12 +54,19 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter'],
       return PLAYER_SPEED;
     },
 
+    addPoints: function(points) {
+      // could do some error checking here...
+      score += points;
+    },
+
+    score: function() {
+      return score;
+    },
+
     shot: function() {
       if(--this._lives) {
         this._active = false;
       }
-
-      console.log('Player has ' + this._lives + ' lives');
     },
 
     inBounds: function() {

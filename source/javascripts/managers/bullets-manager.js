@@ -1,33 +1,27 @@
-define(['models/bullet', 'factories/bullet-factory'],
-  function(Bullet, BulletFactory) {
+define(['factories/bullet-factory', 'mixins/manager'],
+  function(BulletFactory, Manager) {
 
   'use strict';
 
-  /** Manages all bullets in game */
+  /**
+   * Manages all bullets in game
+   * @class BulletsManager
+   */
+  var BulletsManager = function(args) {
+  };
 
-  var bullets = [];
+  /** @lends BulletsManager */
+  BulletsManager.prototype = {
+    constructor: 'BulletsManager',
 
-  return {
-    /** @param context - context to draw bullets onto */
     init: function(context) {
       this._context = context;
+
+      return this;
     },
 
-    bullets: function() {
-      return bullets;
-    },
-
-    UP: Bullet.UP,
-    DOWN: Bullet.DOWN,
-    BULLET_WIDTH: Bullet.WIDTH,
-    BULLET_HEIGHT: Bullet.HEIGHT,
-
-    /**
-     * Spawn a new bullet
-     * @param shooter - Object implimenting shooter and drawable
-     */
-    fire: function(shooter) {
-      bullets.push(BulletFactory.new(shooter, this._context));
+    _newManagable: function(shooter) {
+      return BulletFactory.new(shooter, this._context);
     },
 
     /**
@@ -35,16 +29,17 @@ define(['models/bullet', 'factories/bullet-factory'],
      * @returns bullets for team
      */
     teamBullets: function(team) {
-      return bullets.filter(function(bullet) {
+      return this.all().filter(function(bullet) {
         return bullet.team() === team;
       });
     },
+  };
 
-    /** draw all bullets */
-    draw: function() {
-      bullets.forEach(function(bullet) {
-        bullet.draw();
-      });
-    }
-  }
+  Manager.call(BulletsManager.prototype);
+
+  // Maybe lazily create this? not much point
+  var instance = new BulletsManager();
+
+  return instance;
+
 });

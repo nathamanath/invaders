@@ -24,6 +24,7 @@ define(['mixins/drawable', 'mixins/shooter', 'canvas'],
     this._canvas = args.canvas;
 
     this._lives = 1;
+    this._points = args.points;
   };
 
   Baddy.WIDTH = BADDY_WIDTH;
@@ -50,6 +51,10 @@ define(['mixins/drawable', 'mixins/shooter', 'canvas'],
 
     active: function() {
       return this._active;
+    },
+
+    points: function() {
+      return this._points;
     }
   };
 

@@ -8,8 +8,6 @@ define(['game'], function(Game) {
       var game = new Game({
         el: el
       }).init();
-
-      game.start();
     }
   };
 });

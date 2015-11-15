@@ -83,6 +83,10 @@ define(['canvas'], function(Canvas) {
       return this._canvas || this._setCanvas();
     };
 
+    this._canvasContext = function() {
+      return this.canvas().context();
+    },
+
     this._setCanvas = function() {
       return this._canvas = new Canvas({
         width: this.width(),

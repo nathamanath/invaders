@@ -1,40 +1,36 @@
-define(['models/explosion'],
-  function(Explosion) {
+define(['models/explosion', 'mixins/manager'],
+  function(Explosion, Manager) {
 
   'use strict';
 
-  var explosions = [];
+  /**
+   * @class ExplosionsManager
+   */
+  var ExplosionsManager = function(args) {
 
-  var ExplosionsManager = {
+  };
+
+  /** @lends ExplosionsManager */
+  ExplosionsManager.prototype = {
+    constructor: 'ExplosionsManager',
+
     init: function(context) {
       this._context = context;
+      return this;
     },
 
-    explosions: function() {
-      return explosions;
-    },
-
-    // TODO: Spawn new explosions with explosion center at center of explodable
-    new: function(explodable) {
-      explosions.push(new Explosion({
+    _newManagable: function(explodable) {
+      return new Explosion({
         x: explodable.x(),
         y: explodable.y(),
         context: this._context
-      }).init());
-    },
-
-    draw: function() {
-      explosions.forEach(function(explosion) {
-        explosion.draw();
-      });
-    },
-
-    update: function() {
-      explosions.forEach(function(explosion) {
-        explosion.update();
-      });
+      }).init()
     }
   };
 
-  return ExplosionsManager;
+  Manager.call(ExplosionsManager.prototype);
+
+  var instance = new ExplosionsManager();
+
+  return instance;
 });

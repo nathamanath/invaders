@@ -32,7 +32,7 @@ define(['mixins/drawable'],
     },
 
     _preRender: function() {
-      var context = this.canvas().context();
+      var context = this._canvasContext();
 
       this._drawLives(context);
       this._drawScore(context);
@@ -55,7 +55,7 @@ define(['mixins/drawable'],
 
     _drawScore: function(context) {
       context.fillStyle = "blue";
-      context.fillText(this._score, 0, 10);
+      context.fillText(this._score, LIFE_PADDING, LIFE_PADDING);
     },
 
     _clearScore: function() {
@@ -64,18 +64,20 @@ define(['mixins/drawable'],
     },
 
     update: function(lives, score) {
+      var context = this._canvasContext();
+
       if(lives !== this._lives) {
         this._lives = lives;
 
         this._clearLives()
-        this._drawLives();
+        this._drawLives(context);
       }
 
       if(score !== this._score) {
         this._score = score;
 
         this._clearScore()
-        this._drawScore();
+        this._drawScore(context);
       }
     }
   };

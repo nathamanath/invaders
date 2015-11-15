@@ -14,6 +14,7 @@ define(['drawable', 'canvas'], function(Drawable, Canvas) {
    */
 
   // TODO: Prerenderable mixin
+  // TODO: is this part of drawable?
 
   return {};
 

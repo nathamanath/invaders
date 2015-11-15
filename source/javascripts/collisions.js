@@ -11,21 +11,21 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
     baddysHouses: function() {
       var self = this;
 
-      var baddys = BaddysManager.baddys();
-      var houses = HousesManager.houses();
+      var baddys = BaddysManager.all();
+      var houses = HousesManager.all();
 
       // Baddy collides with house
       // Filter out only baddys in houses y range
       var lowishBaddys = baddys.filter(function(baddy) {
-        var bottomY = baddy.y() + BaddysManager.BADDY_HEIGHT;
+        var topY = baddy.y();
+        var bottomY = topY + BaddysManager.BADDY_HEIGHT;
         var houseY = HousesManager.HOUSE_Y;
 
-        return bottomY >= houseY && bottomY <= houseY + HousesManager.HOUSE_HEIGHT;
+        return bottomY >= houseY && topY <= houseY + HousesManager.HOUSE_HEIGHT;
       });
 
 
       lowishBaddys.forEach(function(baddy) {
-        var baddyBottomY = baddy.y() + baddy.height();
 
         houses.forEach(function(house) {
 
@@ -34,7 +34,7 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
 
             // work out overlapping rectangle
             var x = Math.max(0, baddy.x(), house.x());
-            var y = Math.max(0, baddy.y(), house.y());
+            var y = Math.max(baddy.y(), house.y());
             var w = Math.max(0, Math.min(baddy.x() + baddy.width() - x, house.x() + house.width() - x));
             var h = Math.max(0, Math.min(baddy.y() + baddy.height() - y, house.y() + house.height() - y));
 
@@ -49,30 +49,30 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
     check: function(player) {
       var self = this;
 
-      var bullets = BulletsManager.bullets();
-      var houses = HousesManager.houses();
-      var baddys = BaddysManager.baddys();
-      var explosions = ExplosionsManager.explosions();
+      var bullets = BulletsManager.all();
+      var houses = HousesManager.all();
+      var baddys = BaddysManager.all();
+      var explosions = ExplosionsManager.all();
 
       var playerBullets = BulletsManager.teamBullets(player.team());
       var baddyBullets = BulletsManager.teamBullets(BaddysManager.TEAM);
 
       // OPTIMIZE: So many things can be cached for collision detection.
 
+      // bullet collides with baddy
       playerBullets.forEach(function(bullet) {
         //check collision with baddys
         baddys.forEach(function(baddy) {
           if(self._colliding(bullet, baddy)) {
+            player.addPoints(baddy.points());
             baddy.shot();
             bullet.explode();
 
-            ExplosionsManager.new(baddy);
+            ExplosionsManager.add(baddy);
           }
 
           if(!baddy.active()) {
-            var index = baddys.indexOf(baddy);
-            baddy.update();
-            baddys.splice(index, 1);
+            BaddysManager.remove(baddy);
           }
         });
 
@@ -81,11 +81,12 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
             baddyBullet.explode();
             bullet.explode();
 
-            ExplosionsManager.new(bullet);
+            ExplosionsManager.add(bullet);
           }
         });
       });
 
+      // bullets collide with houses
       bullets.forEach(function(bullet) {
         var bulletPointyEndY = bullet.pointyEndY();
 
@@ -131,25 +132,31 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
 
 
         if(!bullet.active()) {
-          var index = bullets.indexOf(bullet);
-          bullets.splice(index, 1);
+          BulletsManager.remove(bullet);
         }
 
         bullet.update();
       });
 
+      // bullets collide with player
       baddyBullets.forEach(function(bullet) {
         if(self._colliding(bullet, player)) {
           player.shot();
           bullet.explode();
 
-          ExplosionsManager.new(player);
+          console.log('s')
+
+          ExplosionsManager.add(player);
+
+          bullet.update();
+
+          BulletsManager.remove(bullet);
         }
       });
 
       // Baddy collides with player
       var lowBaddys = baddys.filter(function(baddy) {
-        return baddy.y() + BaddysManager.HEIGHT >= player.y();
+        return baddy.y() + BaddysManager.BADDY_HEIGHT >= player.y();
       });
 
       lowBaddys.forEach(function(baddy) {
@@ -157,7 +164,7 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
           baddy.shot();
           player.shot();
 
-          ExplosionsManager.new(player);
+          ExplosionsManager.add(player);
         }
       });
     },

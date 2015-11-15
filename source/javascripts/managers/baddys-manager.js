@@ -1,8 +1,7 @@
-define(['factories/baddy-factory', 'clock', 'models/baddy'],
-  function(BaddyFactory, Clock, Baddy) {
+define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
+  function(BaddyFactory, Clock, Baddy, Manager) {
 
   // TODO: Tidy baddy manager
-  // TODO: both factory and manager depend on baddy... make it only one
 
   'use strict';
 
@@ -14,8 +13,16 @@ define(['factories/baddy-factory', 'clock', 'models/baddy'],
   var RATE = 500;
   var SHOOT_ODDS = 0.02
 
-  return {
-    BADDY_HEIGHT: Baddy.HEIGHT,
+  /**
+   * @class BaddysManager
+   */
+  var BaddysManager = function(args) {
+  };
+
+  /** @lends BaddysManager */
+  BaddysManager.prototype = {
+    constructor: 'BaddysManager',
+
     init: function(context, gameWidth, gameHeight, onOutOfBounds) {
       this.gameWidth = gameWidth;
       this.gameHeight = gameHeight;
@@ -34,31 +41,25 @@ define(['factories/baddy-factory', 'clock', 'models/baddy'],
         j++;
       });
 
-      this.clock = new Clock(RATE).start();
+      this._clock = new Clock(RATE).start();
 
-      this.clock.subscribe(function() {
+      this._clock.subscribe(function() {
         self.update();
       });
+
+      return this;
     },
 
-    TEAM: Baddy.TEAM,
+    clock: function() {
+      return this._clock;
+    },
+
+    _newManagable: function(x, y, type) {
+      return BaddyFactory.new(type, x, y, this.context);
+    },
 
     stop: function() {
-      this.clock.stop();
-    },
-
-    add: function(x, y, type) {
-      baddys.push(BaddyFactory.new(type, x, y, this.context));
-    },
-
-    draw: function() {
-      baddys.forEach(function(baddy) {
-        baddy.draw();
-      });
-    },
-
-    baddys: function() {
-      return baddys;
+      this._clock.stop();
     },
 
     canMoveXDirection: function() {
@@ -74,18 +75,21 @@ define(['factories/baddy-factory', 'clock', 'models/baddy'],
     },
 
     inBounds: function() {
+      var baddys = this._managables;
+
       var maxY = baddys[baddys.length -1].y() + Baddy.HEIGHT;
 
       return maxY < this.gameHeight;
     },
 
     baddysXs: function() {
-      return baddys.map(function(baddy) {
+      return this._managables.map(function(baddy) {
         return baddy.x();
       });
     },
 
     update: function() {
+      var baddys = this._managables;
 
       // TODO: Filter out bottom of each column. Only these baddys can shoot.
 
@@ -123,7 +127,13 @@ define(['factories/baddy-factory', 'clock', 'models/baddy'],
         baddy.update();
       });
     }
-
   };
+
+
+  Manager.call(BaddysManager.prototype, { TEAM: Baddy.TEAM, BADDY_HEIGHT: Baddy.HEIGHT });
+
+  var instance = new BaddysManager();
+
+  return instance;
 
 });

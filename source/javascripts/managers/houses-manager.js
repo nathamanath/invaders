@@ -1,46 +1,48 @@
-define(['models/house'],
-  function(House) {
+define(['models/house', 'mixins/manager'],
+  function(House, Manager) {
 
   'use strict';
 
   var HOUSE_Y = 600;
 
-  var houses = [];
+  /**
+   * @class HousesManager
+   */
+  var HousesManager = function(args) {
 
-  var HousesManager = {
+  };
+
+  /** @lends HousesManager */
+  HousesManager.prototype = {
+    constructor: 'HousesManager',
+
     init: function(context) {
       this._context = context;
 
+      var x;
+
       for(var i = 0; i < 4; i++) {
-        var house = new House({
-          context: this._context,
-          x: 80 + 180 * i,
-          y: 600
-        }).init();
+        x = 80 + 180 * i;
 
-        houses.push(house);
+        this.add(x, HOUSE_Y);
       }
+
+      return this;
     },
 
-    HOUSE_Y: HOUSE_Y,
-    HOUSE_HEIGHT: House.HOUSE_HEIGHT,
-
-    houses: function() {
-      return houses;
-    },
-
-    draw: function() {
-      houses.forEach(function(house) {
-        house.draw();
-      });
-    },
-
-    update: function() {
-      houses.forEach(function(house) {
-        house.update();
-      });
+    _newManagable: function(x, y) {
+      return new House({
+        context: this._context,
+        x: x,
+        y: y
+      }).init()
     }
   };
 
-  return HousesManager;
+  Manager.call(HousesManager.prototype, { HOUSE_HEIGHT: House.HEIGHT, HOUSE_Y: HOUSE_Y });
+
+  var instance = new HousesManager();
+
+  return instance;
+
 });

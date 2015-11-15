@@ -1,12 +1,11 @@
-define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager', 'collisions', 'hud'],
-  function(Canvas, Player, Clock, BaddysManager, BulletsManager, ExplosionsManager, HousesManager, Collisions, HUD) {
+define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager', 'collisions', 'hud', 'asset-bank'],
+  function(Canvas, Player, Clock, BaddysManager, BulletsManager, ExplosionsManager, HousesManager, Collisions, HUD, AssetBank) {
 
   'use strict';
 
   // TODO: Game should mediate between game objects... reduce coupling
 
   var MAX_FPS = 60;
-  var score = 0;
 
   /**
    * Represents a game
@@ -41,7 +40,7 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
       this.canvas.render(this.el);
 
       this.context = this.canvas.context();
-      this.clock = new Clock(Game.CLOCK_SPEED).start();
+      this.clock = new Clock(Game.CLOCK_SPEED);
 
 
       this.player = new Player({
@@ -55,7 +54,7 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
         x: 0,
         y: 0,
         lives: this.player.lives(),
-        score: score,
+        score: this.player.score(),
         gameWidth: this.canvas.width
       }).init();
 
@@ -64,13 +63,23 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
       BaddysManager.init(this.context, Game.WIDTH, Game.HEIGHT, this.end);
       HousesManager.init(this.context);
 
-      BaddysManager.clock.subscribe(Collisions.baddysHouses, Collisions);
+      BaddysManager.clock().subscribe(Collisions.baddysHouses, Collisions);
+
+      var self = this;
+
+      AssetBank.init(function() {
+        self.start();
+      });
+
+      // Load a big image to test asset bank
+      AssetBank.load('cages', 'http://p.jdun.co/3000x3000');
 
       return this;
     },
 
     start: function() {
       this._state = 'PLAYING';
+      this.clock.start();
       this._updateLoop();
       this._animationLoop();
     },
@@ -87,12 +96,12 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
     _update: function() {
       var self = this;
 
-      var explosions = ExplosionsManager.explosions();
+      var explosions = ExplosionsManager.all();
       var player = self.player;
 
       Collisions.check(self.player);
 
-      this.hud.update(this.player.lives(), score);
+      this.hud.update(this.player.lives(), player.score());
 
       var index;
       explosions.forEach(function(explosion) {

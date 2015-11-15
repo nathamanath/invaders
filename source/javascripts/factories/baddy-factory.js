@@ -47,6 +47,12 @@ define(['models/baddy', 'canvas'],
     return canvas;
   })();
 
+  var points = {
+    top: 200,
+    middle: 150,
+    bottom: 100
+  };
+
   return {
     new: function(type, x, y, context) {
 
@@ -54,7 +60,8 @@ define(['models/baddy', 'canvas'],
         x: x,
         y: y,
         context: context,
-        canvas: prerenders[type]
+        canvas: prerenders[type],
+        points: points[type]
       }
 
       return new Baddy(args).init();

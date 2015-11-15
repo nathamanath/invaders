@@ -1,5 +1,5 @@
-define(['managers/bullets-manager'],
-  function(BulletsManager) {
+define(['managers/bullets-manager', 'models/bullet'],
+  function(BulletsManager, Bullet) {
 
   'use strict';
 
@@ -25,19 +25,19 @@ define(['managers/bullets-manager'],
 
     /** bullets move in this direction */
     this.gunDirection = function() {
-      return BulletsManager[direction];
+      return Bullet[direction];
     };
 
     /** x coordinate for new bullets */
     this.gunX = function() {
-      return this.x() + (this.width() / 2) - (BulletsManager.BULLET_WIDTH / 2);
+      return this.x() + (this.width() / 2) - (Bullet.WIDTH / 2);
     };
 
     /** y coordinate for new bullets */
     this.gunY = function() {
       var y = this.y();
 
-      if(this.gunDirection() === BulletsManager.DOWN) {
+      if(this.gunDirection() === Bullet.DOWN) {
         y += this.height();
       }
 
@@ -56,7 +56,7 @@ define(['managers/bullets-manager'],
       if(self._ready) {
         self._ready = false;
 
-        BulletsManager.fire(self);
+        BulletsManager.add(self);
 
         window.setTimeout(function() {
           self._ready = true;
