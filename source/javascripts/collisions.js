@@ -144,8 +144,6 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
           player.shot();
           bullet.explode();
 
-          console.log('s')
-
           ExplosionsManager.add(player);
 
           bullet.update();

@@ -1,5 +1,5 @@
-define([],
-  function() {
+define(['mixins/asset'],
+  function(Asset) {
 
   'use strict';
 
@@ -8,19 +8,39 @@ define([],
    * Used to preload game assets
    */
 
+
+  var AudioAsset = function(args) {
+    this._initAsset(args);
+  };
+
+  Asset.call(AudioAsset.prototype, 'oncanplay', Audio);
+
+
+  var ImageAsset = function(args) {
+    this._initAsset(args);
+  };
+
+  Asset.call(ImageAsset.prototype, 'onload', Image);
+
   var assets = {};
   var ready = true;
 
+  /** are all assets ready */
   var checkReady = function() {
     var ready = true;
 
     for(var name in assets) {
-      if(!assets[name].ready) {
+      if(!assets[name].ready()) {
         ready = false;
       }
     }
 
     return ready;
+  };
+
+  var assetTypes = {
+    image: ImageAsset,
+    audio: AudioAsset
   }
 
   return {
@@ -33,30 +53,20 @@ define([],
      * @param label - unique label for asset
      * @param path - path to image
      */
-    load: function(label, path) {
+    load: function(type, label, path) {
       ready = false;
 
       if(assets[label]) {
         throw new Error('Asset name is taken.');
       }
 
-      var image = new Image();
-      var self = this;
+      var AssetObject = assetTypes[type];
 
-      image.onload = function() {
-        assets[label].ready = true;
-
-        if(checkReady()) {
-          self._onReady();
-        }
-      };
-
-      image.src = path;
-
-      assets[label] = {
-        ready: false,
-        asset: image
-      }
+      assets[label] = new AssetObject({
+        label: label,
+        path: path,
+        onReady: checkReady
+      })
     },
 
     /**

@@ -43,6 +43,8 @@ define([],
       });
     };
 
+    // TODO: How to best manage this or existing?
+
     /** send update to all managables */
     this.update = this.update || function() {
       this._managables.forEach(function(managed) {

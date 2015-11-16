@@ -69,14 +69,14 @@ define(['mixins/drawable'],
       if(lives !== this._lives) {
         this._lives = lives;
 
-        this._clearLives()
+        this._clearLives();
         this._drawLives(context);
       }
 
       if(score !== this._score) {
         this._score = score;
 
-        this._clearScore()
+        this._clearScore();
         this._drawScore(context);
       }
     }

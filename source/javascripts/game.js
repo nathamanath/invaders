@@ -72,7 +72,7 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
       });
 
       // Load a big image to test asset bank
-      AssetBank.load('cages', 'http://p.jdun.co/3000x3000');
+      AssetBank.load('image', 'stallers', 'http://p.jdun.co/3000x3000');
 
       return this;
     },
