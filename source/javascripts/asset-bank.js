@@ -8,13 +8,11 @@ define(['mixins/asset'],
    * Used to preload game assets
    */
 
-
   var AudioAsset = function(args) {
     this._initAsset(args);
   };
 
-  Asset.call(AudioAsset.prototype, 'oncanplay', Audio);
-
+  Asset.call(AudioAsset.prototype, 'oncanplaythrough', Audio);
 
   var ImageAsset = function(args) {
     this._initAsset(args);
@@ -44,8 +42,9 @@ define(['mixins/asset'],
   }
 
   return {
-    init: function(onReady) {
+    init: function(onReady, context) {
       this._onReady = onReady || function() {};
+      this._context = context || this;
     },
 
     /**
@@ -61,20 +60,41 @@ define(['mixins/asset'],
       }
 
       var AssetObject = assetTypes[type];
+      var self = this;
 
       assets[label] = new AssetObject({
         label: label,
         path: path,
-        onReady: checkReady
-      })
+        onReady: function() {
+          if(checkReady()) {
+            self._onReady.call(self._context);
+          }
+        }
+      }).init();
+    },
+
+    loadImage: function(label, path) {
+      return this.load('image', label, path);
+    },
+
+    loadAudio: function(label, path) {
+      return this.load('audio', label, path);
     },
 
     /**
      * get an asset by name
      * @param label - label used when loading asset
      */
-    get: function(label) {
-      return assets[label].asset;
+    get: function(type, label) {
+      return assets[label].asset();
+    },
+
+    getImage: function(label) {
+      return this.get('image', label);
+    },
+
+    getAudio: function(label) {
+      return this.get('audio', label);
     }
   };
 

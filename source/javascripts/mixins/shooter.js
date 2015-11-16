@@ -1,5 +1,5 @@
-define(['managers/bullets-manager', 'models/bullet'],
-  function(BulletsManager, Bullet) {
+define(['managers/bullets-manager', 'models/bullet', 'asset-bank'],
+  function(BulletsManager, Bullet, AssetBank) {
 
   'use strict';
 
@@ -55,6 +55,11 @@ define(['managers/bullets-manager', 'models/bullet'],
 
       if(self._ready) {
         self._ready = false;
+
+        // Test audio
+        if(this._team === 1) {
+          AssetBank.getAudio('erm').play();
+        }
 
         BulletsManager.add(self);
 

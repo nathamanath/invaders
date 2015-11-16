@@ -65,15 +65,11 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
 
       BaddysManager.clock().subscribe(Collisions.baddysHouses, Collisions);
 
-      var self = this;
-
-      AssetBank.init(function() {
-        self.start();
-      });
+      AssetBank.init(this.start, this);
 
       // Load a big image to test asset bank
-
-      AssetBank.load('image', 'stallers', 'http://p.jdun.co/3000x3000');
+      // AssetBank.loadImage('stallers', 'http://p.jdun.co/3000x3000');
+      AssetBank.loadAudio('erm', '/audio/erm.mp3');
 
       return this;
     },
