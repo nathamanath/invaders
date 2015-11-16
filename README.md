@@ -5,7 +5,6 @@
 * game over if 0 lives
 * animated baddys
 * animated bullets
-* asset bank
 * sounds
 * scoreboard
 * levels
