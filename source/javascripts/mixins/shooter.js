@@ -57,9 +57,14 @@ define(['managers/bullets-manager', 'models/bullet', 'asset-bank'],
         self._ready = false;
 
         // Test audio
-        if(this._team === 1) {
-          AssetBank.getAudio('erm').play();
+        // if(this._team === 1) {
+        //   AssetBank.getAudio('erm').play();
+        // }
+
+        if(this._onShoot) {
+          this._onShoot();
         }
+
 
         BulletsManager.add(self);
 

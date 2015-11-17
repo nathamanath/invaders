@@ -1,5 +1,5 @@
-define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter'],
-  function(Canvas, Keyboard, Drawable, Shooter) {
+define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audible'],
+  function(Canvas, Keyboard, Drawable, Shooter, Audible) {
 
   'use strict';
 
@@ -69,6 +69,10 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter'],
       }
     },
 
+    _onShoot: function() {
+      this._playAudio('erm');
+    },
+
     inBounds: function() {
       var x = this.x();
       var y = this.y();
@@ -111,6 +115,7 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter'],
 
   Drawable.call(Player.prototype);
   Shooter.call(Player.prototype, 1, PLAYER_COOL_DOWN, 'UP');
+  Audible.call(Player.prototype);
 
   return Player;
 
