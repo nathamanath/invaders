@@ -16,7 +16,8 @@ define(['asset-bank'],
      * @returns {boolean} muted or not
      */
     mute: function() {
-      return _muted = !_muted;
+      _muted = !_muted;
+      return _muted;
     },
 
     /**

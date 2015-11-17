@@ -74,6 +74,14 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
       return this;
     },
 
+    mute: function() {
+      return AudioPlayer.mute();
+    },
+
+    volume: function(value) {
+      return AudioPlayer.volume(parseFloat(value));
+    },
+
     start: function() {
       this._state = 'PLAYING';
       this.clock.start();

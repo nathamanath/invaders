@@ -1,4 +1,4 @@
-define(['game'], function(Game) {
+define(['game', 'controls'], function(Game, Controls) {
   'use strict';
 
   return {
@@ -8,6 +8,8 @@ define(['game'], function(Game) {
       var game = new Game({
         el: el
       }).init();
+
+      Controls.init(game);
     }
   };
 });
