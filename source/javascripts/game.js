@@ -79,7 +79,7 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
     },
 
     volume: function(value) {
-      return AudioPlayer.volume(parseFloat(value));
+      return AudioPlayer.volume(value);
     },
 
     start: function() {
