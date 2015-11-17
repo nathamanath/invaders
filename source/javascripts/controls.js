@@ -12,7 +12,6 @@ define([],
       var mute = document.getElementById('mute');
       var volume = document.getElementById('volume');
 
-      debugger
       volume.value = game.volume();
 
 

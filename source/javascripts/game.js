@@ -67,9 +67,9 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
 
       AssetBank.init(this.start, this);
 
-      // Load a big image to test asset bank
-      // AssetBank.loadImage('stallers', 'http://p.jdun.co/3000x3000');
+      // Load audio assets
       AssetBank.loadAudio('erm', '/audio/erm.mp3');
+      AssetBank.loadAudio('bloop', '/audio/bloop.mp3');
 
       return this;
     },

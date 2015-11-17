@@ -45,8 +45,6 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audib
       Keyboard.subscribe('RIGHT', this.goRight, this);
       Keyboard.subscribe('SPACE', this.shoot, this);
 
-      console.log('Player has ' + this._lives + ' lives');
-
       return this;
     },
 

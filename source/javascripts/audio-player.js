@@ -27,7 +27,7 @@ define(['asset-bank'],
      * @returns volumne
      */
     volume: function(value) {
-      debugger
+
       if(arguments.length && typeof value !== 'undefined') {
         _volume = Math.max(0, Math.min(1, value));
       }
