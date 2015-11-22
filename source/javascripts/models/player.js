@@ -85,14 +85,12 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audib
     goLeft: function() {
       if(this.x() - this.speed() >= 0) {
         this.x(this.x() - this.speed());
-        this.update();
       }
     },
 
     goRight: function() {
       if(this.x() + this.width() + this.speed() <= this._parentCanvas().width) {
         this.x(this.x() + this.speed());
-        this.update();
       }
     },
 

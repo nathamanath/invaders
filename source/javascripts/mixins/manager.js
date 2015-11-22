@@ -33,7 +33,7 @@ define([],
     /** remove a drawable */
     this.remove = function(managed) {
       var index = this._managables.indexOf(managed);
-      this._managables.splice(index, 1);
+      return this._managables.splice(index, 1);
     };
 
     /** send draw to all managables */
@@ -47,8 +47,15 @@ define([],
 
     /** send update to all managables */
     this.update = this.update || function() {
-      this._managables.forEach(function(managed) {
-        managed.update();
+
+      var self = this;
+
+      this._managables.forEach(function(managable) {
+        if(!managable.active()) {
+          self.remove(managable);
+        }
+
+        managable.update();
       });
     };
 

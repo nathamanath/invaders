@@ -1,5 +1,5 @@
-define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager'],
-  function(BaddysManager, BulletsManager, ExplosionsManager, HousesManager) {
+define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager', 'managers/ufos-manager'],
+  function(BaddysManager, BulletsManager, ExplosionsManager, HousesManager, UFOsManager) {
 
   'use strict';
 
@@ -73,6 +73,17 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
 
           if(!baddy.active()) {
             BaddysManager.remove(baddy);
+          }
+        });
+
+
+        UFOsManager.all().forEach(function(ufo) {
+          if(self._colliding(bullet, ufo)) {
+            player.addPoints(ufo.points());
+            ufo.shot();
+            bullet.explode();
+
+            ExplosionsManager.add(ufo);
           }
         });
 

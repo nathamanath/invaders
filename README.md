@@ -11,7 +11,7 @@
 * build process
 * only bottom baddys shoot
 * avoid redrawing entire game each frame
-
+* loop audio
 
 ## Development
 

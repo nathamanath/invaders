@@ -11,16 +11,17 @@ define(['models/ufo', 'canvas'],
 
     var context = canvas.context();
 
-    context.fillStyle = 'brown';
+    context.fillStyle = 'pink';
     context.fillRect(0, 0, UFO.WIDTH, UFO.HEIGHT);
 
     return canvas;
   })();
 
   return {
-    new: function(context) {
+    new: function(context, y) {
       return new UFO({
         x: UFO.WIDTH * -1,
+        y: y,
         context: context,
         canvas: ufoCanvas
       }).init();

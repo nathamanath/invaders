@@ -1,9 +1,7 @@
-define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager', 'collisions', 'hud', 'asset-bank', 'audio-player'],
-  function(Canvas, Player, Clock, BaddysManager, BulletsManager, ExplosionsManager, HousesManager, Collisions, HUD, AssetBank, AudioPlayer) {
+define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager', 'collisions', 'hud', 'asset-bank', 'audio-player', 'managers/ufos-manager'],
+  function(Canvas, Player, Clock, BaddysManager, BulletsManager, ExplosionsManager, HousesManager, Collisions, HUD, AssetBank, AudioPlayer, UFOsManager) {
 
   'use strict';
-
-  // TODO: Game should mediate between game objects... reduce coupling
 
   var MAX_FPS = 60;
 
@@ -30,6 +28,8 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
     constructor: 'Game',
 
     init: function() {
+      var self = this;
+
       this.fps = Math.min(this.fps, Game.MAX_FPS);
 
       this.canvas = new Canvas({
@@ -60,8 +60,9 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
 
       ExplosionsManager.init(this.context);
       BulletsManager.init(this.context);
-      BaddysManager.init(this.context, Game.WIDTH, Game.HEIGHT, this.end);
+      BaddysManager.init(this.context, Game.WIDTH, Game.HEIGHT, function() { self.end(); });
       HousesManager.init(this.context);
+      UFOsManager.init(this.context);
 
       BaddysManager.clock().subscribe(Collisions.baddysHouses, Collisions);
 
@@ -101,23 +102,13 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
     _update: function() {
       var self = this;
 
-      var explosions = ExplosionsManager.all();
       var player = self.player;
 
       Collisions.check(self.player);
 
       this.hud.update(this.player.lives(), player.score());
 
-      var index;
-      explosions.forEach(function(explosion) {
-        if(!explosion.active()) {
-          index = explosions.indexOf(explosion);
-
-          explosion.update();
-          explosions.splice(index, 1);
-        }
-      });
-
+      UFOsManager.update();
     },
 
     /** draw a frame to this.canvas */
@@ -132,6 +123,7 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
       this.player.draw();
       this.hud.draw();
       ExplosionsManager.draw();
+      UFOsManager.draw();
     },
 
     /** game logic should happen at same speed whatever the fps */

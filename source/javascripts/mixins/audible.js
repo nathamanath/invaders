@@ -9,8 +9,10 @@ define(['audio-player'],
   return function() {
 
     /** @param name - name of audio in asset bank */
-    this._playAudio = function(name) {
-      AudioPlayer.play(name);
+    this._playAudio = function(name, repeat) {
+      var repeat = repeat || false;
+
+      AudioPlayer.play(name, repeat);
     };
   };
 });

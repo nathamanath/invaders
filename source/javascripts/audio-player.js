@@ -3,6 +3,8 @@ define(['asset-bank'],
 
   'use strict';
 
+  // TODO: when i mute the game, and then unmute a game, ongoing sounds should be audable
+
   var _muted = false;
   var _volume = 1;
 
@@ -39,13 +41,28 @@ define(['asset-bank'],
      * play audio by name unless muted
      * @param name - name of audio in asset bank to be played
      */
-    play: function(name) {
+    play: function(name, loop) {
       if(!_muted) {
         var audio = AssetBank.getAudio(name);
 
         audio.volume = _volume;
 
+        if(loop) {
+          audio.addEventListener('ended', function() {
+            this.currentTime = this.duration - 10;
+            this.play();
+          });
+        }
+
         audio.play();
+      }
+    },
+
+    stop: function(name) {
+      if(!_muted) {
+        var audio = AssetBank.getAudio(name);
+        audio.pause();
+        audio.currentTime = 0;
       }
     }
 

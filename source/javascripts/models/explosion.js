@@ -28,6 +28,8 @@ define(['mixins/drawable', 'canvas'],
     args = args || {};
 
     this._initDrawable(args);
+
+    this._onUpdate = args.onUpdate;
   };
 
   /** @lends Explosion */
@@ -46,6 +48,7 @@ define(['mixins/drawable', 'canvas'],
 
       window.setTimeout(function() {
         self._active = false;
+        self._onUpdate();
       }, EXPLOSION_DURATION);
 
       return self;

@@ -1,11 +1,11 @@
-define(['mixins/drawable', 'mixins/audible', 'canvas'],
-  function(Drawable, Audible, Canvas) {
+define(['mixins/drawable', 'mixins/audible', 'canvas', 'audio-player'],
+  function(Drawable, Audible, Canvas, AudioPlayer) {
 
   'use strict';
 
-  var UFO_WIDTH = 150;
-  var UFO_HEIGHT = 100;
-  var UFO_SPEED = 5;
+  var UFO_WIDTH = 100;
+  var UFO_HEIGHT = 50;
+  var UFO_SPEED = 3;
 
   /**
    * @class UFO
@@ -16,6 +16,9 @@ define(['mixins/drawable', 'mixins/audible', 'canvas'],
     this._canvas = args.canvas;
     this._x = args.x;
   };
+
+  UFO.WIDTH = UFO_WIDTH;
+  UFO.HEIGHT = UFO_HEIGHT;
 
   /** @lends UFO */
   UFO.prototype = {
@@ -30,11 +33,10 @@ define(['mixins/drawable', 'mixins/audible', 'canvas'],
 
       this._active = true;
 
+      AudioPlayer.play('bloop', true);
+
       return this;
     },
-
-    WIDTH: UFO_WIDTH,
-    HEIGHT: UFO_HEIGHT,
 
     speed: function() {
       return UFO_SPEED;
@@ -42,22 +44,41 @@ define(['mixins/drawable', 'mixins/audible', 'canvas'],
 
     inBounds: function() {
       var x = this.x();
-      var y = this.y();
-      var canvas = this.parentCanvas();
+      var canvas = this._parentCanvas();
 
-      return x >= 0 &&
-        y >= 0  &&
-        x + this.width() < canvas.width &&
-        y + this.height() < canvas.height
+      return x >= (UFO_WIDTH * -1) && x <= canvas.width;
     },
 
     update: function() {
-      this.x(this.x + this.speed());
+      this.x(this.x() + this.speed());
+    },
+
+    active: function() {
+      var active = this.inBounds() && this._active;
+
+      if(!active){
+        this._onInactive();
+      }
+
+      return active;
+    },
+
+    points: function() {
+      return (Math.floor(Math.random() * 3) + 1) * 50;
+    },
+
+    _onInactive: function() {
+      AudioPlayer.stop('bloop');
+    },
+
+    shot: function() {
+      this._active = false;
+      // TODO: spawn score
     }
   };
 
   Drawable.call(UFO.prototype);
 
-  return Drawable;
+  return UFO;
 
 });

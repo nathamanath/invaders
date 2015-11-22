@@ -20,11 +20,24 @@ define(['models/explosion', 'mixins/manager'],
     },
 
     _newManagable: function(explodable) {
+      var self = this;
+
       return new Explosion({
         x: explodable.x(),
         y: explodable.y(),
-        context: this._context
+        context: this._context,
+        onUpdate: function() { self.update(); }
       }).init()
+    },
+
+    update: function() {
+      var self = this;
+
+      this._managables.forEach(function(managable) {
+        if(!managable.active()) {
+          self.remove(managable);
+        }
+      });
     }
   };
 

@@ -113,7 +113,7 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
           baddy.y(baddy.y() + Baddy.HEIGHT / 2);
         });
 
-        this.clock.rate = this.clock.rate / ACCELERATION;
+        this.clock().rate = this.clock().rate / ACCELERATION;
       }
 
       baddys.forEach(function(baddy) {
