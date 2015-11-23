@@ -26,6 +26,8 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audib
     this._height = PLAYER_HEIGHT;
 
     this._lives = LIVES;
+
+    this._onNoLives = args.onNoLives;
   };
 
   Player.WIDTH = PLAYER_WIDTH;
@@ -62,8 +64,9 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audib
     },
 
     shot: function() {
-      if(--this._lives) {
+      if(!--this._lives) {
         this._active = false;
+        this._onNoLives();
       }
     },
 

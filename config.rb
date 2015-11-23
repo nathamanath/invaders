@@ -28,6 +28,20 @@
 # proxy "/this-page-has-no-template.html", "/template-file.html", :locals => {
 #  :which_fake_page => "Rendering a fake page with a local variable" }
 
+# Build require js app
+module RequireJS
+    class << self
+        def registered(app)
+            app.after_build do |builder|
+              exec('node ./lib/r.js/dist/r.js -o build.js');
+            end
+        end
+        alias :included :registered
+    end
+end
+
+::Middleman::Extensions.register(:requirejs, RequireJS)
+
 ###
 # Helpers
 ###
@@ -61,6 +75,7 @@ configure :build do
   # Minify Javascript on build
   # Will be handled with r.js
   # activate :minify_javascript
+  activate :requirejs
 
   # Enable cache buster
   # activate :asset_hash

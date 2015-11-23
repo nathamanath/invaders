@@ -6,6 +6,8 @@ define(['mixins/drawable'],
   var HUD_HEIGHT = 50;
   var LIFE_WIDTH = 20;
   var LIFE_PADDING = 10;
+  var LEVEL_PADDING = 10;
+  var LEVEL_WIDTH = 100;
 
   /**
    * Present player lives and score
@@ -16,6 +18,7 @@ define(['mixins/drawable'],
 
     this._lives = this._initialLives = args.lives;
     this._score = 0;
+    this._level = args.level;
 
     this._width = args.gameWidth;
     this._height = HUD_HEIGHT;
@@ -35,6 +38,7 @@ define(['mixins/drawable'],
       var context = this._canvasContext();
 
       this._drawLives(context);
+      this._drawLevel(context);
       this._drawScore(context);
     },
 
@@ -53,6 +57,15 @@ define(['mixins/drawable'],
       this.canvas().clear(this._width - (this._initialLives * (LIFE_WIDTH + LIFE_PADDING)), LIFE_WIDTH, this._initialLives * (LIFE_WIDTH + LIFE_PADDING));
     },
 
+    _drawLevel: function(context) {
+      context.fillStyle = "blue";
+      context.fillText(this._level, (this._width / 2) - (LEVEL_WIDTH / 2), LEVEL_PADDING);
+    },
+
+    _clearLevel: function() {
+      this.canvas().clear((this._width / 2) - (LEVEL_WIDTH / 2) - LEVEL_PADDING, LEVEL_PADDING, LEVEL_WIDTH, 50 );
+    },
+
     _drawScore: function(context) {
       context.fillStyle = "blue";
       context.fillText(this._score, LIFE_PADDING, LIFE_PADDING);
@@ -63,7 +76,7 @@ define(['mixins/drawable'],
       this.canvas().clear(0, 0, 300, HUD_HEIGHT);
     },
 
-    update: function(lives, score) {
+    update: function(lives, score, level) {
       var context = this._canvasContext();
 
       if(lives !== this._lives) {
@@ -71,6 +84,13 @@ define(['mixins/drawable'],
 
         this._clearLives();
         this._drawLives(context);
+      }
+
+      if(level !== this._level) {
+        this._level = level;
+
+        this._clearLevel();
+        this._drawLevel(context);
       }
 
       if(score !== this._score) {

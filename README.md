@@ -2,16 +2,12 @@
 
 ## TODO
 
-* game over if 0 lives
+* image assets
 * animated baddys
 * animated bullets
-* sounds
-* scoreboard
-* levels
 * build process
-* only bottom baddys shoot
+
 * avoid redrawing entire game each frame
-* loop audio
 
 ## Development
 

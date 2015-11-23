@@ -10,8 +10,8 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
 
   var ACCELERATION = 1.2;
   var PADDING = 10;
-  var RATE = 500;
-  var SHOOT_ODDS = 0.02
+  var INITIAL_RATE = 500;
+  var SHOOT_ODDS = 0.07
 
   /**
    * @class BaddysManager
@@ -23,12 +23,26 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
   BaddysManager.prototype = {
     constructor: 'BaddysManager',
 
-    init: function(context, gameWidth, gameHeight, onOutOfBounds) {
+    init: function(context, gameWidth, gameHeight, onOutOfBounds, onNoBaddys) {
       this.gameWidth = gameWidth;
       this.gameHeight = gameHeight;
       this.context = context;
       this.onOutOfBounds = onOutOfBounds;
+      this.onNoBaddys = onNoBaddys;
 
+      this.spawnBaddys();
+
+      this._clock = new Clock(INITIAL_RATE).start();
+
+      var self = this;
+      this._clock.subscribe(function() {
+        self.update();
+      });
+
+      return this;
+    },
+
+    spawnBaddys: function() {
       var j = 1;
       var self = this;
 
@@ -40,14 +54,14 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
 
         j++;
       });
+    },
 
-      this._clock = new Clock(RATE).start();
+    reinit: function(level) {
+      var speed = INITIAL_RATE - (50 * level);
 
-      this._clock.subscribe(function() {
-        self.update();
-      });
+      this.speed(speed);
 
-      return this;
+      this.spawnBaddys();
     },
 
     clock: function() {
@@ -88,16 +102,50 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
       });
     },
 
+    speed: function(speed) {
+      if(arguments.length) {
+        this.clock().rate = speed;
+      }
+
+      return this.clock().rate;
+    },
+
+    speedUp: function() {
+      this.clock().rate = this.speed() / ACCELERATION;
+    },
+
+    _bottomBaddys: function() {
+      var bottomBaddys = {};
+      var baddys = this._managables;
+      var baddy;
+
+      for(var i = 0, l = baddys.length; i < l; i++) {
+        baddy = baddys[i];
+
+        bottomBaddys[baddy.x()] = baddy;
+      }
+
+      return Object.keys(bottomBaddys).map(function(key) {
+        return bottomBaddys[key];
+      });
+    },
+
     update: function() {
       var baddys = this._managables;
 
+      if(!baddys.length) {
+        this.onNoBaddys();
+      }
+
       // TODO: Filter out bottom of each column. Only these baddys can shoot.
 
-      baddys.forEach(function(baddy) {
+      this._bottomBaddys().forEach(function(baddy) {
         if(Math.random() < SHOOT_ODDS) {
           baddy.shoot();
         }
+      });
 
+      baddys.forEach(function(baddy) {
         baddy.x(baddy.x() + 5 * direction);
         baddy.y(baddy.y());
       });
@@ -113,7 +161,7 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
           baddy.y(baddy.y() + Baddy.HEIGHT / 2);
         });
 
-        this.clock().rate = this.clock().rate / ACCELERATION;
+        this.speedUp();
       }
 
       baddys.forEach(function(baddy) {

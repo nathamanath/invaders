@@ -4,6 +4,7 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
   'use strict';
 
   var MAX_FPS = 60;
+  var level = 1;
 
   /**
    * Represents a game
@@ -46,7 +47,8 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
       this.player = new Player({
         context: this.context,
         x: this.canvas.width / 2 + Player.WIDTH / 2,
-        y: this.canvas.height - Player.HEIGHT
+        y: this.canvas.height - Player.HEIGHT,
+        onNoLives: function() { self.end(); }
       }).init();
 
       this.hud = new HUD({
@@ -55,12 +57,20 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
         y: 0,
         lives: this.player.lives(),
         score: this.player.score(),
-        gameWidth: this.canvas.width
+        gameWidth: this.canvas.width,
+        level: level
       }).init();
 
       ExplosionsManager.init(this.context);
       BulletsManager.init(this.context);
-      BaddysManager.init(this.context, Game.WIDTH, Game.HEIGHT, function() { self.end(); });
+      BaddysManager.init(
+        this.context,
+        Game.WIDTH,
+        Game.HEIGHT,
+        function() { self.end(); },
+        function() { self.nextLevel(); }
+      );
+
       HousesManager.init(this.context);
       UFOsManager.init(this.context);
 
@@ -90,6 +100,10 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
       this._animationLoop();
     },
 
+    nextLevel: function() {
+      BaddysManager.reinit(++level);
+    },
+
     end: function() {
       alert('game over');
 
@@ -106,7 +120,7 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
 
       Collisions.check(self.player);
 
-      this.hud.update(this.player.lives(), player.score());
+      this.hud.update(this.player.lives(), player.score(), level);
 
       UFOsManager.update();
     },

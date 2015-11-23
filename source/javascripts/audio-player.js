@@ -41,18 +41,11 @@ define(['asset-bank'],
      * play audio by name unless muted
      * @param name - name of audio in asset bank to be played
      */
-    play: function(name, loop) {
+    play: function(name) {
       if(!_muted) {
         var audio = AssetBank.getAudio(name);
 
         audio.volume = _volume;
-
-        if(loop) {
-          audio.addEventListener('ended', function() {
-            this.currentTime = this.duration - 10;
-            this.play();
-          });
-        }
 
         audio.play();
       }
