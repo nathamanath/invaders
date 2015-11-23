@@ -10,3 +10,6 @@
 [submodule "lib/benchmark.js"]
 	path = lib/benchmark.js
 	url = git@github.com:bestiejs/benchmark.js.git
+[submodule "lib/r.js"]
+	path = lib/r.js
+	url = git@github.com:jrburke/r.js.git
