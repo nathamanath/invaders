@@ -5,7 +5,6 @@
 * image assets
 * animated baddys
 * animated bullets
-* build process
 
 * avoid redrawing entire game each frame
 
