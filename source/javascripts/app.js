@@ -1,4 +1,4 @@
-define(['game', 'controls'], function(Game, Controls) {
+define(['game', 'controls', 'asset-bank'], function(Game, Controls, AssetBank) {
   'use strict';
 
   return {
@@ -7,9 +7,18 @@ define(['game', 'controls'], function(Game, Controls) {
 
       var game = new Game({
         el: el
-      }).init();
+      });
 
-      Controls.init(game);
+      AssetBank.init(function() {
+        game.init();
+        Controls.init(game);
+      });
+
+      // Load audio assets
+      AssetBank.loadAudio('erm', '/audio/erm.mp3');
+      AssetBank.loadAudio('bloop', '/audio/bloop.mp3');
+
+      AssetBank.loadImage('logo', '/images/logo.svg');
     }
   };
 });

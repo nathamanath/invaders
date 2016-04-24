@@ -1,5 +1,5 @@
-define(['mixins/asset'],
-  function(Asset) {
+define(['audio-asset', 'image-asset'],
+  function(AudioAsset, ImageAsset) {
 
   'use strict';
 
@@ -8,38 +8,35 @@ define(['mixins/asset'],
    * Used to preload game assets
    */
 
-  var AudioAsset = function(args) {
-    this._initAsset(args);
+  var assets = {
+    image: {},
+    audio: {}
   };
 
-  Asset.call(AudioAsset.prototype, 'oncanplaythrough', Audio);
+  var assetTypes = {
+    'image': ImageAsset,
+    'audio': AudioAsset
+  }
 
-  var ImageAsset = function(args) {
-    this._initAsset(args);
-  };
-
-  Asset.call(ImageAsset.prototype, 'onload', Image);
-
-  var assets = {};
   var ready = true;
 
   /** are all assets ready */
   var checkReady = function() {
     var ready = true;
 
-    for(var name in assets) {
-      if(!assets[name].ready()) {
-        ready = false;
+    Object.keys(assetTypes).forEach(function(key) {
+      var typeAssets = assets[key];
+
+      for(var name in typeAssets) {
+        if(!typeAssets[name].ready()) {
+          ready = false;
+        }
       }
-    }
+    });
 
     return ready;
   };
 
-  var assetTypes = {
-    image: ImageAsset,
-    audio: AudioAsset
-  }
 
   return {
     init: function(onReady, context) {
@@ -49,20 +46,21 @@ define(['mixins/asset'],
 
     /**
      * preload an asset
+     * @param type - type of asset being loaded
      * @param label - unique label for asset
      * @param path - path to image
      */
     load: function(type, label, path) {
       ready = false;
 
-      if(assets[label]) {
+      if(assets[type][label]) {
         throw new Error('Asset name is taken.');
       }
 
       var AssetObject = assetTypes[type];
       var self = this;
 
-      assets[label] = new AssetObject({
+      assets[type][label] = new AssetObject({
         label: label,
         path: path,
         onReady: function() {
@@ -86,7 +84,7 @@ define(['mixins/asset'],
      * @param label - label used when loading asset
      */
     get: function(type, label) {
-      return assets[label].asset();
+      return assets[type][label].asset();
     },
 
     getImage: function(label) {

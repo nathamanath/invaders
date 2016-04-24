@@ -1,5 +1,5 @@
-define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager', 'collisions', 'hud', 'asset-bank', 'audio-player', 'managers/ufos-manager'],
-  function(Canvas, Player, Clock, BaddysManager, BulletsManager, ExplosionsManager, HousesManager, Collisions, HUD, AssetBank, AudioPlayer, UFOsManager) {
+define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager', 'collisions', 'hud', 'audio-player', 'managers/ufos-manager'],
+  function(Canvas, Player, Clock, BaddysManager, BulletsManager, ExplosionsManager, HousesManager, Collisions, HUD, AudioPlayer, UFOsManager) {
 
   'use strict';
 
@@ -29,6 +29,7 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
     constructor: 'Game',
 
     init: function() {
+
       var self = this;
 
       this.fps = Math.min(this.fps, Game.MAX_FPS);
@@ -75,12 +76,6 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
       UFOsManager.init(this.context);
 
       BaddysManager.clock().subscribe(Collisions.baddysHouses, Collisions);
-
-      AssetBank.init(this.start, this);
-
-      // Load audio assets
-      AssetBank.loadAudio('erm', '/audio/erm.mp3');
-      AssetBank.loadAudio('bloop', '/audio/bloop.mp3');
 
       return this;
     },

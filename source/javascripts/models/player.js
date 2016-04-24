@@ -1,5 +1,5 @@
-define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audible'],
-  function(Canvas, Keyboard, Drawable, Shooter, Audible) {
+define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audible', 'asset-bank'],
+  function(Canvas, Keyboard, Drawable, Shooter, Audible, AssetBank) {
 
   'use strict';
 
@@ -101,10 +101,10 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audib
     },
 
     _preRender: function() {
-
       var context = this.canvas().context();
-      context.fillStyle = 'blue';
-      context.fillRect(0, 0, this.width(), this.height());
+      var image = AssetBank.getImage('logo');
+
+      context.drawImage(image, 0, 0);
     },
 
     lives: function() {
