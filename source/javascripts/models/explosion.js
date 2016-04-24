@@ -1,25 +1,33 @@
-define(['mixins/drawable', 'canvas'],
-  function(Drawable, Canvas) {
+define(['mixins/drawable', 'canvas', 'asset-bank'],
+  function(Drawable, Canvas, AssetBank) {
 
   'use strict';
 
-  var EXPLOSION_WIDTH = 50;
-  var EXPLOSION_HEIGHT = 50;
+  var EXPLOSION_WIDTH = 65;
+  var EXPLOSION_HEIGHT = 45;
   var EXPLOSION_DURATION = 100; // ms
 
-  var preRendered = (function() {
-    var canvas = new Canvas({
-      width: EXPLOSION_WIDTH,
-      height: EXPLOSION_HEIGHT
-    }).init();
+  var preRendered = function() {
 
-    var context = canvas.context();
+    var render = function() {
+      var canvas = new Canvas({
+        width: EXPLOSION_WIDTH,
+        height: EXPLOSION_HEIGHT
+      }).init();
 
-    context.fillStyle = 'brown';
-    context.fillRect(0, 0, EXPLOSION_WIDTH, EXPLOSION_HEIGHT);
+      var context = canvas.context();
+      var image = AssetBank.getImage('explosion')
 
-    return canvas;
-  })();
+      context.drawImage(image, 0, 0, EXPLOSION_WIDTH, EXPLOSION_HEIGHT);
+
+      return function() {
+        return canvas;
+      }
+    };
+
+    preRendered = render();
+    return preRendered();
+  };
 
   /**
    * @class Explosion
@@ -44,7 +52,7 @@ define(['mixins/drawable', 'canvas'],
 
       self._active = true;
 
-      this._canvas = preRendered;
+      this._canvas = preRendered();
 
       window.setTimeout(function() {
         self._active = false;

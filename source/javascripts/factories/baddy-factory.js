@@ -1,51 +1,93 @@
-define(['models/baddy', 'canvas'],
-  function(Baddy, Canvas) {
+define(['models/baddy', 'canvas', 'asset-bank'],
+  function(Baddy, Canvas, AssetBank) {
 
   'use strict';
 
   var prerenders = {};
 
-  prerenders.top = (function() {
-    var canvas = new Canvas({
-      width: Baddy.WIDTH,
-      height: Baddy.HEIGHT
-    }).init();
+  prerenders.top = function() {
 
-    var context = canvas.context();
+    var render = function() {
+      var canvas = new Canvas({
+        width: Baddy.WIDTH,
+        height: Baddy.HEIGHT
+      }).init();
 
-    context.fillStyle = 'green';
-    context.fillRect(0, 0, Baddy.WIDTH, Baddy.HEIGHT);
+      var context = canvas.context();
 
-    return canvas;
-  })();
+      // context.fillStyle = 'green';
+      // context.fillRect(0, 0, Baddy.WIDTH, Baddy.HEIGHT);
 
-  prerenders.middle = (function() {
-    var canvas = new Canvas({
-      width: Baddy.WIDTH,
-      height: Baddy.HEIGHT
-    }).init();
+      var image = AssetBank.getImage('top_baddy_1');
 
-    var context = canvas.context();
+      context.drawImage(image, 0, 0, Baddy.WIDTH, Baddy.HEIGHT);
 
-    context.fillStyle = 'cyan';
-    context.fillRect(0, 0, Baddy.WIDTH, Baddy.HEIGHT);
+      return function() {
+        return canvas;
+      }
+    };
 
-    return canvas;
-  })();
 
-  prerenders.bottom = (function() {
-    var canvas = new Canvas({
-      width: Baddy.WIDTH,
-      height: Baddy.HEIGHT
-    }).init();
+    prerenders.top = render();
 
-    var context = canvas.context();
+    return prerenders.top();
+  };
 
-    context.fillStyle = 'purple';
-    context.fillRect(0, 0, Baddy.WIDTH, Baddy.HEIGHT);
+  prerenders.middle = function() {
 
-    return canvas;
-  })();
+    var render = function() {
+      var canvas = new Canvas({
+        width: Baddy.WIDTH,
+        height: Baddy.HEIGHT
+      }).init();
+
+      var context = canvas.context();
+
+      // context.fillStyle = 'green';
+      // context.fillRect(0, 0, Baddy.WIDTH, Baddy.HEIGHT);
+
+      var image = AssetBank.getImage('middle_baddy_1');
+
+      context.drawImage(image, 0, 0, Baddy.WIDTH, Baddy.HEIGHT);
+
+      return function() {
+        return canvas;
+      }
+    };
+
+
+    prerenders.top = render();
+
+    return prerenders.top();
+  };
+
+  prerenders.bottom = function() {
+
+    var render = function() {
+      var canvas = new Canvas({
+        width: Baddy.WIDTH,
+        height: Baddy.HEIGHT
+      }).init();
+
+      var context = canvas.context();
+
+      // context.fillStyle = 'green';
+      // context.fillRect(0, 0, Baddy.WIDTH, Baddy.HEIGHT);
+
+      var image = AssetBank.getImage('bottom_baddy_1');
+
+      context.drawImage(image, 0, 0, Baddy.WIDTH, Baddy.HEIGHT);
+
+      return function() {
+        return canvas;
+      }
+    };
+
+
+    prerenders.top = render();
+
+    return prerenders.top();
+  };
 
   var points = {
     top: 200,
@@ -60,7 +102,7 @@ define(['models/baddy', 'canvas'],
         x: x,
         y: y,
         context: context,
-        canvas: prerenders[type],
+        canvas: prerenders[type](),
         points: points[type]
       }
 

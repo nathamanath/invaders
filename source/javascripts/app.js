@@ -18,7 +18,23 @@ define(['game', 'controls', 'asset-bank'], function(Game, Controls, AssetBank) {
       AssetBank.loadAudio('erm', '/audio/erm.mp3');
       AssetBank.loadAudio('bloop', '/audio/bloop.mp3');
 
+
+      // Load image assets
       AssetBank.loadImage('logo', '/images/logo.svg');
+
+      AssetBank.loadImage('top_baddy_1', '/images/top_baddy_1.svg');
+      AssetBank.loadImage('middle_baddy_1', '/images/middle_baddy_1.svg');
+      AssetBank.loadImage('bottom_baddy_1', '/images/bottom_baddy_1.svg');
+      AssetBank.loadImage('top_baddy_2', '/images/top_baddy_2.svg');
+      AssetBank.loadImage('middle_baddy_2', '/images/middle_baddy_2.svg');
+      AssetBank.loadImage('bottom_baddy_2', '/images/bottom_baddy_2.svg');
+
+      AssetBank.loadImage('ufo', '/images/ufo.svg');
+
+      AssetBank.loadImage('bullet_1', '/images/bullet_1.svg');
+      AssetBank.loadImage('bullet_2', '/images/bullet_2.svg');
+
+      AssetBank.loadImage('explosion', '/images/explosion.svg');
     }
   };
 });

@@ -53,6 +53,8 @@ define(['audio-asset', 'image-asset'],
     load: function(type, label, path) {
       ready = false;
 
+      console.log(label)
+
       if(assets[type][label]) {
         throw new Error('Asset name is taken.');
       }

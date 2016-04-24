@@ -1,21 +1,30 @@
-define(['models/ufo', 'canvas'],
-  function(UFO, Canvas) {
+define(['models/ufo', 'canvas', 'asset-bank'],
+  function(UFO, Canvas, AssetBank) {
 
   'use strict';
 
-  var ufoCanvas = (function() {
-    var canvas = new Canvas({
-      width: UFO.WIDTH,
-      height: UFO.HEIGHT
-    }).init();
+  var ufoCanvas = function() {
 
-    var context = canvas.context();
+    var render = function() {
+      var canvas = new Canvas({
+        width: UFO.WIDTH,
+        height: UFO.HEIGHT
+      }).init();
 
-    context.fillStyle = 'pink';
-    context.fillRect(0, 0, UFO.WIDTH, UFO.HEIGHT);
+      var context = canvas.context();
+
+      var image = AssetBank.getImage('ufo');
+      context.drawImage(image, 0, 0, UFO.WIDTH, UFO.HEIGHT);
+    };
+
+    var canvas = render();
+
+    ufoCanvas = function() {
+      return canvas;
+    };
 
     return canvas;
-  })();
+  };
 
   return {
     new: function(context, y) {
@@ -23,7 +32,7 @@ define(['models/ufo', 'canvas'],
         x: UFO.WIDTH * -1,
         y: y,
         context: context,
-        canvas: ufoCanvas
+        canvas: ufoCanvas()
       }).init();
     }
   };
