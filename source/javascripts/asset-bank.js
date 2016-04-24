@@ -84,6 +84,8 @@ define(['audio-asset', 'image-asset'],
      * @param label - label used when loading asset
      */
     get: function(type, label) {
+      console.log(type + ' - ' + label);
+      console.dir(assets)
       return assets[type][label].asset();
     },
 

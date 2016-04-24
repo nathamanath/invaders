@@ -6,7 +6,7 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audib
   // TODO: Player should implimanr manager interface
 
   var PLAYER_WIDTH = 60;
-  var PLAYER_HEIGHT = 60;
+  var PLAYER_HEIGHT = 66;
   var PLAYER_SPEED = 5;
   var PLAYER_COOL_DOWN = 750;
   var LIVES = 3;
@@ -104,7 +104,7 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audib
       var context = this.canvas().context();
       var image = AssetBank.getImage('logo');
 
-      context.drawImage(image, 0, 0);
+      context.drawImage(image, 0, 0, this._width, this._height);
     },
 
     lives: function() {

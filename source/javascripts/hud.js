@@ -1,10 +1,11 @@
-define(['mixins/drawable'],
-  function(Drawable) {
+define(['mixins/drawable', 'asset-bank'],
+  function(Drawable, AssetBank) {
 
   'use strict';
 
   var HUD_HEIGHT = 50;
   var LIFE_WIDTH = 20;
+  var LIFE_HEIGHT = 23;
   var LIFE_PADDING = 10;
   var LEVEL_PADDING = 10;
   var LEVEL_WIDTH = 100;
@@ -46,10 +47,13 @@ define(['mixins/drawable'],
       return this._width - ((this._initialLives - i) * (LIFE_WIDTH + LIFE_PADDING));
     },
 
+
+    // TODO: Extract life to own drawable class
     _drawLives: function(context) {
       for(var i = 0, l = this._lives; i < l; i++) {
-        context.fillStyle = 'blue';
-        context.fillRect(this._width - ((this._initialLives - i) * (LIFE_WIDTH + LIFE_PADDING)), LIFE_WIDTH, LIFE_WIDTH, LIFE_WIDTH);
+        var image = AssetBank.getImage('logo');
+
+        context.drawImage(image, this._width - ((this._initialLives - i) * (LIFE_WIDTH + LIFE_PADDING)), LIFE_WIDTH, LIFE_WIDTH, LIFE_HEIGHT);
       }
     },
 

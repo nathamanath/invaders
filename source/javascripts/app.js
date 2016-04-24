@@ -10,7 +10,7 @@ define(['game', 'controls', 'asset-bank'], function(Game, Controls, AssetBank) {
       });
 
       AssetBank.init(function() {
-        game.init();
+        game.init().start();
         Controls.init(game);
       });
 
