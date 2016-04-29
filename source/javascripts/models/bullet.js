@@ -4,8 +4,8 @@ define(['canvas', 'mixins/drawable'],
   'use strict';
 
   var BULLET_SPEED = 10;
-  var BULLET_WIDTH = 5;
-  var BULLET_HEIGHT = 15;
+  var BULLET_WIDTH = 6;
+  var BULLET_HEIGHT = 14;
 
   var Bullet = function(args) {
     args = args || {};

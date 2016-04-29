@@ -1,5 +1,5 @@
-define(['models/explosion', 'mixins/manager'],
-  function(Explosion, Manager) {
+define(['mixins/manager', 'factories/explosion-factory'],
+  function(Manager, ExplosionFactory) {
 
   'use strict';
 
@@ -22,12 +22,13 @@ define(['models/explosion', 'mixins/manager'],
     _newManagable: function(explodable) {
       var self = this;
 
-      return new Explosion({
-        x: explodable.x(),
-        y: explodable.y(),
-        context: this._context,
-        onUpdate: function() { self.update(); }
-      }).init()
+      return ExplosionFactory.new(
+        'player',
+        explodable.x(),
+        explodable.y(),
+        this._context,
+        function() { self.update(); }
+      );
     },
 
     update: function() {

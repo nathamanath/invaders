@@ -6,6 +6,8 @@ define(['canvas'], function(Canvas) {
    *
    * @example Drawable.call(Class.prototype);
    */
+
+  // TODO: Add prerenders
   var Drawable = function() {
 
     // render, update?

@@ -7,28 +7,6 @@ define(['mixins/drawable', 'canvas', 'asset-bank'],
   var EXPLOSION_HEIGHT = 45;
   var EXPLOSION_DURATION = 100; // ms
 
-  var preRendered = function() {
-
-    var render = function() {
-      var canvas = new Canvas({
-        width: EXPLOSION_WIDTH,
-        height: EXPLOSION_HEIGHT
-      }).init();
-
-      var context = canvas.context();
-      var image = AssetBank.getImage('explosion')
-
-      context.drawImage(image, 0, 0, EXPLOSION_WIDTH, EXPLOSION_HEIGHT);
-
-      return function() {
-        return canvas;
-      }
-    };
-
-    preRendered = render();
-    return preRendered();
-  };
-
   /**
    * @class Explosion
    */
@@ -38,6 +16,7 @@ define(['mixins/drawable', 'canvas', 'asset-bank'],
     this._initDrawable(args);
 
     this._onUpdate = args.onUpdate;
+    this._canvas = args.canvas;
   };
 
   /** @lends Explosion */
@@ -52,8 +31,6 @@ define(['mixins/drawable', 'canvas', 'asset-bank'],
 
       self._active = true;
 
-      this._canvas = preRendered();
-
       window.setTimeout(function() {
         self._active = false;
         self._onUpdate();
@@ -62,6 +39,7 @@ define(['mixins/drawable', 'canvas', 'asset-bank'],
       return self;
     },
 
+    // TODO: this is asssigned in factory. can it be moved here?
     update: function() {
     },
 

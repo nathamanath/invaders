@@ -49,7 +49,27 @@ define([], function() {
       height = height || this.height;
 
       this.context().clearRect(x, y, width, height);
+    },
+
+    fillWithImage: function(image) {
+      this.context().drawImage(image, 0, 0, this.width, this.height);
     }
+  };
+
+  Canvas.renderImage = function(args) {
+
+      var width = args.width;
+      var height = args.height;
+      var image = args.image;
+
+      var canvas = new Canvas({
+        width: width,
+        height: height
+      }).init();
+
+      canvas.fillWithImage(image);
+
+      return function() { return canvas };
   };
 
   return Canvas;

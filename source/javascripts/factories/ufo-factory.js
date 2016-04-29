@@ -5,25 +5,13 @@ define(['models/ufo', 'canvas', 'asset-bank'],
 
   var ufoCanvas = function() {
 
-    var render = function() {
-      var canvas = new Canvas({
-        width: UFO.WIDTH,
-        height: UFO.HEIGHT
-      }).init();
+    ufoCanvas = Canvas.renderImage({
+      width: UFO.WIDTH,
+      height: UFO.HEIGHT,
+      image: AssetBank.getImage('ufo')
+    })
 
-      var context = canvas.context();
-
-      var image = AssetBank.getImage('ufo');
-      context.drawImage(image, 0, 0, UFO.WIDTH, UFO.HEIGHT);
-    };
-
-    var canvas = render();
-
-    ufoCanvas = function() {
-      return canvas;
-    };
-
-    return canvas;
+    return ufoCanvas();
   };
 
   return {

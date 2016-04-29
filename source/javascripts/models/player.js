@@ -10,6 +10,7 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audib
   var PLAYER_SPEED = 5;
   var PLAYER_COOL_DOWN = 750;
   var LIVES = 3;
+  var GUN_OFFSET = 23;
 
   var score = 0;
 
@@ -28,6 +29,9 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audib
     this._lives = LIVES;
 
     this._onNoLives = args.onNoLives;
+
+    this._gunOffset = GUN_OFFSET;
+    this._bulletType = 'square';
   };
 
   Player.WIDTH = PLAYER_WIDTH;
@@ -113,7 +117,7 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audib
   };
 
   Drawable.call(Player.prototype);
-  Shooter.call(Player.prototype, 1, PLAYER_COOL_DOWN, 'UP');
+  Shooter.call(Player.prototype, 1, PLAYER_COOL_DOWN, 'UP', 'square');
   Audible.call(Player.prototype);
 
   return Player;

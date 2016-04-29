@@ -13,6 +13,7 @@ define(['managers/bullets-manager', 'models/bullet', 'asset-bank'],
    */
 
   return function(team, coolDown, direction) {
+
     this._initShooter = function(args) {
       this._ready = true;
       this._team = team;
@@ -30,7 +31,8 @@ define(['managers/bullets-manager', 'models/bullet', 'asset-bank'],
 
     /** x coordinate for new bullets */
     this.gunX = function() {
-      return this.x() + (this.width() / 2) - (Bullet.WIDTH / 2);
+      var gunOffset = this._gunOffset || 0;
+      return this.x() + (this.width() / 2) - (Bullet.WIDTH / 2) + gunOffset;
     };
 
     /** y coordinate for new bullets */
@@ -45,8 +47,7 @@ define(['managers/bullets-manager', 'models/bullet', 'asset-bank'],
     },
 
     this.bulletType = function() {
-      // TODO: Set type
-      return 'square';
+      return this._bulletType || 'square';
     };
 
     this.shoot = function() {
