@@ -4,8 +4,9 @@ define(['models/explosion', 'asset-bank', 'canvas'],
 
   var prerenders = {};
 
-  // TODO: prerender not working here yet
+  // TODO: pre-render not working here yet
 
+  // when a character explodes
   prerenders.player = function() {
     prerenders.player = Canvas.renderImage({
       width: Explosion.WIDTH,
@@ -16,6 +17,7 @@ define(['models/explosion', 'asset-bank', 'canvas'],
     return prerenders.player();
   };
 
+  // when a bullet explodes
   prerenders.bullet = function() {
     prerenders.bullet = Canvas.renderImage({
       width: Explosion.WIDTH,

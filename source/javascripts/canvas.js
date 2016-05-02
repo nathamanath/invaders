@@ -56,7 +56,15 @@ define([], function() {
     }
   };
 
+  /**
+   * @param args.width - width of canvas
+   * @param args.height - height of canvas
+   * @param args.image - image to cover canvas with
+   * @returns function whic returns Canvas instance with image rendeded to it
+   */
   Canvas.renderImage = function(args) {
+
+      // TODO: make canvas lazy evaluated
 
       var width = args.width;
       var height = args.height;

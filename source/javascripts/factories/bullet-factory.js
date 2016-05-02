@@ -49,7 +49,7 @@ define(['models/bullet', 'canvas', 'asset-bank'],
   };
 
   // TODO: Speed - player bullet is faster
-  // TODO: Bullets explode on out of bounds
+  // TODO: Bullets should explode on out of bounds
 
   return {
     new: function(shooter, context) {

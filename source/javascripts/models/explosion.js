@@ -19,6 +19,9 @@ define(['mixins/drawable', 'canvas', 'asset-bank'],
     this._canvas = args.canvas;
   };
 
+  Explosion.WIDTH = EXPLOSION_WIDTH;
+  Explosion.HEIGHT = EXPLOSION_HEIGHT;
+
   /** @lends Explosion */
   Explosion.prototype = {
     constructor: 'Explosion',

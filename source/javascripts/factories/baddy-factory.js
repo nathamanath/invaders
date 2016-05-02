@@ -6,7 +6,6 @@ define(['models/baddy', 'canvas', 'asset-bank'],
   var prerenders = {};
 
   prerenders.top = function() {
-
     prerenders.top = Canvas.renderImage({
       width: Baddy.WIDTH,
       height: Baddy.HEIGHT,
