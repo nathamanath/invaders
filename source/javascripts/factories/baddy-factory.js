@@ -5,41 +5,66 @@ define(['models/baddy', 'canvas', 'asset-bank'],
 
   var prerenders = {};
 
-  prerenders.top = function() {
+  prerenders.top1 = function() {
     prerenders.top = Canvas.renderImage({
-      width: Baddy.WIDTH,
-      height: Baddy.HEIGHT,
+      width: 40,
+      height: 40,
       image: AssetBank.getImage('top_baddy_1')
     });
 
     return prerenders.top();
   };
 
-  prerenders.middle = function() {
+  prerenders.top2 = function() {
+    prerenders.top = Canvas.renderImage({
+      width: 40,
+      height: 40,
+      image: AssetBank.getImage('top_baddy_2')
+    });
+
+    return prerenders.top();
+  };
+
+  prerenders.middle1 = function() {
     prerenders.middle = Canvas.renderImage({
-      width: Baddy.WIDTH,
-      height: Baddy.HEIGHT,
+      width: 60,
+      height: 40,
       image: AssetBank.getImage('middle_baddy_1')
     });
 
     return prerenders.middle();
   };
 
-  prerenders.bottom = function() {
+  prerenders.middle2 = function() {
+    prerenders.middle = Canvas.renderImage({
+      width: 60,
+      height: 40,
+      image: AssetBank.getImage('middle_baddy_2')
+    });
+
+    return prerenders.middle();
+  };
+
+  prerenders.bottom1 = function() {
     prerenders.bottom = Canvas.renderImage({
-      width: Baddy.WIDTH,
-      height: Baddy.HEIGHT,
+      width: 60,
+      height: 40,
       image: AssetBank.getImage('bottom_baddy_1')
     });
 
     return prerenders.bottom();
   };
 
-  var points = {
-    top: 30,
-    middle: 20,
-    bottom: 10
+  prerenders.bottom2 = function() {
+    prerenders.bottom = Canvas.renderImage({
+      width: 60,
+      height: 40,
+      image: AssetBank.getImage('bottom_baddy_2')
+    });
+
+    return prerenders.bottom();
   };
+
 
   var bullets = [
     'zigzag',
@@ -47,21 +72,62 @@ define(['models/baddy', 'canvas', 'asset-bank'],
     'square'
   ];
 
+  var baddyData = {
+    top: {
+      width: 40,
+      height: 40,
+      points: 30,
+      frames: [
+        prerenders.top1,
+        prerenders.top2
+      ]
+    },
+
+    middle: {
+      width: 40,
+      height: 60,
+      points: 20,
+      frames: [
+        prerenders.middle1,
+        prerenders.middle2
+      ]
+    },
+
+    bottom: {
+      width: 40,
+      height: 60,
+      points: 10,
+      frames: [
+        prerenders.bottom1,
+        prerenders.bottom2
+      ]
+    }
+  };
+
   // TODO: baddy types are not same size
 
   return {
     new: function(type, x, y, context) {
 
+      var sizeData = baddyData[type];
+
       var args = {
         x: x,
         y: y,
         context: context,
-        canvas: prerenders[type](),
-        points: points[type],
-        bulletType: bullets[Math.floor(Math.random() * bullets.length)]
+        points: sizeData.points,
+        bulletType: bullets[Math.floor(Math.random() * bullets.length)],
+        width: sizeData.width,
+        height: sizeData.height
       }
 
-      return new Baddy(args).init();
+      var baddy = new Baddy(args).init();
+
+      sizeData.frames.forEach(function(prerender) {
+        baddy.addFrame(prerender());
+      });
+
+      return baddy;
     }
   };
 

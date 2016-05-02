@@ -1,4 +1,7 @@
-define(['drawable', 'canvas'], function(Drawable, Canvas) {
+define(['mixins/drawable', 'canvas', 'interface'],
+  function(Drawable, Canvas, Interface) {
+
+  'use strict';
 
   /**
    * Prerenderable module
@@ -16,6 +19,10 @@ define(['drawable', 'canvas'], function(Drawable, Canvas) {
   // TODO: Prerenderable mixin
   // TODO: is this part of drawable?
 
-  return {};
+  return function() {
+
+    Interface.apply(this, ['width', 'height']);
+
+  };
 
 });

@@ -1,9 +1,9 @@
-define(['mixins/drawable', 'mixins/shooter', 'canvas'],
-  function(Drawable, Shooter, Canvas) {
+define(['mixins/drawable', 'mixins/shooter', 'canvas', 'mixins/animatable'],
+  function(Drawable, Shooter, Canvas, Animatable) {
 
   'use strict';
 
-  var BADDY_WIDTH = 50;
+  var BADDY_WIDTH = 60;
   var BADDY_HEIGHT = 50;
   var BADDY_SPEED = 5;
   var BADDY_COOL_DOWN = 1000;
@@ -17,11 +17,10 @@ define(['mixins/drawable', 'mixins/shooter', 'canvas'],
 
     this._initDrawable(args);
     this._initShooter(args);
+    this._initAnimatable(args);
 
-    this._width = BADDY_WIDTH;
-    this._height = BADDY_HEIGHT;
-
-    this._canvas = args.canvas;
+    this._width = args.width;
+    this._height = args.height;
 
     this._lives = 1;
     this._points = args.points;
@@ -45,6 +44,7 @@ define(['mixins/drawable', 'mixins/shooter', 'canvas'],
     },
 
     update: function() {
+      this._updateAnimatable();
     },
 
     shot: function() {
@@ -62,6 +62,7 @@ define(['mixins/drawable', 'mixins/shooter', 'canvas'],
 
   Drawable.call(Baddy.prototype);
   Shooter.call(Baddy.prototype, BADDY_TEAM, BADDY_COOL_DOWN, 'DOWN');
+  Animatable.call(Baddy.prototype);
 
   return Baddy;
 
