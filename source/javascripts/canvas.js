@@ -49,7 +49,35 @@ define([], function() {
       height = height || this.height;
 
       this.context().clearRect(x, y, width, height);
+    },
+
+    fillWithImage: function(image) {
+      this.context().drawImage(image, 0, 0, this.width, this.height);
     }
+  };
+
+  /**
+   * @param args.width - width of canvas
+   * @param args.height - height of canvas
+   * @param args.image - image to cover canvas with
+   * @returns function whic returns Canvas instance with image rendeded to it
+   */
+  Canvas.renderImage = function(args) {
+
+      // TODO: make canvas lazy evaluated
+
+      var width = args.width;
+      var height = args.height;
+      var image = args.image;
+
+      var canvas = new Canvas({
+        width: width,
+        height: height
+      }).init();
+
+      canvas.fillWithImage(image);
+
+      return function() { return canvas };
   };
 
   return Canvas;

@@ -26,6 +26,8 @@ define(['mixins/drawable'],
 
     init: function() {
 
+      // TODO: use svg
+      // TODO: Destructable mixin
       this.canvas().context().fillStyle = 'red';
       this.canvas().context().fillRect(0, 0, HOUSE_WIDTH, HOUSE_HEIGHT);
 

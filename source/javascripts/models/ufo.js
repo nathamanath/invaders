@@ -3,8 +3,8 @@ define(['mixins/drawable', 'mixins/audible', 'canvas', 'audio-player'],
 
   'use strict';
 
-  var UFO_WIDTH = 100;
-  var UFO_HEIGHT = 50;
+  var UFO_WIDTH = 80;
+  var UFO_HEIGHT = 35;
   var UFO_SPEED = 3;
 
   /**
