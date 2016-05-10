@@ -33,6 +33,8 @@ define(['game', 'controls', 'asset-bank'], function(Game, Controls, AssetBank) {
 
       AssetBank.loadImage('bullet_1', '/images/bullet_1.svg');
       AssetBank.loadImage('bullet_2', '/images/bullet_2.svg');
+      AssetBank.loadImage('bullet_1_1', '/images/bullet_1_1.svg');
+      AssetBank.loadImage('bullet_2_1', '/images/bullet_2_1.svg');
 
       AssetBank.loadImage('explosion', '/images/explosion.svg');
     }

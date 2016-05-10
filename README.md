@@ -2,10 +2,13 @@
 
 ## TODO
 
-* image assets
-* animated baddys
 * animated bullets
+* svg shields
+* explosion types
+* audio player bugs
+* speed up baddies based on player kills
 
+* convert to webpack / brunch.io
 * avoid redrawing entire game each frame
 
 ## Development
@@ -13,17 +16,14 @@
 Require js. (Almond for build.)
 Ajax.js for ajax
 
-Object composition is handles with mixin modules. Each module can contain class
-and instance methods, and is mixed into a class like so: `Module.call(Class.prototype, args...);`.
+Object composition is handled with functional mixin modules. Each module can contain
+instance methods, and is mixed into a class like so: `Module.call(Class.prototype, args...);`.
 This pattern is based on articles like [this](https://javascriptweblog.wordpress.com/2011/05/31/a-fresh-look-at-javascript-mixins/)
 
 * Drawable
 * Shooter
 
 Important to avoid drawing things as much as possible.
-
-Testing is handles with the jasmine gem. As soon as basic functionality is plannned out
-full test coverage will be a main priority.
 
 #### Class structure:
 

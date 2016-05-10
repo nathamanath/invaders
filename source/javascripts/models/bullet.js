@@ -1,16 +1,21 @@
-define(['canvas', 'mixins/drawable'],
-  function(Canvas, Drawable) {
+define(['canvas', 'mixins/drawable', 'mixins/animatable'],
+  function(Canvas, Drawable, Animatable) {
 
   'use strict';
 
   var BULLET_SPEED = 10;
-  var BULLET_WIDTH = 6;
-  var BULLET_HEIGHT = 14;
+  var BULLET_WIDTH = 9;
+  var BULLET_HEIGHT = 21;
+  var CHANGE_THRESHOLD = 5;
 
   var Bullet = function(args) {
     args = args || {};
 
     this._initDrawable(args);
+    this._initAnimatable(args);
+
+    this._width = args.width;
+    this._height = args.height;
 
     this._team = args.team;
     this._direction = args.direction;
@@ -26,8 +31,8 @@ define(['canvas', 'mixins/drawable'],
     constructor: 'Bullet',
 
     init: function() {
-      this._width = BULLET_WIDTH;
-      this._height = BULLET_HEIGHT;
+
+      this._shouldChange = 0;
 
       this._active = true;
 
@@ -53,6 +58,14 @@ define(['canvas', 'mixins/drawable'],
     },
 
     update: function() {
+
+      if(this._shouldChange >= CHANGE_THRESHOLD) {
+        this._updateAnimatable();
+        this._shouldChange = 0;
+      }
+
+      this._shouldChange++;
+
       this.y(this.y() + (5 * this._direction));
       this.render();
     },
@@ -83,6 +96,7 @@ define(['canvas', 'mixins/drawable'],
   }
 
   Drawable.call(Bullet.prototype);
+  Animatable.call(Bullet.prototype);
 
   return Bullet;
 

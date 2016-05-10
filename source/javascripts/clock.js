@@ -1,4 +1,7 @@
 define([], function() {
+
+  'use strict';
+
   /**
    * A clock for time based events
    *
