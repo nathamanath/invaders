@@ -2,9 +2,9 @@
 
 ## TODO
 
-* animated bullets
-* svg shields
+* HUD is shit
 * explosion types
+* explosion should be centered on collision
 * audio player bugs
 * speed up baddies based on player kills
 

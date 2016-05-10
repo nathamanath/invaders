@@ -1,10 +1,10 @@
-define(['mixins/drawable'],
-  function(Drawable) {
+define(['mixins/drawable', 'asset-bank'],
+  function(Drawable, AssetBank) {
 
   'use strict';
 
   var HOUSE_WIDTH = 100;
-  var HOUSE_HEIGHT = 100;
+  var HOUSE_HEIGHT = 112;
 
   /**
    * @class House
@@ -28,8 +28,7 @@ define(['mixins/drawable'],
 
       // TODO: use svg
       // TODO: Destructable mixin
-      this.canvas().context().fillStyle = 'red';
-      this.canvas().context().fillRect(0, 0, HOUSE_WIDTH, HOUSE_HEIGHT);
+      this.canvas().fillWithImage(AssetBank.getImage('logo'));
 
       this._imageData = this.canvas().context().getImageData(0, 0, this.width(), this.height());
 

@@ -144,6 +144,7 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
 
         if(!bullet.active()) {
           BulletsManager.remove(bullet);
+          ExplosionsManager.add(bullet);
         }
 
         bullet.update();
