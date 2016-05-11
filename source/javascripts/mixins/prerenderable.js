@@ -1,5 +1,5 @@
-define(['mixins/drawable', 'canvas', 'interface'],
-  function(Drawable, Canvas, Interface) {
+define(['mixins/drawable', 'canvas'],
+  function(Drawable, Canvas) {
 
   'use strict';
 
@@ -21,7 +21,6 @@ define(['mixins/drawable', 'canvas', 'interface'],
 
   return function() {
 
-    Interface.apply(this, ['width', 'height']);
 
   };
 

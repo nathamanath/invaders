@@ -15,28 +15,31 @@ define(['game', 'controls', 'asset-bank'], function(Game, Controls, AssetBank) {
       });
 
       // Load audio assets
-      AssetBank.loadAudio('erm', '/audio/erm.mp3');
-      AssetBank.loadAudio('bloop', '/audio/bloop.mp3');
+      AssetBank.registerAudio('erm', '/audio/erm.mp3');
+      AssetBank.registerAudio('bloop', '/audio/bloop.mp3');
 
 
       // Load image assets
-      AssetBank.loadImage('logo', '/images/logo.svg');
+      AssetBank.registerImage('logo', '/images/logo.svg');
 
-      AssetBank.loadImage('top_baddy_1', '/images/top_baddy_1.svg');
-      AssetBank.loadImage('middle_baddy_1', '/images/middle_baddy_1.svg');
-      AssetBank.loadImage('bottom_baddy_1', '/images/bottom_baddy_1.svg');
-      AssetBank.loadImage('top_baddy_2', '/images/top_baddy_2.svg');
-      AssetBank.loadImage('middle_baddy_2', '/images/middle_baddy_2.svg');
-      AssetBank.loadImage('bottom_baddy_2', '/images/bottom_baddy_2.svg');
+      AssetBank.registerImage('top_baddy_1', '/images/top_baddy_1.svg');
+      AssetBank.registerImage('middle_baddy_1', '/images/middle_baddy_1.svg');
+      AssetBank.registerImage('bottom_baddy_1', '/images/bottom_baddy_1.svg');
+      AssetBank.registerImage('top_baddy_2', '/images/top_baddy_2.svg');
+      AssetBank.registerImage('middle_baddy_2', '/images/middle_baddy_2.svg');
+      AssetBank.registerImage('bottom_baddy_2', '/images/bottom_baddy_2.svg');
 
-      AssetBank.loadImage('ufo', '/images/ufo.svg');
+      AssetBank.registerImage('ufo', '/images/ufo.svg');
 
-      AssetBank.loadImage('bullet_1', '/images/bullet_1.svg');
-      AssetBank.loadImage('bullet_2', '/images/bullet_2.svg');
-      AssetBank.loadImage('bullet_1_1', '/images/bullet_1_1.svg');
-      AssetBank.loadImage('bullet_2_1', '/images/bullet_2_1.svg');
+      AssetBank.registerImage('bullet_1', '/images/bullet_1.svg');
+      AssetBank.registerImage('bullet_2', '/images/bullet_2.svg');
+      AssetBank.registerImage('bullet_1_1', '/images/bullet_1_1.svg');
+      AssetBank.registerImage('bullet_2_1', '/images/bullet_2_1.svg');
 
-      AssetBank.loadImage('explosion', '/images/explosion.svg');
+      AssetBank.registerImage('explosion', '/images/explosion.svg');
+      AssetBank.registerImage('explosion_1', '/images/explosion_1.svg');
+
+      AssetBank.finalize();
     }
   };
 });

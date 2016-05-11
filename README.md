@@ -49,7 +49,7 @@ define(['mixin'], function(Mixin) {
       return this;
     },
 
-    // accesor
+    // accessor
     x: function(value) {
       if(value) {
         this._x = value;

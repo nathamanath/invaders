@@ -8,94 +8,76 @@ define(['audio-asset', 'image-asset'],
    * Used to preload game assets
    */
 
-  var assets = {
-    image: {},
-    audio: {}
-  };
+  var assets = [];
 
   var assetTypes = {
     'image': ImageAsset,
     'audio': AudioAsset
   }
 
-  var ready = true;
-
-  /** are all assets ready */
-  var checkReady = function() {
-    var ready = true;
-
-    Object.keys(assetTypes).forEach(function(key) {
-      var typeAssets = assets[key];
-
-      for(var name in typeAssets) {
-        if(!typeAssets[name].ready()) {
-          ready = false;
-        }
-      }
-    });
-
-    return ready;
-  };
-
-
-  return {
+  var AssetBank = {
     init: function(onReady, context) {
       this._onReady = onReady || function() {};
       this._context = context || this;
     },
 
-    /**
-     * preload an asset
-     * @param type - type of asset being loaded
-     * @param label - unique label for asset
-     * @param path - path to image
-     */
-    load: function(type, label, path) {
-      ready = false;
-
-      if(assets[type][label]) {
-        throw new Error('Asset name is taken.');
+    _register: function(type, label, path) {
+      if(this._get(type, label)) {
+        throw new Error('Asset of type ' + type + 'and name ' + name + 'exists');
       }
 
-      var AssetObject = assetTypes[type];
+      assets.push(new assetTypes[type]({
+        path: path,
+        label: label
+      }).init());
+    },
+
+    registerImage: function(label, path) {
+      this._register('image', label, path);
+    },
+
+    registerAudio: function(label, path) {
+      this._register('audio', label, path);
+    },
+
+    /**
+     * Load all registered assets
+     * call this._onReady when all are loaded
+     */
+    finalize: function() {
+      var readyCounter = 0;
       var self = this;
 
-      assets[type][label] = new AssetObject({
-        label: label,
-        path: path,
-        onReady: function() {
-          if(checkReady()) {
-            self._onReady.call(self._context);
+      assets.forEach(function(asset) {
+        asset.load(function() {
+          readyCounter++;
+
+          if(readyCounter == assets.length) {
+            self._onReady();
           }
-        }
-      }).init();
-    },
-
-    loadImage: function(label, path) {
-      return this.load('image', label, path);
-    },
-
-    loadAudio: function(label, path) {
-      return this.load('audio', label, path);
+        });
+      });
     },
 
     /**
      * get an asset by name
      * @param label - label used when loading asset
      */
-    get: function(type, label) {
-      console.log(type + ' - ' + label);
-      console.dir(assets)
-      return assets[type][label].asset();
+    _get: function(type, label) {
+      return assets.find(function(asset) {
+        return(asset.type() == type && asset.label() == label);
+      });
     },
 
     getImage: function(label) {
-      return this.get('image', label);
+      return this._get('image', label).asset();
     },
 
     getAudio: function(label) {
-      return this.get('audio', label);
+      return this._get('audio', label).asset();
     }
   };
+
+  return AssetBank;
 
 });

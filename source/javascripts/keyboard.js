@@ -1,5 +1,7 @@
 define(['clock'], function(Clock) {
 
+  'use strict';
+
   /**
    * Pubsub for key presses
    */

@@ -1,5 +1,5 @@
-define(['interface'],
-  function(Interface) {
+define([],
+  function() {
 
     'use strict';
 

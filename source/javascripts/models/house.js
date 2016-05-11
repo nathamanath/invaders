@@ -26,8 +26,6 @@ define(['mixins/drawable', 'asset-bank'],
 
     init: function() {
 
-      // TODO: use svg
-      // TODO: Destructable mixin
       this.canvas().fillWithImage(AssetBank.getImage('logo'));
 
       this._imageData = this.canvas().context().getImageData(0, 0, this.width(), this.height());
@@ -47,8 +45,6 @@ define(['mixins/drawable', 'asset-bank'],
     },
 
     update: function() {
-
-
       this.context().drawImage(this.canvas().el, this.x(), this.y());
       this.render();
     },
@@ -99,4 +95,5 @@ define(['mixins/drawable', 'asset-bank'],
   Drawable.call(House.prototype);
 
   return House;
+
 });

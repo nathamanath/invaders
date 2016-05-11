@@ -7,6 +7,14 @@ define(['mixins/asset'],
     this._initAsset(args);
   };
 
+  AudioAsset.prototype = {
+    constructor: 'AudioAsset',
+
+    type: function() {
+      return 'audio';
+    }
+  };
+
   Asset.call(AudioAsset.prototype, 'oncanplaythrough', Audio);
 
   return AudioAsset;

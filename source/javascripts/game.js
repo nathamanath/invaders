@@ -19,7 +19,7 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
   };
 
   Game.WIDTH = 800;
-  Game.HEIGHT = 800;
+  Game.HEIGHT = 900;
 
   // As game will never run at over MAX_FPSfps
   Game.CLOCK_SPEED = 1000 / MAX_FPS;

@@ -17,6 +17,7 @@ define([],
 
       // TODO: checkbox for mute
       // TODO: set initial values
+      // TODO: Persist values in local storage
 
       mute.addEventListener('click', function() {
 
