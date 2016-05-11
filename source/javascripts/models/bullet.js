@@ -1,5 +1,5 @@
-define(['canvas', 'mixins/drawable', 'mixins/animatable'],
-  function(Canvas, Drawable, Animatable) {
+define(['canvas', 'mixins/drawable', 'mixins/animatable', 'mixins/explosive'],
+  function(Canvas, Drawable, Animatable, Explosive) {
 
   'use strict';
 
@@ -13,6 +13,7 @@ define(['canvas', 'mixins/drawable', 'mixins/animatable'],
 
     this._initDrawable(args);
     this._initAnimatable(args);
+    this._initExplosive(args);
 
     this._width = args.width;
     this._height = args.height;
@@ -59,6 +60,10 @@ define(['canvas', 'mixins/drawable', 'mixins/animatable'],
 
     update: function() {
 
+      if(!this.inBounds()) {
+        this.explode();
+      }
+
       if(this._shouldChange >= CHANGE_THRESHOLD) {
         this._updateAnimatable();
         this._shouldChange = 0;
@@ -74,7 +79,7 @@ define(['canvas', 'mixins/drawable', 'mixins/animatable'],
       return this.y() > - this.height() && this.y() < this._parentCanvas().height;
     },
 
-    explode: function() {
+    die: function() {
       this._active = false;
     },
 
@@ -97,6 +102,7 @@ define(['canvas', 'mixins/drawable', 'mixins/animatable'],
 
   Drawable.call(Bullet.prototype);
   Animatable.call(Bullet.prototype);
+  Explosive.call(Bullet.prototype);
 
   return Bullet;
 

@@ -4,7 +4,7 @@ define(['mixins/drawable', 'canvas', 'asset-bank'],
   'use strict';
 
   var EXPLOSION_WIDTH = 65;
-  var EXPLOSION_HEIGHT = 45;
+  var EXPLOSION_HEIGHT = 35;
   var EXPLOSION_DURATION = 100; // ms
 
   /**
@@ -42,7 +42,7 @@ define(['mixins/drawable', 'canvas', 'asset-bank'],
       return self;
     },
 
-    // TODO: this is asssigned in factory. can it be moved here?
+    // TODO: this is assigned in factory. can it be moved here?
     update: function() {
     },
 

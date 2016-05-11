@@ -66,7 +66,7 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
           if(self._colliding(bullet, baddy)) {
             player.addPoints(baddy.points());
             baddy.shot();
-            bullet.explode();
+            bullet.die();
 
             ExplosionsManager.add(baddy);
           }
@@ -81,7 +81,7 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
           if(self._colliding(bullet, ufo)) {
             player.addPoints(ufo.points());
             ufo.shot();
-            bullet.explode();
+            bullet.die();
 
             ExplosionsManager.add(ufo);
           }
@@ -144,7 +144,6 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
 
         if(!bullet.active()) {
           BulletsManager.remove(bullet);
-          ExplosionsManager.add(bullet);
         }
 
         bullet.update();
@@ -154,9 +153,7 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
       baddyBullets.forEach(function(bullet) {
         if(self._colliding(bullet, player)) {
           player.shot();
-          bullet.explode();
-
-          ExplosionsManager.add(player);
+          bullet.die();
 
           bullet.update();
 

@@ -1,5 +1,6 @@
 define(['models/explosion', 'asset-bank', 'canvas'],
   function(Explosion, AssetBank, Canvas) {
+
   'use strict';
 
   var prerenders = {};
@@ -22,7 +23,7 @@ define(['models/explosion', 'asset-bank', 'canvas'],
     prerenders.bullet = Canvas.renderImage({
       width: Explosion.WIDTH,
       height: Explosion.HEIGHT,
-      image: AssetBank.getImage('explosion')
+      image: AssetBank.getImage('explosion') // TODO: graphic for this
     });
 
     return prerenders.bullet();
@@ -32,8 +33,8 @@ define(['models/explosion', 'asset-bank', 'canvas'],
     new: function(type, x, y, context, onUpdate) {
 
       var args = {
-        x: x,
-        y: y,
+        x: x - Explosion.WIDTH / 2,
+        y: y - Explosion.HEIGHT / 2,
         context: context,
         canvas: prerenders[type](),
         onUpdate: onUpdate

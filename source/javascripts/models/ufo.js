@@ -1,5 +1,5 @@
-define(['mixins/drawable', 'mixins/audible', 'canvas', 'audio-player'],
-  function(Drawable, Audible, Canvas, AudioPlayer) {
+define(['mixins/drawable', 'mixins/audible', 'canvas', 'audio-player', 'mixins/explosive'],
+  function(Drawable, Audible, Canvas, AudioPlayer, Explosive) {
 
   'use strict';
 
@@ -12,6 +12,7 @@ define(['mixins/drawable', 'mixins/audible', 'canvas', 'audio-player'],
    */
   var UFO = function(args) {
     this._initDrawable(args);
+    this._initExplosive(args);
 
     this._canvas = args.canvas;
     this._x = args.x;
@@ -78,6 +79,7 @@ define(['mixins/drawable', 'mixins/audible', 'canvas', 'audio-player'],
   };
 
   Drawable.call(UFO.prototype);
+  Explosive.call(UFO.prototype);
 
   return UFO;
 

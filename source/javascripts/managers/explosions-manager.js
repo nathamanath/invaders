@@ -23,9 +23,9 @@ define(['mixins/manager', 'factories/explosion-factory'],
       var self = this;
 
       return ExplosionFactory.new(
-        'player',
-        explodable.x(),
-        explodable.y(),
+        explodable.explosionType(),
+        explodable.x() + (explodable.width() / 2),
+        explodable.y() + (explodable.height() / 2),
         this._context,
         function() { self.update(); }
       );

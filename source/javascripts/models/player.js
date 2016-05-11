@@ -1,5 +1,5 @@
-define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audible', 'asset-bank'],
-  function(Canvas, Keyboard, Drawable, Shooter, Audible, AssetBank) {
+define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audible', 'asset-bank', 'mixins/explosive'],
+  function(Canvas, Keyboard, Drawable, Shooter, Audible, AssetBank, Explosive) {
 
   'use strict';
 
@@ -22,6 +22,7 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audib
 
     this._initDrawable(args);
     this._initShooter(args);
+    this._initExplosive(args);
 
     this._width = PLAYER_WIDTH;
     this._height = PLAYER_HEIGHT;
@@ -72,6 +73,8 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audib
         this._active = false;
         this._onNoLives();
       }
+
+      this.explode();
     },
 
     _onShoot: function() {
@@ -119,6 +122,7 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audib
   Drawable.call(Player.prototype);
   Shooter.call(Player.prototype, 1, PLAYER_COOL_DOWN, 'UP', 'square');
   Audible.call(Player.prototype);
+  Explosive.call(Player.prototype);
 
   return Player;
 
