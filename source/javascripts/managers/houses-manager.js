@@ -3,7 +3,7 @@ define(['models/house', 'mixins/manager'],
 
   'use strict';
 
-  var HOUSE_Y = 600;
+  var HOUSE_Y = 650;
 
   /**
    * @class HousesManager
