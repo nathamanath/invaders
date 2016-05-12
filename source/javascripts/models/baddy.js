@@ -65,7 +65,7 @@ define(['mixins/drawable', 'mixins/shooter', 'canvas', 'mixins/animatable', 'mix
   Drawable.call(Baddy.prototype);
   Shooter.call(Baddy.prototype, BADDY_TEAM, BADDY_COOL_DOWN, 'DOWN');
   Animatable.call(Baddy.prototype);
-  Explosive.call(Baddy.prototype);
+  Explosive.call(Baddy.prototype, 'player');
 
   return Baddy;
 

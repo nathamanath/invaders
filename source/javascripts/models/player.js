@@ -122,7 +122,7 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audib
   Drawable.call(Player.prototype);
   Shooter.call(Player.prototype, 1, PLAYER_COOL_DOWN, 'UP', 'square');
   Audible.call(Player.prototype);
-  Explosive.call(Player.prototype);
+  Explosive.call(Player.prototype, 'player');
 
   return Player;
 

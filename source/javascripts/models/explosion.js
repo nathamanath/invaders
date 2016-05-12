@@ -3,8 +3,6 @@ define(['mixins/drawable', 'canvas', 'asset-bank'],
 
   'use strict';
 
-  var EXPLOSION_WIDTH = 65;
-  var EXPLOSION_HEIGHT = 35;
   var EXPLOSION_DURATION = 100; // ms
 
   /**
@@ -17,10 +15,10 @@ define(['mixins/drawable', 'canvas', 'asset-bank'],
 
     this._onUpdate = args.onUpdate;
     this._canvas = args.canvas;
-  };
 
-  Explosion.WIDTH = EXPLOSION_WIDTH;
-  Explosion.HEIGHT = EXPLOSION_HEIGHT;
+    this._width = args.width;
+    this._height = args.height;
+  };
 
   /** @lends Explosion */
   Explosion.prototype = {
@@ -28,9 +26,6 @@ define(['mixins/drawable', 'canvas', 'asset-bank'],
 
     init: function() {
       var self = this;
-
-      this._width = EXPLOSION_WIDTH;
-      this._height = EXPLOSION_HEIGHT;
 
       self._active = true;
 

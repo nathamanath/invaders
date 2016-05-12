@@ -79,7 +79,7 @@ define(['mixins/drawable', 'mixins/audible', 'canvas', 'audio-player', 'mixins/e
   };
 
   Drawable.call(UFO.prototype);
-  Explosive.call(UFO.prototype);
+  Explosive.call(UFO.prototype, 'player');
 
   return UFO;
 

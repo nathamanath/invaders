@@ -102,7 +102,7 @@ define(['canvas', 'mixins/drawable', 'mixins/animatable', 'mixins/explosive'],
 
   Drawable.call(Bullet.prototype);
   Animatable.call(Bullet.prototype);
-  Explosive.call(Bullet.prototype);
+  Explosive.call(Bullet.prototype, 'bullet');
 
   return Bullet;
 
