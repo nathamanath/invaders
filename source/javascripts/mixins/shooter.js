@@ -39,8 +39,8 @@ define(['managers/bullets-manager', 'models/bullet', 'asset-bank'],
     this.gunY = function() {
       var y = this.y();
 
-      if(this.gunDirection() === Bullet.DOWN) {
-        y += this.height();
+      if(this.gunDirection() === Bullet.UP) {
+        y += 14; // TODO: Get height of new bullet dynamically
       }
 
       return y;

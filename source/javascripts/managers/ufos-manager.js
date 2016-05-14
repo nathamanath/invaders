@@ -12,7 +12,7 @@ define(['mixins/manager', 'factories/ufo-factory'],
    * @class UFOsManager
    */
   var UFOsManager = function(args) {
-    // this._initManager(args);
+    this._initManager(args);
   };
 
   /** @lends UFOsManager */

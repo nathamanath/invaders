@@ -1,5 +1,5 @@
-define([],
-  function() {
+define(['utils'],
+  function(Utils) {
 
   'use strict';
 
@@ -11,10 +11,10 @@ define([],
    * Use `forwardedAttributes` to pass atteibutes from model to manager where
    * the rest of the app can access them.
    *
-   * @param forwardedAttributes - array of managed property names to access via
+   * @param forwardedAttributes - array of property names to access via
    * manager. Normally constants of managable class required by other parts of app
    *
-   * @example Manager.call(Class.prototype, [['BADDY_HEIGHT', Baddy.HEIGHT], ...]);
+   * @example Manager.call(Class.prototype, [['BADDY_HEIGHT (KEY)', Baddy.HEIGHT (value)], ...]);
    */
   var Manager = function(forwardedAttributes) {
 
@@ -27,12 +27,16 @@ define([],
       this[attr] = value;
     }
 
-    /** holds items being managed */
-    this._managables = [];
+    this._initManager = function(args) {
+      /** holds items being managed */
+      this._managables = [];
+      this._afterRemove = this._afterRemove || Utils.noop;
+    };
 
     /** remove a drawable */
     this.remove = function(managed) {
       var index = this._managables.indexOf(managed);
+      this._afterRemove();
       return this._managables.splice(index, 1);
     };
 

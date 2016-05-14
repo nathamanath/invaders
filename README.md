@@ -3,12 +3,10 @@
 ## TODO
 
 * HUD is shit
-* explosion types
-* explosion should be centered on collision
 * audio player bugs
-* speed up baddies based on player kills
+* better collisions with bullets and houses
 
-* convert to webpack / brunch.io
+* convert build to brunch.io
 * avoid redrawing entire game each frame
 
 ## Development

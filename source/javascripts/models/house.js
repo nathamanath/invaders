@@ -44,11 +44,13 @@ define(['mixins/drawable', 'asset-bank'],
       this.context().putImageData(this._imageData, this.x(), this.y());
     },
 
+    // OPTIMIZE: only draw if changed
     update: function() {
       this.context().drawImage(this.canvas().el, this.x(), this.y());
       this.render();
     },
 
+    // cut out circle around x,y
     shot: function(x, y) {
       var diameter = 7;
       var context = this.canvas().context();
@@ -72,6 +74,7 @@ define(['mixins/drawable', 'asset-bank'],
       this.update();
     },
 
+    // Cut out rectangle form this._imageData
     overlapped: function(x, y, w, h) {
       var context = this.canvas().context();
       var _x = this.x();

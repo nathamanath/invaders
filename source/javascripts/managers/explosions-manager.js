@@ -7,7 +7,7 @@ define(['mixins/manager', 'factories/explosion-factory'],
    * @class ExplosionsManager
    */
   var ExplosionsManager = function(args) {
-
+    this._initManager(args);
   };
 
   /** @lends ExplosionsManager */

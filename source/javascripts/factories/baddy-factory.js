@@ -84,8 +84,8 @@ define(['models/baddy', 'canvas', 'asset-bank'],
     },
 
     middle: {
-      width: 40,
-      height: 60,
+      width: 60,
+      height: 40,
       points: 20,
       frames: [
         prerenders.middle1,
@@ -94,8 +94,8 @@ define(['models/baddy', 'canvas', 'asset-bank'],
     },
 
     bottom: {
-      width: 40,
-      height: 60,
+      width: 60,
+      height: 40,
       points: 10,
       frames: [
         prerenders.bottom1,

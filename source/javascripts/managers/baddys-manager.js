@@ -5,18 +5,17 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
 
   'use strict';
 
-  var baddys = [];
-  var direction = 1;
+  var direction = 1; // 1 || -1. 1 = go right
 
-  var ACCELERATION = 1.2;
-  var PADDING = 10;
-  var INITIAL_RATE = 500;
-  var SHOOT_ODDS = 0.07
+  var PADDING = 10; // gap around baddies
+  var INITIAL_RATE = 500; // move this often at start
+  var SHOOT_ODDS = 0.06; // odds that baddy will shoot on update
 
   /**
    * @class BaddysManager
    */
   var BaddysManager = function(args) {
+    this._initManager(args);
   };
 
   /** @lends BaddysManager */
@@ -110,10 +109,6 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
       return this.clock().rate;
     },
 
-    speedUp: function() {
-      this.clock().rate = this.speed() / ACCELERATION;
-    },
-
     _bottomBaddys: function() {
       var bottomBaddys = {};
       var baddys = this._managables;
@@ -137,8 +132,7 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
         this.onNoBaddys();
       }
 
-      // TODO: Filter out bottom of each column. Only these baddys can shoot.
-
+      // Only baddys at the bottom of their column can shoot
       this._bottomBaddys().forEach(function(baddy) {
         if(Math.random() < SHOOT_ODDS) {
           baddy.shoot();
@@ -160,20 +154,17 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
         baddys.forEach(function(baddy) {
           baddy.y(baddy.y() + Baddy.HEIGHT / 2);
         });
-
-        this.speedUp();
       }
 
       baddys.forEach(function(baddy) {
-
-        // Remove inactive
-        if(!baddy.active()) {
-          var index = baddys.indexOf(baddy);
-          baddys.splice(index, 1);
-        }
-
         baddy.update();
       });
+
+    },
+
+    _afterRemove: function() {
+      var remove = Math.pow((55 - this._managables.length) / 15, 2);
+      this.clock().rate = this.clock().rate - remove;
     }
   };
 

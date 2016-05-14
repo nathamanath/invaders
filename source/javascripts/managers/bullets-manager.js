@@ -8,6 +8,7 @@ define(['factories/bullet-factory', 'mixins/manager'],
    * @class BulletsManager
    */
   var BulletsManager = function(args) {
+    this._initManager(args);
   };
 
   /** @lends BulletsManager */

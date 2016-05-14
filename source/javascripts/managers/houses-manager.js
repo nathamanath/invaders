@@ -9,7 +9,7 @@ define(['models/house', 'mixins/manager'],
    * @class HousesManager
    */
   var HousesManager = function(args) {
-
+    this._initManager(args);
   };
 
   /** @lends HousesManager */

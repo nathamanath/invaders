@@ -3,6 +3,8 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
 
   'use strict';
 
+  // TODO: move all but collision detection logic out of here
+
   /**
    * Mediates collisions
    * @class Collisions
@@ -18,13 +20,14 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
       // Filter out only baddys in houses y range
       var lowishBaddys = baddys.filter(function(baddy) {
         var topY = baddy.y();
-        var bottomY = topY + BaddysManager.BADDY_HEIGHT;
+        var bottomY = topY + baddy.height();
         var houseY = HousesManager.HOUSE_Y;
 
         return bottomY >= houseY && topY <= houseY + HousesManager.HOUSE_HEIGHT;
       });
 
 
+      // only baddys who are low enough to touch houses
       lowishBaddys.forEach(function(baddy) {
 
         houses.forEach(function(house) {
@@ -32,6 +35,7 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
           // baddy is in houses personal space
           if(self._colliding(baddy, house)) {
 
+            // OPTIMIZE: EXPENSIVE
             // work out overlapping rectangle
             var x = Math.max(0, baddy.x(), house.x());
             var y = Math.max(baddy.y(), house.y());
