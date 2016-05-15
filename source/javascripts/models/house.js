@@ -52,7 +52,7 @@ define(['mixins/drawable', 'asset-bank'],
 
     // cut out circle around x,y
     shot: function(x, y) {
-      var diameter = 7;
+      var diameter = 8;
       var context = this.canvas().context();
 
       var _x = this.x();

@@ -79,6 +79,10 @@ define(['canvas', 'mixins/drawable', 'mixins/animatable', 'mixins/explosive'],
       return this.y() > - this.height() && this.y() < this._parentCanvas().height;
     },
 
+    direction: function() {
+      return this._direction;
+    },
+
     die: function() {
       this._active = false;
     },

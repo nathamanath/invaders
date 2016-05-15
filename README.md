@@ -4,7 +4,6 @@
 
 * HUD is shit
 * audio player bugs
-* better collisions with bullets and houses
 
 * convert build to brunch.io
 * avoid redrawing entire game each frame
@@ -12,7 +11,6 @@
 ## Development
 
 Require js. (Almond for build.)
-Ajax.js for ajax
 
 Object composition is handled with functional mixin modules. Each module can contain
 instance methods, and is mixed into a class like so: `Module.call(Class.prototype, args...);`.
