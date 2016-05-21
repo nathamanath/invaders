@@ -114,7 +114,8 @@ define(['models/bullet', 'canvas', 'asset-bank'],
         direction: shooter.gunDirection(),
         team: shooter.team(),
         width: sizeData.width,
-        height: sizeData.height
+        height: sizeData.height,
+        speed: shooter.bulletSpeed()
       };
 
       var bullet = new Bullet(args).init();

@@ -12,7 +12,11 @@ define(['managers/bullets-manager', 'models/bullet', 'asset-bank'],
    * In this game a shooter can fire in 1 fixed direction.
    */
 
-  return function(team, coolDown, direction) {
+  return function(team, coolDown, direction, speed) {
+
+    this.bulletSpeed = function() {
+      return this._bulletSpeed || 5;
+    };
 
     this._initShooter = function(args) {
       this._ready = true;

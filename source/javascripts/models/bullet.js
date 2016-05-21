@@ -3,7 +3,6 @@ define(['canvas', 'mixins/drawable', 'mixins/animatable', 'mixins/explosive'],
 
   'use strict';
 
-  var BULLET_SPEED = 10;
   var BULLET_WIDTH = 9;
   var BULLET_HEIGHT = 21;
   var CHANGE_THRESHOLD = 5;
@@ -17,6 +16,7 @@ define(['canvas', 'mixins/drawable', 'mixins/animatable', 'mixins/explosive'],
 
     this._width = args.width;
     this._height = args.height;
+    this._speed = args.speed;
 
     this._team = args.team;
     this._direction = args.direction;
@@ -71,7 +71,7 @@ define(['canvas', 'mixins/drawable', 'mixins/animatable', 'mixins/explosive'],
 
       this._shouldChange++;
 
-      this.y(this.y() + (5 * this._direction));
+      this.y(this.y() + (this._speed * this._direction));
       this.render();
     },
 

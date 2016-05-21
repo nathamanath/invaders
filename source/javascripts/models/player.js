@@ -48,6 +48,8 @@ define(['canvas', 'keyboard', 'mixins/drawable', 'mixins/shooter', 'mixins/audib
 
       this._preRender();
 
+      this._bulletSpeed = 7;
+
       Keyboard.subscribe('LEFT', this.goLeft, this);
       Keyboard.subscribe('RIGHT', this.goRight, this);
       Keyboard.subscribe('SPACE', this.shoot, this);
