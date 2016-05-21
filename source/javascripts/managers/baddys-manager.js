@@ -163,7 +163,7 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
     },
 
     _afterRemove: function() {
-      var remove = Math.pow((55 - this._managables.length) / 15, 2);
+      var remove = Math.pow((55 - this._managables.length) / 10.3, 2);
       this.clock().rate = this.clock().rate - remove;
     }
   };
