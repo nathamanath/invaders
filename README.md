@@ -6,6 +6,7 @@
 * audio player bugs
 * proper ending
 * proper start screen
+* House chunks should center on center of pointy end of bullet
 
 * convert build to brunch.io
 * avoid redrawing entire game each frame

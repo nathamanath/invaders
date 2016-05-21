@@ -4,7 +4,7 @@ define(['mixins/manager', 'factories/ufo-factory'],
   'use strict';
 
   var UFO_Y = 10;
-  var UFO_ODDS = 1;
+  var UFO_ODDS = 0.0005;
 
   // TODO: managers could be obj literal composed with manager instance
 
