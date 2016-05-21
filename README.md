@@ -4,6 +4,8 @@
 
 * HUD is shit
 * audio player bugs
+* proper ending
+* proper start screen
 
 * convert build to brunch.io
 * avoid redrawing entire game each frame

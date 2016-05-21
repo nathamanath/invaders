@@ -5,7 +5,7 @@ define(['mixins/drawable', 'mixins/audible', 'canvas', 'audio-player', 'mixins/e
 
   var UFO_WIDTH = 80;
   var UFO_HEIGHT = 35;
-  var UFO_SPEED = 3;
+  var UFO_SPEED = 2;
 
   /**
    * @class UFO
@@ -16,6 +16,7 @@ define(['mixins/drawable', 'mixins/audible', 'canvas', 'audio-player', 'mixins/e
 
     this._canvas = args.canvas;
     this._x = args.x;
+    this._points = args.score;
   };
 
   UFO.WIDTH = UFO_WIDTH;
@@ -64,22 +65,18 @@ define(['mixins/drawable', 'mixins/audible', 'canvas', 'audio-player', 'mixins/e
       return active;
     },
 
-    points: function() {
-      return (Math.floor(Math.random() * 3) + 1) * 50;
-    },
-
     _onInactive: function() {
       AudioPlayer.stop('bloop');
     },
 
     shot: function() {
       this._active = false;
-      // TODO: spawn score
+      this.explode();
     }
   };
 
   Drawable.call(UFO.prototype);
-  Explosive.call(UFO.prototype, 'player');
+  Explosive.call(UFO.prototype, 'ufo');
 
   return UFO;
 

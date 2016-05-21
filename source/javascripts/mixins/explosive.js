@@ -5,6 +5,10 @@ define(['managers/explosions-manager'],
 
   return function(type) {
 
+    this.points = function() {
+      return this._points || null;
+    };
+
     this._initExplosive = function(args) {
       this._explosionType = type;
     };

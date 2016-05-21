@@ -27,7 +27,8 @@ define(['mixins/manager', 'factories/explosion-factory'],
         explodable.x() + (explodable.width() / 2),
         explodable.y() + (explodable.height() / 2),
         this._context,
-        function() { self.update(); }
+        function() { self.update(); },
+        explodable.points()
       );
     },
 

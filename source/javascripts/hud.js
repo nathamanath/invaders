@@ -3,6 +3,10 @@ define(['mixins/drawable', 'asset-bank'],
 
   'use strict';
 
+  // TODO: Extract lives
+  // TODO: Extract score
+  // TODO: Extract level counter
+
   var HUD_HEIGHT = 50;
   var LIFE_WIDTH = 20;
   var LIFE_HEIGHT = 23;
@@ -62,7 +66,8 @@ define(['mixins/drawable', 'asset-bank'],
     },
 
     _drawLevel: function(context) {
-      context.fillStyle = "blue";
+      context.fillStyle = "white";
+      context.font = "bold 16px Arial";
       context.fillText(this._level, (this._width / 2) - (LEVEL_WIDTH / 2), LEVEL_PADDING);
     },
 

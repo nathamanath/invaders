@@ -83,4 +83,3 @@ define([], function() {
   return Canvas;
 
 });
-
