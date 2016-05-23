@@ -8,7 +8,7 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
   var direction = 1; // 1 || -1. 1 = go right
 
   var PADDING = 10; // gap around baddies
-  var INITIAL_RATE = 500; // move this often at start
+  var INITIAL_RATE = 500; // ms between updates at start
   var SHOOT_ODDS = 0.06; // odds that baddy will shoot on update
 
   /**

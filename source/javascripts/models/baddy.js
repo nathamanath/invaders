@@ -1,5 +1,5 @@
-define(['mixins/drawable', 'mixins/shooter', 'canvas', 'mixins/animatable', 'mixins/explosive'],
-  function(Drawable, Shooter, Canvas, Animatable, Explosive) {
+define(['mixins/drawable', 'mixins/shooter', 'mixins/animatable', 'mixins/explosive'],
+  function(Drawable, Shooter, Animatable, Explosive) {
 
   'use strict';
 

@@ -10,10 +10,12 @@ def final_rate(initial_rate: INITIAL_RATE, &block)
 
   rate = initial_rate
 
+  p rate
+
   (TOTAL_BADDIES - 1).times do |n|
     rate = yield(n, rate)
-  end
 
-  p rate
+    p rate
+  end
 
 end
