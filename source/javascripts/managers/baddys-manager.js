@@ -29,6 +29,8 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
       this.onOutOfBounds = onOutOfBounds;
       this.onNoBaddys = onNoBaddys;
 
+      this._level = 1;
+
       this.spawnBaddys();
 
       this._clock = new Clock(INITIAL_RATE).start();
@@ -56,9 +58,8 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
     },
 
     reinit: function(level) {
-      var speed = INITIAL_RATE - (50 * level);
-
-      this.speed(speed);
+      this._level = level;
+      this.speed(INITIAL_RATE);
 
       this.spawnBaddys();
     },
@@ -162,8 +163,10 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
 
     },
 
+    // Make baddys go faster as they are shot
+    // TODO: make this nicer
     _afterRemove: function() {
-      var remove = Math.pow((55 - this._managables.length) / 10.3, 2);
+      var remove = Math.pow((55 - this._managables.length) / (10.5 - this._level/10), 2);
       this.clock().rate = this.clock().rate - remove;
     }
   };

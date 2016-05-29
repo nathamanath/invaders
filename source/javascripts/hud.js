@@ -1,5 +1,5 @@
-define(['mixins/drawable', 'asset-bank'],
-  function(Drawable, AssetBank) {
+define(['mixins/drawable', 'asset-bank', 'models/life'],
+  function(Drawable, AssetBank, Life) {
 
   'use strict';
 
@@ -8,8 +8,6 @@ define(['mixins/drawable', 'asset-bank'],
   // TODO: Extract level counter
 
   var HUD_HEIGHT = 50;
-  var LIFE_WIDTH = 20;
-  var LIFE_HEIGHT = 23;
   var LIFE_PADDING = 10;
   var LEVEL_PADDING = 10;
   var LEVEL_WIDTH = 100;
@@ -34,6 +32,8 @@ define(['mixins/drawable', 'asset-bank'],
     constructor: 'HUD',
 
     init: function() {
+      this._lifeInstance = new Life({ x: 0, y: 0 }).init();
+
       this._preRender();
 
       return this;
@@ -55,7 +55,7 @@ define(['mixins/drawable', 'asset-bank'],
     // TODO: Extract life to own drawable class
     _drawLives: function(context) {
       for(var i = 0, l = this._lives; i < l; i++) {
-        var image = AssetBank.getImage('logo');
+        var image = this._lifeInstance.canvas().el;
 
         context.drawImage(image, this._width - ((this._initialLives - i) * (LIFE_WIDTH + LIFE_PADDING)), LIFE_WIDTH, LIFE_WIDTH, LIFE_HEIGHT);
       }
