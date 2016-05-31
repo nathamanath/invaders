@@ -1,11 +1,7 @@
-define(['mixins/drawable', 'asset-bank', 'models/life'],
-  function(Drawable, AssetBank, Life) {
+define(['mixins/drawable', 'models/life', 'models/counter'],
+  function(Drawable, Life, Counter) {
 
   'use strict';
-
-  // TODO: Extract lives
-  // TODO: Extract score
-  // TODO: Extract level counter
 
   var HUD_HEIGHT = 50;
   var LIFE_PADDING = 10;
@@ -32,7 +28,9 @@ define(['mixins/drawable', 'asset-bank', 'models/life'],
     constructor: 'HUD',
 
     init: function() {
-      this._lifeInstance = new Life({ x: 0, y: 0 }).init();
+      this._lifeInstance = new Life().init();
+      this._levelCounter = new Counter({ count: this._level }).init();
+      this._scoreCounter = new Counter({ count: this._score }).init();
 
       this._preRender();
 
@@ -48,65 +46,51 @@ define(['mixins/drawable', 'asset-bank', 'models/life'],
     },
 
     _livesX: function() {
-      return this._width - ((this._initialLives - i) * (LIFE_WIDTH + LIFE_PADDING));
+      return this._width - ((this._initialLives - i) * (this._lifeInstance.width() + LIFE_PADDING));
     },
 
 
-    // TODO: Extract life to own drawable class
+    // TODO use lives manager for this
     _drawLives: function(context) {
+      var lifeWidth = this._lifeInstance.width();
+      var lifeHeight = this._lifeInstance.height();
+
       for(var i = 0, l = this._lives; i < l; i++) {
         var image = this._lifeInstance.canvas().el;
 
-        context.drawImage(image, this._width - ((this._initialLives - i) * (LIFE_WIDTH + LIFE_PADDING)), LIFE_WIDTH, LIFE_WIDTH, LIFE_HEIGHT);
+        context.drawImage(image, this._width - ((this._initialLives - i) * (lifeWidth + LIFE_PADDING)), lifeWidth, lifeWidth, lifeHeight);
       }
-    },
-
-    _clearLives: function() {
-      this.canvas().clear(this._width - (this._initialLives * (LIFE_WIDTH + LIFE_PADDING)), LIFE_WIDTH, this._initialLives * (LIFE_WIDTH + LIFE_PADDING));
     },
 
     _drawLevel: function(context) {
-      context.fillStyle = "white";
-      context.font = "bold 16px Arial";
-      context.fillText(this._level, (this._width / 2) - (LEVEL_WIDTH / 2), LEVEL_PADDING);
-    },
-
-    _clearLevel: function() {
-      this.canvas().clear((this._width / 2) - (LEVEL_WIDTH / 2) - LEVEL_PADDING, LEVEL_PADDING, LEVEL_WIDTH, 50 );
+      context.drawImage(this._levelCounter.canvas().el, this._width / 2, LIFE_PADDING);
     },
 
     _drawScore: function(context) {
-      context.fillStyle = "blue";
-      context.fillText(this._score, LIFE_PADDING, LIFE_PADDING);
+      context.drawImage(this._scoreCounter.canvas().el, LIFE_PADDING, LIFE_PADDING);
     },
 
-    _clearScore: function() {
-      // TODO: Calculate score width
-      this.canvas().clear(0, 0, 300, HUD_HEIGHT);
-    },
 
     update: function(lives, score, level) {
-      var context = this._canvasContext();
 
-      if(lives !== this._lives) {
+      // only update if something has changed
+
+      if(this._score !== score || this._lives !== lives || this._level !== level) {
+
         this._lives = lives;
-
-        this._clearLives();
-        this._drawLives(context);
-      }
-
-      if(level !== this._level) {
+        this._score = score;
         this._level = level;
 
-        this._clearLevel();
+        this._clearCanvas();
+
+        var context = this._canvasContext();
+
+        this._levelCounter.update(level);
+        this._scoreCounter.update(score);
+
         this._drawLevel(context);
-      }
-
-      if(score !== this._score) {
-        this._score = score;
-
-        this._clearScore();
         this._drawScore(context);
+        this._drawLives(context);
       }
     }
   };

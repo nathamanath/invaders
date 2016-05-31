@@ -17,8 +17,10 @@ define(['canvas'], function(Canvas) {
      * @param args - args object passed to constructor
      */
     this._initDrawable = function(args) {
-      this.x(args.x);
-      this.y(args.y);
+      args = args || {};
+
+      this.x(args.x || 0);
+      this.y(args.y || 0);
 
       this._context = args.context;
     };

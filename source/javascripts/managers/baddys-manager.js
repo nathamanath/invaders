@@ -10,6 +10,7 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
   var PADDING = 10; // gap around baddies
   var INITIAL_RATE = 500; // ms between updates at start
   var SHOOT_ODDS = 0.06; // odds that baddy will shoot on update
+  var PER_ROW = 11; // baddys per row
 
   /**
    * @class BaddysManager
@@ -49,7 +50,7 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
 
       ['top', 'middle', 'middle', 'bottom', 'bottom'].forEach(function(type) {
 
-        for(var i = 0; i < 11; i++) {
+        for(var i = 0; i < PER_ROW; i++) {
           self.add(PADDING + ((Baddy.WIDTH + PADDING) * i), PADDING + ((PADDING + Baddy.HEIGHT) * j), type);
         }
 
