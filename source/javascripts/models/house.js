@@ -55,6 +55,8 @@ define(['mixins/drawable', 'asset-bank'],
       var diameter = 8;
       var context = this.canvas().context();
 
+      y = y + (diameter / 2);
+
       var _x = this.x();
       var _y = this.y();
 

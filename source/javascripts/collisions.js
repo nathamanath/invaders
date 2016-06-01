@@ -122,7 +122,7 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
           if(bulletPointyEndY >= houseTopY && bulletPointyEndY <= houseBottomY && self._colliding(bullet, house)){
 
             hit = false;
-            data = house.imageData().data
+            data = house.imageData().data;
 
             y = (bulletPointyEndY - house.y()) * house.width();
             houseX = house.x()
@@ -138,7 +138,7 @@ define(['managers/baddys-manager', 'managers/bullets-manager', 'managers/explosi
             }
 
             if(hit) {
-              house.shot(bulletX + (bulletWidth / 2), bulletPointyEndY);
+              house.shot(bulletX + (bulletWidth), bulletPointyEndY);
               bullet.explode();
             }
           }
