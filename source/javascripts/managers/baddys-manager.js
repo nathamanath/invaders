@@ -164,10 +164,9 @@ define(['factories/baddy-factory', 'clock', 'models/baddy', 'mixins/manager'],
 
     },
 
-    // Make baddys go faster as they are shot
     // TODO: make this nicer
     _afterRemove: function() {
-      var remove = Math.pow((55 - this._managables.length) / (10.5 - this._level/10), 2);
+      var remove = Math.pow((55 - this._managables.length) / (10.3 - this._level/10), 2);
       this.clock().rate = this.clock().rate - remove;
     }
   };

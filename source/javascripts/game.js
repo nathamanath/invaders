@@ -97,6 +97,7 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
 
     nextLevel: function() {
       BaddysManager.reinit(++level);
+      BulletsManager.clear();
     },
 
     end: function() {

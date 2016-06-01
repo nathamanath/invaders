@@ -34,6 +34,10 @@ define(['factories/bullet-factory', 'mixins/manager'],
         return bullet.team() === team;
       });
     },
+
+    clear: function() {
+      this._managables = [];
+    }
   };
 
   Manager.call(BulletsManager.prototype);
