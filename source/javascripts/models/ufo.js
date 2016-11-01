@@ -1,5 +1,5 @@
-define(['mixins/drawable', 'mixins/audible', 'canvas', 'audio-player', 'mixins/explosive'],
-  function(Drawable, Audible, Canvas, AudioPlayer, Explosive) {
+define(['mixins/drawable', 'canvas', 'mixins/explosive'],
+  function(Drawable, Canvas, Explosive) {
 
   'use strict';
 
@@ -35,8 +35,6 @@ define(['mixins/drawable', 'mixins/audible', 'canvas', 'audio-player', 'mixins/e
 
       this._active = true;
 
-      AudioPlayer.play('bloop', true);
-
       return this;
     },
 
@@ -66,7 +64,6 @@ define(['mixins/drawable', 'mixins/audible', 'canvas', 'audio-player', 'mixins/e
     },
 
     _onInactive: function() {
-      AudioPlayer.stop('bloop');
     },
 
     shot: function() {

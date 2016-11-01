@@ -1,5 +1,5 @@
-define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager', 'collisions', 'hud', 'audio-player', 'managers/ufos-manager'],
-  function(Canvas, Player, Clock, BaddysManager, BulletsManager, ExplosionsManager, HousesManager, Collisions, HUD, AudioPlayer, UFOsManager) {
+define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers/bullets-manager', 'managers/explosions-manager', 'managers/houses-manager', 'collisions', 'hud', 'managers/ufos-manager'],
+  function(Canvas, Player, Clock, BaddysManager, BulletsManager, ExplosionsManager, HousesManager, Collisions, HUD, UFOsManager) {
 
   'use strict';
 
@@ -80,14 +80,6 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
       return this;
     },
 
-    mute: function() {
-      return AudioPlayer.mute();
-    },
-
-    volume: function(value) {
-      return AudioPlayer.volume(value);
-    },
-
     start: function() {
       this._state = 'PLAYING';
       this.clock.start();
@@ -101,11 +93,12 @@ define(['canvas', 'models/player', 'clock', 'managers/baddys-manager', 'managers
     },
 
     end: function() {
-      alert('game over');
+      alert('game over, you scored ' + this.player.score());
 
       this.clock.stop();
       this._state = 'PAUSED';
       BaddysManager.stop();
+      window.location.reload();
     },
 
     /** update all game objects */

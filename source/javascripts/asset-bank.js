@@ -1,5 +1,5 @@
-define(['audio-asset', 'image-asset'],
-  function(AudioAsset, ImageAsset) {
+define(['image-asset'],
+  function(ImageAsset) {
 
   'use strict';
 
@@ -11,8 +11,7 @@ define(['audio-asset', 'image-asset'],
   var assets = [];
 
   var assetTypes = {
-    'image': ImageAsset,
-    'audio': AudioAsset
+    'image': ImageAsset
   }
 
   var AssetBank = {
@@ -34,10 +33,6 @@ define(['audio-asset', 'image-asset'],
 
     registerImage: function(label, path) {
       this._register('image', label, path);
-    },
-
-    registerAudio: function(label, path) {
-      this._register('audio', label, path);
     },
 
     /**
@@ -71,10 +66,6 @@ define(['audio-asset', 'image-asset'],
 
     getImage: function(label) {
       return this._get('image', label).asset();
-    },
-
-    getAudio: function(label) {
-      return this._get('audio', label).asset();
     }
   };
 

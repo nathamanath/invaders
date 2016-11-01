@@ -1,5 +1,5 @@
-define(['game', 'controls', 'asset-bank'],
-  function(Game, Controls, AssetBank) {
+define(['game', 'asset-bank'],
+  function(Game, AssetBank) {
 
   'use strict';
 
@@ -14,11 +14,7 @@ define(['game', 'controls', 'asset-bank'],
 
       AssetBank.init(function() {
         game.init().start();
-        Controls.init(game);
       });
-
-      AssetBank.registerAudio('erm', '/audio/erm.mp3');
-      AssetBank.registerAudio('bloop', '/audio/bloop.mp3');
 
       AssetBank.registerImage('logo', '/images/logo.svg');
       AssetBank.registerImage('top_baddy_1', '/images/top_baddy_1.svg');
